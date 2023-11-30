@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="MediatR" Version="12.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BookingServices.Core\BookingServices.Core.csproj" />
+    <ProjectReference Include="..\BookingServices.Entities\BookingServices.Entities.csproj" />
+    <ProjectReference Include="..\BookingServices.Model\BookingServices.Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="MediaR\User\Command\" />
+    <Folder Include="MediaR\User\Query\Login\ByGoogle\" />
+  </ItemGroup>
+
+</Project>
