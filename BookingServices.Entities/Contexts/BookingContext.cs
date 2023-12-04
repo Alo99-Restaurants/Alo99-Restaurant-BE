@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using BookingServices.Core.Identity;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookingServices.Entities.Contexts
@@ -40,7 +41,7 @@ namespace BookingServices.Entities.Contexts
         private void SetAuditInformation()
         {
             var httpContext = _httpContextAccessor.HttpContext;
-            var userId = Guid.Empty;
+            var userId = ClaimsPrincipalExtension.GetUserId(httpContext?.User);
 
             var entries = ChangeTracker.Entries().Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
 

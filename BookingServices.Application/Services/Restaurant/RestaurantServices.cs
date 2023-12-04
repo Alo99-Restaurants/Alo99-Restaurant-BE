@@ -32,12 +32,12 @@ namespace BookingServices.Application.Services.Restaurant
         {
             return new ApiPaged<RestaurantDTO>
             {
-                Items = _mapper.Map<IEnumerable<RestaurantDTO>>(await _context.Restaurants.Include(x => x.RestaurantFloors).Skip(request.SkipRows).Take(request.TotalRows).ToListAsync()),
+                Items = _mapper.Map<IEnumerable<RestaurantDTO>>(await _context.Restaurants.Include(x=> x.RestaurantImages).Include(x => x.RestaurantFloors).Skip(request.SkipRows).Take(request.TotalRows).ToListAsync()),
                 TotalRecords = await _context.Restaurants.CountAsync()
             };
         }
 
-        public async Task<RestaurantDTO> GetRestaurantByIdAsync(int id) => _mapper.Map<RestaurantDTO>(await _context.Restaurants.Include(x => x.RestaurantFloors).FirstOrDefaultAsync(x => x.Id == id));
+        public async Task<RestaurantDTO> GetRestaurantByIdAsync(int id) => _mapper.Map<RestaurantDTO>(await _context.Restaurants.Include(x=> x.RestaurantImages).Include(x => x.RestaurantFloors).FirstOrDefaultAsync(x => x.Id == id));
 
         public async Task UpdateRestaurantAsync(UpdateRestaurantRequest restaurant)
         {

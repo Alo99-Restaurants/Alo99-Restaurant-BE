@@ -2,6 +2,7 @@
 using BookingServices.Core;
 using BookingServices.Core.Models.ControllerResponse;
 using BookingServices.Model.RestaurantFloorModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -10,6 +11,7 @@ namespace BookingServices.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class RestaurantFloorController : MyControllerBase
     {
         private readonly IRestaurantFloorServices _restaurantFloorServices;

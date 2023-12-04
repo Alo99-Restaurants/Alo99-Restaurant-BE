@@ -1,6 +1,7 @@
 ﻿using BookingServices.Application.MediaR.User.Query.Login.ByAccount;
 using BookingServices.Application.Services.User;
 using BookingServices.Core;
+using BookingServices.Core.Identity;
 using BookingServices.Core.Models.ControllerResponse;
 using BookingServices.Entities.Enum;
 using BookingServices.Model.RestaurantModels;
@@ -36,11 +37,27 @@ namespace BookingServices.Controllers
 
         //get user by id
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(ApiResult<UserDTO>), 200)]
-        public async Task<IActionResult> GetUser(Guid id) => ApiOk(await _userServices.GetUserById(id));
+        public async Task<IActionResult> GetUser(Guid id)
+        {
+            //var userId = ClaimsPrincipalExtension.GetUserId(_httpContextAccessor.HttpContext?.User);
+            return ApiOk(await _userServices.GetUserById(id));
+        }
+
+        //get user by profile
+        [HttpGet("profile")]
+        [Authorize]
+        [ProducesResponseType(typeof(ApiResult<UserDTO>), 200)]
+        public async Task<IActionResult> GetUserByProfile()
+        {
+            var userId = ClaimsPrincipalExtension.GetUserId(_httpContextAccessor.HttpContext?.User);
+            return ApiOk(await _userServices.GetUserById(userId));
+        }
 
         //get user by username
         [HttpGet("username/{username}")]
+        [Authorize]
         [ProducesResponseType(typeof(ApiResult<UserDTO>), 200)]
         public async Task<IActionResult> GetUserByUsername(string username) => ApiOk(await _userServices.GetUserByUsername(username));
 

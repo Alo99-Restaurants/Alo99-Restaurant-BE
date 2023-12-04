@@ -40,7 +40,7 @@ namespace BookingServices.Entities.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<Guid>("ModifiedBy")
+                    b.Property<Guid?>("ModifiedBy")
                         .HasColumnType("char(36)");
 
                     b.Property<DateTime?>("ModifiedDate")
@@ -82,7 +82,7 @@ namespace BookingServices.Entities.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<Guid>("ModifiedBy")
+                    b.Property<Guid?>("ModifiedBy")
                         .HasColumnType("char(36)");
 
                     b.Property<DateTime?>("ModifiedDate")
@@ -124,7 +124,7 @@ namespace BookingServices.Entities.Migrations
                     b.Property<string>("LayoutUrl")
                         .HasColumnType("longtext");
 
-                    b.Property<Guid>("ModifiedBy")
+                    b.Property<Guid?>("ModifiedBy")
                         .HasColumnType("char(36)");
 
                     b.Property<DateTime?>("ModifiedDate")
@@ -160,7 +160,7 @@ namespace BookingServices.Entities.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<Guid>("ModifiedBy")
+                    b.Property<Guid?>("ModifiedBy")
                         .HasColumnType("char(36)");
 
                     b.Property<DateTime?>("ModifiedDate")
@@ -205,7 +205,7 @@ namespace BookingServices.Entities.Migrations
                     b.Property<string>("ExtensionData")
                         .HasColumnType("longtext");
 
-                    b.Property<Guid>("ModifiedBy")
+                    b.Property<Guid?>("ModifiedBy")
                         .HasColumnType("char(36)");
 
                     b.Property<DateTime?>("ModifiedDate")
@@ -248,11 +248,14 @@ namespace BookingServices.Entities.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("Greetings")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<Guid>("ModifiedBy")
+                    b.Property<Guid?>("ModifiedBy")
                         .HasColumnType("char(36)");
 
                     b.Property<DateTime?>("ModifiedDate")
@@ -261,6 +264,12 @@ namespace BookingServices.Entities.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("longtext");
+
+                    b.Property<decimal?>("Rating")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("TotalFloors")
                         .HasColumnType("int");
@@ -289,7 +298,7 @@ namespace BookingServices.Entities.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<Guid>("ModifiedBy")
+                    b.Property<Guid?>("ModifiedBy")
                         .HasColumnType("char(36)");
 
                     b.Property<DateTime?>("ModifiedDate")
@@ -333,7 +342,7 @@ namespace BookingServices.Entities.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<Guid>("ModifiedBy")
+                    b.Property<Guid?>("ModifiedBy")
                         .HasColumnType("char(36)");
 
                     b.Property<DateTime?>("ModifiedDate")
@@ -362,6 +371,56 @@ namespace BookingServices.Entities.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("e7bcba1f-e62a-4d61-92fd-45bddff4456b"),
+                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsCustomer = false,
+                            IsDeleted = false,
+                            Name = "Admin",
+                            Password = "b6rUS55nFunLy56VlCmbxah2Jj+gODj/rgJhXI92Ka/uho3YyNChMQDZnldh5+ME",
+                            Role = 1,
+                            Username = "admin"
+                        },
+                        new
+                        {
+                            Id = new Guid("14d4f888-e817-4e67-b1f7-4fe1e93149b1"),
+                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsCustomer = false,
+                            IsDeleted = false,
+                            Name = "Manager",
+                            Password = "iRwUjYV9TnIlLtKabEN0qF94sqmkiCX825Jft4U+1Xeka/qYRWkHz06Sxhc6bzrF",
+                            Role = 2,
+                            Username = "manager"
+                        },
+                        new
+                        {
+                            Id = new Guid("84b13060-dd8d-4e90-8158-b8b17ff8b4fa"),
+                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsCustomer = false,
+                            IsDeleted = false,
+                            Name = "Staff",
+                            Password = "3fzAxw7dNak06Vx2rhx0iSOUPI4e78IwohxU2Itn4DFeq4XNgWAv0WcIFKAriT0i",
+                            Role = 3,
+                            Username = "staff"
+                        },
+                        new
+                        {
+                            Id = new Guid("a1f10dea-27e4-4d1f-ab1d-0711f64803d9"),
+                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsCustomer = true,
+                            IsDeleted = false,
+                            Name = "Customer",
+                            Password = "b55VZcvbFUbxpcZzGRYFVkMtFAXF1BgF5fUUOoaGrhOiMdLWHHh501AVvCJd4tll",
+                            Role = 4,
+                            Username = "customer"
+                        });
                 });
 
             modelBuilder.Entity("BookingServices.Entities.Entities.RestaurantFloors", b =>
@@ -378,7 +437,7 @@ namespace BookingServices.Entities.Migrations
             modelBuilder.Entity("BookingServices.Entities.Entities.RestaurantImages", b =>
                 {
                     b.HasOne("BookingServices.Entities.Entities.Restaurants", "Restaurants")
-                        .WithMany("TableImages")
+                        .WithMany("RestaurantImages")
                         .HasForeignKey("RestaurantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -415,7 +474,7 @@ namespace BookingServices.Entities.Migrations
                 {
                     b.Navigation("RestaurantFloors");
 
-                    b.Navigation("TableImages");
+                    b.Navigation("RestaurantImages");
                 });
 #pragma warning restore 612, 618
         }

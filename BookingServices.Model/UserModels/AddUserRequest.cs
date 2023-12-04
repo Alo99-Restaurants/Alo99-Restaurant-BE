@@ -7,6 +7,7 @@ namespace BookingServices.Model.UserModels
         public AddUserRequest(string username, string password, string name, bool isCustomer, Guid? customerId, ERole? role)
         {
             Username = username;
+            Password = password;
             Name = name;
             IsCustomer = isCustomer;
             CustomerId = customerId;

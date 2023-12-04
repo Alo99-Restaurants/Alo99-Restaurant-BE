@@ -7,7 +7,8 @@ namespace BookingServices.Core.Identity
 {
     public class JwtTokenGenerator
     {
-        public static string GenerateJwtToken(string secretKey, string userId, string issuer, string audience, List<string> roles, int expirationMinutes = 60, IDictionary<string, string> extension = null)
+        public static string GenerateJwtToken(string secretKey, string userId, string issuer, string audience, List<string> roles, 
+            int expirationMinutes = 60, string email="",string userName="",string fullName = "",IDictionary<string, string>? extension=null)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -15,6 +16,9 @@ namespace BookingServices.Core.Identity
             var claims = new List<Claim>
             {
             new Claim(JwtRegisteredClaimNames.Sub, userId),
+            new Claim(JwtRegisteredClaimNames.Email, email),
+            new Claim("username", userName),
+            new Claim(JwtRegisteredClaimNames.Name, fullName),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
             // Add more custom claims as needed

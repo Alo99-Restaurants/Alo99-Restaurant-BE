@@ -1,21 +1,26 @@
 ﻿using BookingServices.Entities.Contexts;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.Internal;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static BookingServices.Core.Models.AppConfigurations;
 
 namespace BookingServices.Application.MediaR.User.Query.Login.ByAccount
 {
     public class LoginUserByAccountQueryHandler : IRequestHandler<LoginUserByAccountQuery, string>
     {
         public readonly BookingDbContext _bookingDbContext;
+        private readonly JwtConfigurations _jwt;
 
-        public LoginUserByAccountQueryHandler(BookingDbContext bookingDbContext)
+        public LoginUserByAccountQueryHandler(BookingDbContext bookingDbContext, IOptions<JwtConfigurations> jwt)
         {
             _bookingDbContext = bookingDbContext;
+            _jwt = jwt.Value?? throw new ArgumentNullException("jwt not config");
         }
 
         public async Task<string> Handle(LoginUserByAccountQuery request, CancellationToken cancellationToken)
@@ -28,7 +33,7 @@ namespace BookingServices.Application.MediaR.User.Query.Login.ByAccount
             if(!Core.Utils.VerifyPassword(request.Password, user.Password)) throw new ClientException("Password is incorrect");
 
 
-            return Core.Identity.JwtTokenGenerator.GenerateJwtToken("your_secret_key_test", user.Id.ToString(), "your_issuer", "your_audience", new List<string> { user.Role.ToString() });
+            return Core.Identity.JwtTokenGenerator.GenerateJwtToken(_jwt.SecretKey, user.Id.ToString(), _jwt.Issuer, _jwt.Audience, new List<string> { user.Role.ToString()}, _jwt.ExpirationMinutes);
         }
     }
 }
