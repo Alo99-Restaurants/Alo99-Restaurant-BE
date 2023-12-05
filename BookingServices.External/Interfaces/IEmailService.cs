@@ -1,6 +1,5 @@
-﻿namespace BookingServices.External.Interfaces
+﻿namespace BookingServices.External.Interfaces;
+
+public interface IEmailService
 {
-    public interface IEmailService
-    {
-    }
 }

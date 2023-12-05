@@ -3,33 +3,32 @@ using BookingServices.Entities.Contexts;
 using BookingServices.Entities.Entities;
 using MediatR;
 
-namespace BookingServices.Application.MediaR.Restaurant.Command.Insert
+namespace BookingServices.Application.MediaR.Restaurant.Command.Insert;
+
+public class InsertRestaurantCommandHandler : IRequestHandler<InsertRestaurantCommand, bool>
 {
-    public class InsertRestaurantCommandHandler : IRequestHandler<InsertRestaurantCommand, bool>
+    private readonly BookingDbContext _context;
+    private readonly IMapper _mapper;
+
+    public InsertRestaurantCommandHandler(BookingDbContext context, IMapper mapper)
     {
-        private readonly BookingDbContext _context;
-        private readonly IMapper _mapper;
+        _context = context;
+        _mapper = mapper;
+    }
 
-        public InsertRestaurantCommandHandler(BookingDbContext context, IMapper mapper)
+    public async Task<bool> Handle(InsertRestaurantCommand request, CancellationToken cancellationToken)
+    {
+        try
         {
-            _context = context;
-            _mapper = mapper;
-        }
+            var data = _mapper.Map<Restaurants>(request);
+            _context.Add(data);
+            var rs = await _context.SaveChangesAsync();
 
-        public async Task<bool> Handle(InsertRestaurantCommand request, CancellationToken cancellationToken)
+        }
+        catch (Exception ex)
         {
-            try
-            {
-                var data = _mapper.Map<Restaurants>(request);
-                _context.Add(data);
-                var rs = await _context.SaveChangesAsync();
 
-            }
-            catch (Exception ex)
-            {
-
-            }
-            return true;
         }
+        return true;
     }
 }

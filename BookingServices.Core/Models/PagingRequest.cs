@@ -1,8 +1,7 @@
-﻿namespace BookingServices.Core.Models
+﻿namespace BookingServices.Core.Models;
+
+public class PagingRequest
 {
-    public class PagingRequest
-    {
-        public int TotalRows { get; set; } = 10;
-        public int SkipRows { get; set; } = 0;
-    }
+    public int TotalRows { get; set; } = 10;
+    public int SkipRows { get; set; } = 0;
 }

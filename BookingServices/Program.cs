@@ -3,7 +3,6 @@ using BookingServices.Core.MiddleWares.ErrorHandler;
 using BookingServices.Entities.Contexts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
@@ -97,7 +96,7 @@ builder.Services.AddSwaggerGen(opt =>
 
 var app = builder.Build();
 
-app.UseStaticFiles();
+//app.UseStaticFiles();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -106,7 +105,7 @@ if (app.Environment.IsDevelopment())
     {
         opt.SwaggerEndpoint("/swagger/v1/swagger.json", "Booking Services");
         opt.DisplayRequestDuration();
-        opt.InjectJavascript("/swagger/customAuthorize.js");
+        //opt.InjectJavascript("/swagger/customAuthorize.js");
     });
 }
 

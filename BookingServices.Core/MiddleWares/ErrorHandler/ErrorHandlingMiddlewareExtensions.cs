@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Builder;
 
-namespace BookingServices.Core.MiddleWares.ErrorHandler
+namespace BookingServices.Core.MiddleWares.ErrorHandler;
+
+public static class ErrorHandlingMiddlewareExtensions
 {
-    public static class ErrorHandlingMiddlewareExtensions
+    public static IApplicationBuilder UseErrorHandlingMiddleware(this IApplicationBuilder builder)
     {
-        public static IApplicationBuilder UseErrorHandlingMiddleware(this IApplicationBuilder builder)
-        {
-            return builder.UseMiddleware<ErrorHandlingMiddleware>();
-        }
+        return builder.UseMiddleware<ErrorHandlingMiddleware>();
     }
 }

@@ -31,9 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\swagger\customAuthorize.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <Folder Include="wwwroot\swagger\" />
   </ItemGroup>
 
 </Project>

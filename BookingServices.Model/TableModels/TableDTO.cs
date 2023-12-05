@@ -1,6 +1,5 @@
-﻿namespace BookingServices.Model.TableModels
+﻿namespace BookingServices.Model.TableModels;
+
+public class TableDTO
 {
-    public class TableDTO
-    {
-    }
 }
