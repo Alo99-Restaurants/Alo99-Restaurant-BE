@@ -41,9 +41,14 @@ public class RestaurantServices : IRestaurantServices
 
     public async Task UpdateRestaurantAsync(UpdateRestaurantRequest restaurant)
     {
-        var mapper = _mapper.Map<Restaurants>(restaurant);
+        //get res by id
+        var restaunrant = await _context.Restaurants.FindAsync(restaurant.Id);
+        //if null throw exception
+        if (restaunrant == null) throw new Exception("Restaurant not found");
 
-        _context.Update(mapper);
+        _mapper.Map(restaurant, restaunrant);
+
+        _context.Update(restaunrant);
         await _context.SaveChangesAsync();
     }
 }

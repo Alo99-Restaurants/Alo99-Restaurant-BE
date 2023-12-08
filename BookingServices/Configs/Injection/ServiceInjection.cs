@@ -2,17 +2,21 @@
 using BookingServices.Application.Services.RestaurantFloor;
 using BookingServices.Application.Services.Table;
 using BookingServices.Application.Services.User;
+using BookingServices.Core.Redis;
 using BookingServices.Entities.Contexts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
-using static BookingServices.Core.Models.AppConfigurations;
+using static AppConfigurations;
 
 namespace BookingServices.Configs.Injection;
-
+/// <summary>
+/// config injection if use then add to program.cs
+/// </summary>
 public static class ServiceInjection
 {
     //services
@@ -116,6 +120,32 @@ public static class ServiceInjection
                 }
             });
 
+        });
+        return services;
+    }
+
+    //add mediatr
+    public static IServiceCollection AddMediatRConfig(this IServiceCollection services, Assembly[] assemblies)
+    {
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assemblies));
+        return services;
+    }
+    
+    //add automapper
+    public static IServiceCollection AddAutoMapperConfig(this IServiceCollection services, Assembly[] assemblies)
+    {
+        services.AddAutoMapper(assemblies);
+        return services;
+    }
+
+    //add redis
+    public static IServiceCollection AddRedisConfig(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddSingleton<RedisService>(provider =>
+        {
+            //bind redis config from appsettings.json into appconfigurations
+            var redis = configuration.GetSection("Redis").Get<RedisConfigurations>();
+            return new RedisService(redis?.ConnectionString??throw new ArgumentNullException(), options => { });
         });
         return services;
     }

@@ -3,12 +3,14 @@ using BookingServices.Core.MiddleWares.ErrorHandler;
 using BookingServices.Entities.Contexts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
-using static BookingServices.Core.Models.AppConfigurations;
+using static AppConfigurations;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,16 +23,18 @@ var assemblies = dllFiles.Select(x => Assembly.LoadFrom(x)).ToArray();
 
 // Add configuration
 builder.Services.Configure<JwtConfigurations>(configuration.GetSection("JwtConfigurations"));
+builder.Services.Configure<ConnectionStrings>(configuration.GetSection("ConnectionStrings"));
 
 // Add services to the container.
 
 builder.Services.AddDbContextConfig(configuration);
+builder.Services.AddRedisConfig(configuration);
 builder.Services.AddServices();
 
-builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddAutoMapperConfig(assemblies);
 
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assemblies));
+builder.Services.AddMediatRConfig(assemblies);
 builder.Services.AddCorsConfig();
 builder.Services.AddJsonConfig();
 builder.Services.AddAuthenticationConfig(configuration);
@@ -45,15 +49,16 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(opt =>
-    {
-        opt.SwaggerEndpoint("/swagger/v1/swagger.json", "Booking Services");
-        opt.DisplayRequestDuration();
-        //opt.InjectJavascript("/swagger/customAuthorize.js");
-    });
+    
 }
 
+app.UseSwagger();
+app.UseSwaggerUI(opt =>
+{
+    opt.SwaggerEndpoint("/swagger/v1/swagger.json", "Booking Services");
+    opt.DisplayRequestDuration();
+    //opt.InjectJavascript("/swagger/customAuthorize.js");
+});
 app.UseCors();
 
 app.UseErrorHandlingMiddleware();

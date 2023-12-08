@@ -1,4 +1,6 @@
-﻿using System.Security.Cryptography;
+﻿using Newtonsoft.Json;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace BookingServices.Core;
 
@@ -53,4 +55,14 @@ public class Utils
         return true; // Passwords match
     }
 
+    public static string ToJsonString( Dictionary<string, string> data)
+    {
+        // Use StringBuilder for better performance
+        var sb = new StringBuilder();
+        using (var writer = new StringWriter(sb))
+        {
+            new JsonSerializer().Serialize(writer, data);
+        }
+        return sb.ToString();
+    }
 }

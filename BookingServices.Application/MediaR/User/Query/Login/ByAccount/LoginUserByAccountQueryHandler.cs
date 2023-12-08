@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using static BookingServices.Core.Models.AppConfigurations;
+using static AppConfigurations;
 
 namespace BookingServices.Application.MediaR.User.Query.Login.ByAccount;
 
