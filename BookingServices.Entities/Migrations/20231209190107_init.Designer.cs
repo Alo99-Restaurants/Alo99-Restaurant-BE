@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingServices.Entities.Migrations
 {
     [DbContext(typeof(BookingDbContext))]
-    [Migration("20231207161539_init")]
+    [Migration("20231209190107_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -278,6 +278,9 @@ namespace BookingServices.Entities.Migrations
                     b.Property<int>("Capacity")
                         .HasColumnType("int");
 
+                    b.Property<string>("CloseHours")
+                        .HasColumnType("longtext");
+
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("char(36)");
 
@@ -299,6 +302,9 @@ namespace BookingServices.Entities.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("OpenHours")
                         .HasColumnType("longtext");
 
                     b.Property<string>("PhoneNumber")
@@ -372,9 +378,6 @@ namespace BookingServices.Entities.Migrations
                     b.Property<Guid?>("CustomerId")
                         .HasColumnType("char(36)");
 
-                    b.Property<bool>("IsCustomer")
-                        .HasColumnType("tinyint(1)");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
@@ -401,7 +404,9 @@ namespace BookingServices.Entities.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("CustomerId")
+                        .IsUnique()
+                        .HasFilter("[Role] = 4");
 
                     b.HasIndex("Username")
                         .IsUnique();
@@ -411,49 +416,45 @@ namespace BookingServices.Entities.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("ad90d71c-2915-4c5d-8cd7-aec388a1938c"),
+                            Id = new Guid("b5589606-32b5-4be4-a17b-559c5ce8cffe"),
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsCustomer = false,
                             IsDeleted = false,
                             Name = "Admin",
-                            Password = "aWa5EfvDHahteL2YDtYEOtdT3QfdDgi2c9tO2TI8wotHx+rzzTmSfdGoG39fa3JT",
+                            Password = "WCG2mrcsXrKXZgO1hgusHrIeIkit7/nzy3XPBFc+EYCxQg9WM4l1nLfV9eJOrnC6",
                             Role = 1,
                             Username = "admin"
                         },
                         new
                         {
-                            Id = new Guid("16267339-7169-409e-8594-63c912b8e71d"),
+                            Id = new Guid("18773004-26ec-4a4e-8ca9-43430791ae2d"),
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsCustomer = false,
                             IsDeleted = false,
                             Name = "Manager",
-                            Password = "/++bBDr3W1CSAgatT0TR2vYqRvXmnmIlEcGKX+plCkJcppAf9KBbuCNxiguhp/jS",
+                            Password = "cOSw+HqygHfmG1ew+bpRGxLxH9owbMDrye1GwuhMa81aDnXf5Dbvd4AtFN/C8ccL",
                             Role = 2,
                             Username = "manager"
                         },
                         new
                         {
-                            Id = new Guid("3cf6bf80-0970-49b4-b4cb-e0e2f967b93d"),
+                            Id = new Guid("0b677ab3-5272-4de1-9fbc-8f8b8d93b39e"),
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsCustomer = false,
                             IsDeleted = false,
                             Name = "Staff",
-                            Password = "bcf948QVrtpdoausFwO3CavNxVCA5uICKcyvIEzCyV9NBmVo1nr9qNH2ejPNd6L5",
+                            Password = "MUjNfCC1fhZw5NBNWxNNnnqWur2UsP6ps0Z9C6JcpLcUOMtImlL9YGbT3KwEo287",
                             Role = 3,
                             Username = "staff"
                         },
                         new
                         {
-                            Id = new Guid("70039593-b642-4001-a69c-c15ec4af84ca"),
+                            Id = new Guid("a4c85ca4-042d-4669-973a-1ebdc94bb4ce"),
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsCustomer = true,
                             IsDeleted = false,
                             Name = "Customer",
-                            Password = "ZYa2x/ey+sRG9zSx/2UzX/awI3sNZpcewQh47QimB5S93E5kbBtVbWtZNkXC4cyl",
+                            Password = "aEa8FIM5crkq0zFxhPhqwg94uCIYXHg8ys9ZECCXTvA7aNRRB8f387UXDt2Z7v21",
                             Role = 4,
                             Username = "customer"
                         });
@@ -495,10 +496,16 @@ namespace BookingServices.Entities.Migrations
             modelBuilder.Entity("BookingServices.Entities.Entities.Users", b =>
                 {
                     b.HasOne("BookingServices.Entities.Entities.Customers", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId");
+                        .WithOne("User")
+                        .HasForeignKey("BookingServices.Entities.Entities.Users", "CustomerId");
 
                     b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("BookingServices.Entities.Entities.Customers", b =>
+                {
+                    b.Navigation("User")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BookingServices.Entities.Entities.RestaurantFloors", b =>

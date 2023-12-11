@@ -1,4 +1,5 @@
-﻿using BookingServices.Application.Services.Restaurant;
+﻿using BookingServices.Application.Services.Customer;
+using BookingServices.Application.Services.Restaurant;
 using BookingServices.Application.Services.RestaurantFloor;
 using BookingServices.Application.Services.Table;
 using BookingServices.Application.Services.User;
@@ -22,10 +23,11 @@ public static class ServiceInjection
     //services
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
-        services.AddScoped<IRestaurantServices, RestaurantServices>();
-        services.AddScoped<IRestaurantFloorServices, RestaurantFloorServices>();
-        services.AddScoped<ITableServices, TableServices>();
-        services.AddScoped<IUserServices, UserServices>();
+        services.AddTransient<IRestaurantServices, RestaurantServices>();
+        services.AddTransient<IRestaurantFloorServices, RestaurantFloorServices>();
+        services.AddTransient<ITableServices, TableServices>();
+        services.AddTransient<IUserServices, UserServices>();
+        services.AddTransient<ICustomerServices, CustomerServices>();
 
         return services;
     }

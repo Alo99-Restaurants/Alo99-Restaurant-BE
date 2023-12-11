@@ -47,9 +47,13 @@ public class UserServices : IUserServices
 
     public async Task UpdateUser(UpdateUserRequest user)
     {
-        var mapper = _mapper.Map<Users>(user);
+        //get user by id and check if null
+        var userEntity = await _context.Users.FindAsync(user.Id);
+        if (userEntity == null) throw new Exception("User not found");
 
-        _context.Update(mapper);
+        _mapper.Map(user, userEntity);
+
+        _context.Update(userEntity);
         await _context.SaveChangesAsync();
     }
 }

@@ -41,9 +41,13 @@ public class RestaurantFloorServices : IRestaurantFloorServices
     public async Task<RestaurantFloorDTO> GetRestaurantFloorByIdAsync(int id) => _mapper.Map<RestaurantFloorDTO>(await _context.RestaurantFloors.FindAsync(id));
     public async Task UpdateRestaurantFloorAsync(UpdateRestaurantFloorRequest restaurantFloor)
     {
-        var mapper = _mapper.Map<Entities.Entities.RestaurantFloors>(restaurantFloor);
+        //get byid and check if null
+        var restaurantFloorEntity = await _context.RestaurantFloors.FindAsync(restaurantFloor.Id);
+        if (restaurantFloorEntity == null) throw new Exception("Restaurant floor not found");
 
-        _context.Update(mapper);
+        _mapper.Map(restaurantFloor, restaurantFloorEntity);
+
+        _context.Update(restaurantFloorEntity);
         await _context.SaveChangesAsync();
     }
 

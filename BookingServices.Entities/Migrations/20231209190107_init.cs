@@ -129,6 +129,10 @@ namespace BookingServices.Entities.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Greetings = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    OpenHours = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CloseHours = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Rating = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     PhoneNumber = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -156,7 +160,6 @@ namespace BookingServices.Entities.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    IsCustomer = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     CustomerId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     Role = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
@@ -269,13 +272,13 @@ namespace BookingServices.Entities.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "CreatedBy", "CreatedDate", "CustomerId", "IsCustomer", "IsDeleted", "ModifiedBy", "ModifiedDate", "Name", "Password", "Role", "Username" },
+                columns: new[] { "Id", "CreatedBy", "CreatedDate", "CustomerId", "IsDeleted", "ModifiedBy", "ModifiedDate", "Name", "Password", "Role", "Username" },
                 values: new object[,]
                 {
-                    { new Guid("16267339-7169-409e-8594-63c912b8e71d"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, false, null, null, "Manager", "/++bBDr3W1CSAgatT0TR2vYqRvXmnmIlEcGKX+plCkJcppAf9KBbuCNxiguhp/jS", 2, "manager" },
-                    { new Guid("3cf6bf80-0970-49b4-b4cb-e0e2f967b93d"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, false, null, null, "Staff", "bcf948QVrtpdoausFwO3CavNxVCA5uICKcyvIEzCyV9NBmVo1nr9qNH2ejPNd6L5", 3, "staff" },
-                    { new Guid("70039593-b642-4001-a69c-c15ec4af84ca"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, true, false, null, null, "Customer", "ZYa2x/ey+sRG9zSx/2UzX/awI3sNZpcewQh47QimB5S93E5kbBtVbWtZNkXC4cyl", 4, "customer" },
-                    { new Guid("ad90d71c-2915-4c5d-8cd7-aec388a1938c"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, false, null, null, "Admin", "aWa5EfvDHahteL2YDtYEOtdT3QfdDgi2c9tO2TI8wotHx+rzzTmSfdGoG39fa3JT", 1, "admin" }
+                    { new Guid("0b677ab3-5272-4de1-9fbc-8f8b8d93b39e"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null, null, "Staff", "MUjNfCC1fhZw5NBNWxNNnnqWur2UsP6ps0Z9C6JcpLcUOMtImlL9YGbT3KwEo287", 3, "staff" },
+                    { new Guid("18773004-26ec-4a4e-8ca9-43430791ae2d"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null, null, "Manager", "cOSw+HqygHfmG1ew+bpRGxLxH9owbMDrye1GwuhMa81aDnXf5Dbvd4AtFN/C8ccL", 2, "manager" },
+                    { new Guid("a4c85ca4-042d-4669-973a-1ebdc94bb4ce"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null, null, "Customer", "aEa8FIM5crkq0zFxhPhqwg94uCIYXHg8ys9ZECCXTvA7aNRRB8f387UXDt2Z7v21", 4, "customer" },
+                    { new Guid("b5589606-32b5-4be4-a17b-559c5ce8cffe"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null, null, "Admin", "WCG2mrcsXrKXZgO1hgusHrIeIkit7/nzy3XPBFc+EYCxQg9WM4l1nLfV9eJOrnC6", 1, "admin" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -296,7 +299,9 @@ namespace BookingServices.Entities.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Users_CustomerId",
                 table: "Users",
-                column: "CustomerId");
+                column: "CustomerId",
+                unique: true,
+                filter: "[Role] = 4");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Username",

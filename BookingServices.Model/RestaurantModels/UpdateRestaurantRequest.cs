@@ -1,8 +1,6 @@
 ﻿namespace BookingServices.Model.RestaurantModels;
 
-public class UpdateRestaurantRequest : AddRestaurantRequest
+public class UpdateRestaurantRequest(AddRestaurantRequest request, int id) : AddRestaurantRequest(request.Name, request.Address, request.Capacity, request.TotalFloors, request.Location, request.Greetings, request.PhoneNumber, request.CloseHours, request.OpenHours)
 {
-    public int Id { get; set; }
-    public UpdateRestaurantRequest(AddRestaurantRequest request, int id) : base(request.Name, request.Address, request.Capacity, request.TotalFloors, request.Location, request.Greetings, request.PhoneNumber) => this.Id = id;
-
+    public int Id { get; set; } = id;
 }

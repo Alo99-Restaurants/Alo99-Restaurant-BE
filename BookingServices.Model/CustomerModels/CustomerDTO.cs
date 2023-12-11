@@ -1,10 +1,11 @@
 ﻿using BookingServices.Entities.Entities.Interfaces;
 using BookingServices.Entities.Enum;
+using BookingServices.Model.UserModels;
 using System.ComponentModel.DataAnnotations;
 
-namespace BookingServices.Entities.Entities;
+namespace BookingServices.Model.CustomerModels;
 
-public class Customers : EntityAudit<Guid>, IHaveDeleted
+public class CustomerDTO : IEntityAudit<Guid>
 {
     [EmailAddress]
     public string Email { get; set; }
@@ -19,8 +20,11 @@ public class Customers : EntityAudit<Guid>, IHaveDeleted
     public EGender Gender { get; set; } = EGender.Male;
     public string? PhoneNumber { get; set; }
     public DateTime? DateOfBirth { get; set; }
-    public bool IsDeleted { get; set; }
+    public Guid Id { get; set; }
+    public Guid CreatedBy { get; set; }
+    public DateTime CreatedDate { get; set; }
+    public Guid? ModifiedBy { get; set; }
+    public DateTime? ModifiedDate { get; set; }
 
-    public virtual Users User { get; set; }
+    public UserDTO? User { get; set; }
 }
-

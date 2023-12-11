@@ -1,3 +1,4 @@
+using BookingServices.Configs.Exceptions;
 using BookingServices.Configs.Injection;
 using BookingServices.Core.MiddleWares.ErrorHandler;
 using BookingServices.Entities.Contexts;
@@ -39,6 +40,7 @@ builder.Services.AddCorsConfig();
 builder.Services.AddJsonConfig();
 builder.Services.AddAuthenticationConfig(configuration);
 
+//builder.Services.AddExceptionHandler<ExceptionHandler>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerConfig();
@@ -62,6 +64,8 @@ app.UseSwaggerUI(opt =>
 app.UseCors();
 
 app.UseErrorHandlingMiddleware();
+//app.UseExceptionHandler(_ => { });
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();

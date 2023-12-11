@@ -1,11 +1,6 @@
 ﻿namespace BookingServices.Model.RestaurantFloorModels;
 
-public class UpdateRestaurantFloorRequest : AddRestaurantFloorRequest
+public class UpdateRestaurantFloorRequest(AddRestaurantFloorRequest request, int id) : AddRestaurantFloorRequest(request.RestaurantId, request.Name, request.FloorNumber, request.Capacity, request.LayoutUrl, request.ExtensionData)
 {
-    public int Id { get; set; }
-    public UpdateRestaurantFloorRequest(AddRestaurantFloorRequest request, int id) : base(request.RestaurantId, request.Name, request.FloorNumber, request.Capacity, request.LayoutUrl, request.ExtensionData)
-    {
-        this.Id = id;
-    }
-
+    public int Id { get; set; } = id;
 }

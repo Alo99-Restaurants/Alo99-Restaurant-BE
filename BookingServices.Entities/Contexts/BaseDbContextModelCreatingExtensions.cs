@@ -1,6 +1,7 @@
 ﻿using BookingServices.Core;
 using BookingServices.Entities.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace BookingServices.Entities.Contexts;
 
@@ -8,6 +9,11 @@ public static class BaseDbContextModelCreatingExtensions
 {
     public static void ConfigureBaseService(this ModelBuilder builder)
     {
+        builder.Entity<Users>()
+            .HasIndex(u => u.CustomerId)
+            .HasFilter("[Role] = 4") // Assuming ERole.Customer is mapped to 1
+            .IsUnique();
+
         builder.Entity<Users>().HasData(
             new Users
             {
@@ -15,7 +21,6 @@ public static class BaseDbContextModelCreatingExtensions
                 Username = "admin",
                 Password = Utils.HashPassword("admin"),
                 Name = "Admin",
-                IsCustomer = false,
                 Role = Enum.ERole.Admin
             },
             new Users
@@ -24,7 +29,6 @@ public static class BaseDbContextModelCreatingExtensions
                 Username = "manager",
                 Password = Utils.HashPassword("manager"),
                 Name = "Manager",
-                IsCustomer = false,
                 Role = Enum.ERole.Manager
             },
             new Users
@@ -33,16 +37,14 @@ public static class BaseDbContextModelCreatingExtensions
                 Username = "staff",
                 Password = Utils.HashPassword("staff"),
                 Name = "Staff",
-                IsCustomer = false,
-                Role = Enum.ERole.Staff
+                Role = Enum.ERole.Staff,
             },
             new Users
             {
                 Id = Guid.NewGuid(),
                 Username = "customer",
                 Password = Utils.HashPassword("customer"),
-                Name = "Customer",
-                IsCustomer = true,
+                Name = "Customer",                
                 Role = Enum.ERole.Customer
             }
         );

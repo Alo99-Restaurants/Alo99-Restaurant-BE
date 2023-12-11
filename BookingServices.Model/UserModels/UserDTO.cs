@@ -9,13 +9,10 @@ public class UserDTO : IEntityAudit<Guid>, IHaveDeleted
 
     public string Name { get; set; }
     public bool IsCustomer { get; set; }
-    public Guid? CustomerId { get; set; }
     public bool IsDeleted { get; set; }
 
     public Guid CreatedBy { get; set; }
     public DateTime CreatedDate { get; set; }
     public Guid? ModifiedBy { get; set; }
     public DateTime? ModifiedDate { get; set; }
-
-    //public Customers Customer { get; set; }
 }

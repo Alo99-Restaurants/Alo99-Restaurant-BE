@@ -1,22 +1,11 @@
 ﻿namespace BookingServices.Model.RestaurantFloorModels;
 
-public class AddRestaurantFloorRequest
+public class AddRestaurantFloorRequest(int restaurantId, string name, int floorNumber, int capacity, string? layoutUrl, string? extensionData)
 {
-    public int RestaurantId { get; set; }
-    public string Name { get; set; }
-    public int FloorNumber { get; set; }
-    public int Capacity { get; set; }
-    public string? LayoutUrl { get; set; }
-    public string? ExtensionData { get; set; }
-
-    //ctor foreach
-    public AddRestaurantFloorRequest(int restaurantId, string name, int floorNumber, int capacity, string? layoutUrl, string? extensionData)
-    {
-        RestaurantId = restaurantId;
-        Name = name;
-        FloorNumber = floorNumber;
-        Capacity = capacity;
-        LayoutUrl = layoutUrl;
-        ExtensionData = extensionData;
-    }
+    public int RestaurantId { get; set; } = restaurantId;
+    public string Name { get; set; } = name;
+    public int FloorNumber { get; set; } = floorNumber;
+    public int Capacity { get; set; } = capacity;
+    public string? LayoutUrl { get; set; } = layoutUrl;
+    public string? ExtensionData { get; set; } = extensionData;
 }

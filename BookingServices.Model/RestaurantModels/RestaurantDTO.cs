@@ -15,6 +15,8 @@ public class RestaurantDTO : IEntityAudit<int>
     public string Address { get; set; }
     public string Location { get; set; }
     public string? Greetings { get; set; }
+    public string? OpenHours { get; set; }
+    public string? CloseHours { get; set; }
     [Column(TypeName = "decimal(18,2)")]
     [Range(0, 5, ErrorMessage = "Range from 0 to 5")]
     public double Rating { get; set; }
