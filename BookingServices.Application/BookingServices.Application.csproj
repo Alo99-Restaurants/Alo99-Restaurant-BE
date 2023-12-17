@@ -19,7 +19,6 @@
 
   <ItemGroup>
     <Folder Include="MediaR\User\Command\" />
-    <Folder Include="MediaR\User\Query\Login\ByGoogle\" />
   </ItemGroup>
 
 </Project>

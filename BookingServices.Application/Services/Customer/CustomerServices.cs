@@ -23,12 +23,14 @@ public class CustomerServices : ICustomerServices
         _mapper = mapper;
     }
 
-    public async Task AddCustomerAsync(AddCustomerRequest customer)
+    public async Task<CustomerDTO> AddCustomerAsync(AddCustomerRequest customer)
     {
+        var addcustomer = _mapper.Map<Customers>(customer);
         //add customer
         _context.Add(_mapper.Map<Customers>(customer));
         //save changes
         await _context.SaveChangesAsync();
+        return _mapper.Map<CustomerDTO>(addcustomer);
     }
 
     public async Task<ApiPaged<CustomerDTO>> GetAllCustomersAsync(GetAllCustomerRequest request)

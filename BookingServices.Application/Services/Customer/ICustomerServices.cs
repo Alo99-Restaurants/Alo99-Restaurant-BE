@@ -12,7 +12,7 @@ public interface ICustomerServices
     Task<CustomerDTO> GetCustomerByIdAsync(Guid id);
 
     //addcustomer
-    Task AddCustomerAsync(AddCustomerRequest customer);
+    Task<CustomerDTO> AddCustomerAsync(AddCustomerRequest customer);
 
     //updatecustomer
     Task UpdateCustomerAsync(UpdateCustomerRequest customer);

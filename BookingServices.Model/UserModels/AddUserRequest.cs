@@ -2,11 +2,24 @@
 
 namespace BookingServices.Model.UserModels;
 
-public class AddUserRequest(string username, string password, string name, Guid? customerId, ERole? role)
+public class AddUserRequest
 {
-    public string Username { get; set; } = username;
-    public string Password { get; set; } = password;
-    public string Name { get; set; } = name;
-    public Guid? CustomerId { get; set; } = customerId;
-    public ERole? Role { get; set; } = role;
+    public string Username { get; set; }
+    public string Password { get; set; }
+    public string Name { get; set; }
+    public Guid? CustomerId { get; set; }
+    public ERole? Role { get; set; }
+
+    public AddUserRequest(string username, string password, string name, Guid? customerId, ERole? role)
+    {
+        Username = username;
+        Password = password;
+        Name = name;
+        CustomerId = customerId;
+        Role = role;
+    }
+    public AddUserRequest()
+    {
+        
+    }
 }

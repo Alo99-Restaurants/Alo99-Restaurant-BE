@@ -17,11 +17,13 @@ public class UserServices : IUserServices
         _context = context;
     }
 
-    public async Task AddUser(AddUserRequest user)
+    public async Task<UserDTO> AddUser(AddUserRequest user)
     {
         user.Password = Core.Utils.HashPassword(user.Password);
-        _context.Add(_mapper.Map<Users>(user));
+        var adduser = _mapper.Map<Users>(user);
+        _context.Add(adduser);
         await _context.SaveChangesAsync();
+        return _mapper.Map<UserDTO>(adduser);
     }
 
     public Task DeleteUser(int id)

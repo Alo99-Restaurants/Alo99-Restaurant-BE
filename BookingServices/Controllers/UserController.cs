@@ -5,8 +5,16 @@ using BookingServices.Core.Identity;
 using BookingServices.Core.Models.ControllerResponse;
 using BookingServices.Model.UserModels;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using BookingServices.Entities.Enum;
+using BookingServices.Application.MediaR.User.Query.Login.ByGoogle;
 
 namespace BookingServices.Controllers;
 
@@ -17,12 +25,14 @@ public class UserController : MyControllerBase
     private readonly IUserServices _userServices;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IMediator _mediator;
+    private readonly ILogger<UserController> _logger;
 
-    public UserController(IUserServices userServices, IMediator mediator, IHttpContextAccessor httpContextAccessor)
+    public UserController(IUserServices userServices, IMediator mediator, IHttpContextAccessor httpContextAccessor, ILogger<UserController> logger)
     {
         _userServices = userServices;
         _mediator = mediator;
         _httpContextAccessor = httpContextAccessor;
+        _logger = logger;
     }
 
     //get all user
@@ -64,6 +74,47 @@ public class UserController : MyControllerBase
     {
         var rs = await _mediator.Send(request);
         return ApiOk(rs);
+    }
+
+    //login with google
+    [HttpGet("google-auth")]
+    [AllowAnonymous]
+    public IActionResult GoogleAuth()
+    {
+        //_logger.LogInformation(JsonConvert.SerializeObject(Challenge(new AuthenticationProperties { RedirectUri = Url.Action("GoogleCallback") }, GoogleDefaults.AuthenticationScheme)));
+        // Redirect to Google for authentication
+        return Challenge(new AuthenticationProperties { RedirectUri = Url.Action("GoogleCallback") }, GoogleDefaults.AuthenticationScheme);
+    }
+
+    //dont show in swagger
+    [HttpGet("google-callback")]
+    [AllowAnonymous]
+    [ApiExplorerSettings(IgnoreApi = true)]
+    public async Task<IActionResult> GoogleCallback()
+    {
+        var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+        if (result?.Succeeded == true)
+        {
+            // The user is authenticated successfully.
+            // You can access user information from result.Principal
+
+            // Example: Get user's email
+            var userEmail = result.Principal?.FindFirst(ClaimTypes.Email)?.Value;
+            //claim name
+            var userName = result.Principal?.FindFirst(ClaimTypes.Name)?.Value;
+            var rs =await _mediator.Send(new LoginUserByGoogleQuery
+            {
+                Email = userEmail,
+                Name = userName
+            });
+
+            // Redirect to a secure endpoint or return a response
+            return ApiOk(rs);
+        }
+
+        // Handle authentication failure, redirect to an error page, etc.
+        return GoogleAuth();
     }
 
 #if DEBUG

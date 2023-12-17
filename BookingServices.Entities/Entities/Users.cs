@@ -12,7 +12,6 @@ public class Users : EntityAudit<Guid>, IHaveDeleted
     public string Username { get; set; }
     public string Password { get; set; }
     public string Name { get; set; }
-    
     public Guid? CustomerId { get; set; }
     public ERole Role { get; set; } = ERole.Staff;
     public bool IsDeleted { get; set; }

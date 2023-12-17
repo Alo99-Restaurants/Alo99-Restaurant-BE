@@ -10,7 +10,7 @@ public interface IUserServices
     //getuserbyid
     Task<UserDTO> GetUserById(Guid id);
     //adduser
-    Task AddUser(AddUserRequest user);
+    Task<UserDTO> AddUser(AddUserRequest user);
     //updateuser
     Task UpdateUser(UpdateUserRequest user);
     //deleteuser

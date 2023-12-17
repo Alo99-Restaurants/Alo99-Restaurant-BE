@@ -3,6 +3,8 @@ using BookingServices.Configs.Injection;
 using BookingServices.Core.MiddleWares.ErrorHandler;
 using BookingServices.Entities.Contexts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
@@ -26,6 +28,7 @@ var assemblies = dllFiles.Select(x => Assembly.LoadFrom(x)).ToArray();
 builder.Services.Configure<JwtConfigurations>(configuration.GetSection("JwtConfigurations"));
 builder.Services.Configure<ConnectionStrings>(configuration.GetSection("ConnectionStrings"));
 
+
 // Add services to the container.
 
 builder.Services.AddDbContextConfig(configuration);
@@ -39,6 +42,8 @@ builder.Services.AddMediatRConfig(assemblies);
 builder.Services.AddCorsConfig();
 builder.Services.AddJsonConfig();
 builder.Services.AddAuthenticationConfig(configuration);
+builder.Services.AddGoogleAuthenticationConfig(configuration);
+
 
 //builder.Services.AddExceptionHandler<ExceptionHandler>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -61,16 +66,19 @@ app.UseSwaggerUI(opt =>
     opt.DisplayRequestDuration();
     //opt.InjectJavascript("/swagger/customAuthorize.js");
 });
+
 app.UseCors();
 
 app.UseErrorHandlingMiddleware();
 //app.UseExceptionHandler(_ => { });
 
 app.UseHttpsRedirection();
-
+app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
+
+

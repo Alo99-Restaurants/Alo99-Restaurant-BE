@@ -16,4 +16,9 @@ public class AppConfigurations
     {
         public string ConnectionString { get; set; }
     }
+    public class GoogleConfigurations
+    {
+        public string ClientId { get; set; }
+        public string ClientSecret { get; set; }
+    }
 }

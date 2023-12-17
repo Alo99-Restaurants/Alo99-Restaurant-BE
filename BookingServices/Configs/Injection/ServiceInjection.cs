@@ -5,6 +5,9 @@ using BookingServices.Application.Services.Table;
 using BookingServices.Application.Services.User;
 using BookingServices.Core.Redis;
 using BookingServices.Entities.Contexts;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -23,11 +26,11 @@ public static class ServiceInjection
     //services
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
-        services.AddTransient<IRestaurantServices, RestaurantServices>();
-        services.AddTransient<IRestaurantFloorServices, RestaurantFloorServices>();
-        services.AddTransient<ITableServices, TableServices>();
-        services.AddTransient<IUserServices, UserServices>();
-        services.AddTransient<ICustomerServices, CustomerServices>();
+        services.AddScoped<IRestaurantServices, RestaurantServices>();
+        services.AddScoped<IRestaurantFloorServices, RestaurantFloorServices>();
+        services.AddScoped<ITableServices, TableServices>();
+        services.AddScoped<IUserServices, UserServices>();
+        services.AddScoped<ICustomerServices, CustomerServices>();
 
         return services;
     }
@@ -49,9 +52,11 @@ public static class ServiceInjection
     {
         services.AddCors(options =>
         {
-            options.AddPolicy("AllowAllOrigins", builder =>
+            options.AddDefaultPolicy(builder =>
             {
-                builder.AllowAnyOrigin().AllowAnyHeader().WithExposedHeaders("Content-Disposition", "Api-Supported-Versions").AllowAnyMethod();
+                builder.AllowAnyOrigin()
+                       .AllowAnyHeader()
+                       .AllowAnyMethod();
             });
         });
         return services;
@@ -89,6 +94,25 @@ public static class ServiceInjection
                 ValidAudience = jwt?.Audience, // Replace with your audience
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt?.SecretKey ?? throw new ArgumentNullException())) // Replace with your secret key
             };
+        });
+        return services;
+    }
+
+    //add google authentication
+    public static IServiceCollection AddGoogleAuthenticationConfig(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddAuthentication(options =>
+        {
+            options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+        })
+        .AddCookie()
+        .AddGoogle(options =>
+        {
+            var google = configuration.GetSection("GoogleConfigurations").Get<GoogleConfigurations>();
+            options.ClientId = google?.ClientId ?? throw new ArgumentNullException();
+            options.ClientSecret = google?.ClientSecret ?? throw new ArgumentNullException();
+            //options.CallbackPath = "/api/User/google-callback";
         });
         return services;
     }
@@ -132,7 +156,7 @@ public static class ServiceInjection
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assemblies));
         return services;
     }
-    
+
     //add automapper
     public static IServiceCollection AddAutoMapperConfig(this IServiceCollection services, Assembly[] assemblies)
     {
@@ -147,7 +171,7 @@ public static class ServiceInjection
         {
             //bind redis config from appsettings.json into appconfigurations
             var redis = configuration.GetSection("Redis").Get<RedisConfigurations>();
-            return new RedisService(redis?.ConnectionString??throw new ArgumentNullException(), options => { });
+            return new RedisService(redis?.ConnectionString ?? throw new ArgumentNullException(), options => { });
         });
         return services;
     }

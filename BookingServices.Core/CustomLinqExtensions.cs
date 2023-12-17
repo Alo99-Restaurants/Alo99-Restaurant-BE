@@ -21,4 +21,23 @@ public static class CustomLinqExtensions
 
         return source;
     }
+    public static IQueryable<T> ActiveEntities<T>(this IQueryable<T> entities)
+    {
+        try
+        {
+            var entityType = typeof(T);
+
+            if (entityType.GetProperty("IsDeleted") != null)
+            {
+                entities.Where(e => !(bool)entityType.GetProperty("IsDeleted").GetValue(e));
+            }
+
+        }
+        catch
+        {
+
+        }
+        return entities;
+
+    }
 }

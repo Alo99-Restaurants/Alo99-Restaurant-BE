@@ -46,9 +46,13 @@ public class BookingDbContext : DbContext
 
     private void SetAuditUser()
     {
+        Guid userId = Guid.Empty;
         var httpContext = _httpContextAccessor.HttpContext;
-        var userId = ClaimsPrincipalExtension.GetUserId(httpContext?.User);
-
+        if (httpContext.User.Identity?.IsAuthenticated??false)
+        {
+            userId = ClaimsPrincipalExtension.GetUserId(httpContext?.User);
+        }
+        
         var entries = ChangeTracker.Entries().Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
 
         foreach (var entry in entries)
