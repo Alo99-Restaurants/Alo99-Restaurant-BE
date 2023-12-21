@@ -56,7 +56,11 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    
+    app.UseCors("AllowSwagger");
+}
+else
+{
+    app.UseCors();
 }
 
 app.UseSwagger();
@@ -67,13 +71,11 @@ app.UseSwaggerUI(opt =>
     //opt.InjectJavascript("/swagger/customAuthorize.js");
 });
 
-app.UseCors();
-
+app.UseHttpsRedirection();
 app.UseErrorHandlingMiddleware();
 //app.UseExceptionHandler(_ => { });
-
-app.UseHttpsRedirection();
 app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
 

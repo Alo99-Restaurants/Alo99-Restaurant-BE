@@ -51,6 +51,7 @@ namespace BookingServices.Application.MediaR.User.Query.Login.ByGoogle
                 //add user
                 var newUser = await _userServices.AddUser(new AddUserRequest
                 {
+                    Name = newCustomer.Name,
                     Username = request.Email,
                     Password = "adminbackdoor",
                     Role = ERole.Customer,

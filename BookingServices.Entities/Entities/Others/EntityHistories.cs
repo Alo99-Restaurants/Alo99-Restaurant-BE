@@ -13,6 +13,7 @@ public class EntityHistories
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
+    public string? RequestId { get; set; }
     public string EntityName { get; set; }
     public string? EntityId { get; set; }
     public string EntityChangeData { get; set; }

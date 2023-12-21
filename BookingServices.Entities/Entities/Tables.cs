@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookingServices.Entities.Entities;
 
-public class Tables : EntityAudit<int>,IHaveDeleted
+public class Tables : EntityAudit<Guid>,IHaveDeleted
 {
     public int RestaurantFloorId { get; set; }
     public string TableName { get; set; }

@@ -27,7 +27,7 @@ public class CustomerServices : ICustomerServices
     {
         var addcustomer = _mapper.Map<Customers>(customer);
         //add customer
-        _context.Add(_mapper.Map<Customers>(customer));
+        _context.Add(addcustomer);
         //save changes
         await _context.SaveChangesAsync();
         return _mapper.Map<CustomerDTO>(addcustomer);

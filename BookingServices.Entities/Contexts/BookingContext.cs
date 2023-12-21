@@ -1,4 +1,5 @@
 ﻿using BookingServices.Core.Identity;
+using BookingServices.Entities.Entities.Interfaces;
 using BookingServices.Entities.Entities.Others;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -47,16 +48,30 @@ public class BookingDbContext : DbContext
     private void SetAuditUser()
     {
         Guid userId = Guid.Empty;
+        string? requestId = null;
         var httpContext = _httpContextAccessor.HttpContext;
-        if (httpContext.User.Identity?.IsAuthenticated??false)
+        if (httpContext.User.Identity?.IsAuthenticated ?? false)
         {
             userId = ClaimsPrincipalExtension.GetUserId(httpContext?.User);
+            requestId = httpContext?.TraceIdentifier;
         }
-        
-        var entries = ChangeTracker.Entries().Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
+
+        var entries = ChangeTracker.Entries().Where(e => e.State == EntityState.Added || e.State == EntityState.Modified || e.State == EntityState.Deleted);
 
         foreach (var entry in entries)
         {
+            if (entry.State == EntityState.Deleted)
+            {
+                // Check if the entity has a soft delete flag
+                if (entry.Entity is IHaveDeleted softDeleteEntity)
+                {
+                    // Instead of physically deleting, update the IsDeleted property
+                    entry.State = EntityState.Modified;
+                    softDeleteEntity.IsDeleted = true;
+                }
+                // Handle other scenarios if needed
+            }
+
             if (entry.State == EntityState.Added)
             {
                 entry.Property("CreatedBy").CurrentValue = userId;
@@ -64,10 +79,9 @@ public class BookingDbContext : DbContext
             }
             else if (entry.State == EntityState.Modified)
             {
-                LogChangeEntity(entry, userId);
+                LogChangeEntity(entry, userId, requestId);
                 entry.Property("CreatedBy").IsModified = false;
                 entry.Property("CreatedDate").IsModified = false;
-                
             }
 
             entry.Property("ModifiedBy").CurrentValue = userId;
@@ -75,14 +89,15 @@ public class BookingDbContext : DbContext
         }
     }
 
-    private void LogChangeEntity(EntityEntry entry, Guid userId)
+    private void LogChangeEntity(EntityEntry entry, Guid userId, string? requestId)
     {
-        
+
         var primaryKey = entry.OriginalValues.Properties.FirstOrDefault(x => x.IsPrimaryKey())?.Name;
         var entityName = entry.Entity.GetType().Name;
-        var entityId = entry.OriginalValues[primaryKey??"Id"]?.ToString();
+        var entityId = entry.OriginalValues[primaryKey ?? "Id"]?.ToString();
         var changeData = new Dictionary<string, string>();
-        
+        var state = entry.State;
+
         foreach (var property in entry.OriginalValues.Properties)
         {
             var propertyName = property.Name;
@@ -90,28 +105,29 @@ public class BookingDbContext : DbContext
             var currentValue = entry.CurrentValues[property]?.ToString();
 
             //if state add then add into changeData with format key is propertyName and value is null --> currentValue
-           if (entry.State == EntityState.Added)
-        {
-            changeData.Add(propertyName, "null --> " + currentValue);
-        }
-        else if (entry.State == EntityState.Deleted)
-        {
-            changeData.Add(propertyName, originalValue + " --> null");
-        }
-        else if (originalValue != currentValue)
-        {
-            changeData.Add(propertyName, originalValue + " --> " + currentValue);
-        }
+            //if (entry.State == EntityState.Added)
+            //{
+            //    changeData.Add(propertyName, "null --> " + currentValue);
+            //}
+            //else if (entry.State == EntityState.Deleted)
+            //    {
+            //        changeData.Add(propertyName, originalValue + " --> null");
+            //    }
+            if (originalValue != currentValue)
+            {
+                changeData.Add(propertyName, originalValue + " --> " + currentValue);
+            }
         }
 
         if (changeData.Any())
         {
             var entityHistory = new EntityHistories
             {
+                RequestId = requestId,
                 EntityName = entityName,
                 EntityId = entityId,
                 EntityChangeData = JsonConvert.SerializeObject(changeData),
-                Action = entry.State.ToString(),
+                Action = state.ToString(),
                 ActionBy = userId.ToString(),
                 ActionDate = DateTime.UtcNow
 

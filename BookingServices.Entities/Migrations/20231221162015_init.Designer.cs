@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingServices.Entities.Migrations
 {
     [DbContext(typeof(BookingDbContext))]
-    [Migration("20231209190107_init")]
+    [Migration("20231221162015_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -52,10 +52,14 @@ namespace BookingServices.Entities.Migrations
                     b.Property<int>("NumberOfPeople")
                         .HasColumnType("int");
 
-                    b.Property<int>("TableId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("TableId")
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("TableId");
 
                     b.ToTable("Bookings");
                 });
@@ -131,6 +135,9 @@ namespace BookingServices.Entities.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("RequestId")
+                        .HasColumnType("longtext");
+
                     b.HasKey("Id");
 
                     b.ToTable("EntityHistories");
@@ -156,6 +163,9 @@ namespace BookingServices.Entities.Migrations
 
                     b.Property<int>("FloorNumber")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("LayoutUrl")
                         .HasColumnType("longtext");
@@ -323,9 +333,9 @@ namespace BookingServices.Entities.Migrations
 
             modelBuilder.Entity("BookingServices.Entities.Entities.Tables", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
                     b.Property<int>("Capacity")
                         .HasColumnType("int");
@@ -339,6 +349,9 @@ namespace BookingServices.Entities.Migrations
                     b.Property<string>("ExtensionData")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<Guid?>("ModifiedBy")
                         .HasColumnType("char(36)");
@@ -416,48 +429,67 @@ namespace BookingServices.Entities.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("b5589606-32b5-4be4-a17b-559c5ce8cffe"),
+                            Id = new Guid("bbd5280d-5fdb-4245-b61e-e726a277d323"),
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Admin",
-                            Password = "WCG2mrcsXrKXZgO1hgusHrIeIkit7/nzy3XPBFc+EYCxQg9WM4l1nLfV9eJOrnC6",
+                            Password = "cjBEsFVz8NqlpeyRJnlDfOJa+hhzEnyPrZHfoPGXUTh8oy9JvWcELaRXwaZ0Icm2",
                             Role = 1,
                             Username = "admin"
                         },
                         new
                         {
-                            Id = new Guid("18773004-26ec-4a4e-8ca9-43430791ae2d"),
+                            Id = new Guid("9be86f8f-6b85-4652-b818-bc133ce9b906"),
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Manager",
-                            Password = "cOSw+HqygHfmG1ew+bpRGxLxH9owbMDrye1GwuhMa81aDnXf5Dbvd4AtFN/C8ccL",
+                            Password = "UtGCqsDxGRJkYeiTFMOM1TUGU1EHqiF8AUdX+xce3RkAnisMUEOtPhbUpnd0c7Kj",
                             Role = 2,
                             Username = "manager"
                         },
                         new
                         {
-                            Id = new Guid("0b677ab3-5272-4de1-9fbc-8f8b8d93b39e"),
+                            Id = new Guid("2696c6d6-2c59-475b-ab1a-9381828c9dfa"),
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Staff",
-                            Password = "MUjNfCC1fhZw5NBNWxNNnnqWur2UsP6ps0Z9C6JcpLcUOMtImlL9YGbT3KwEo287",
+                            Password = "ybU1jhVKwO52IUZhDl1yUeyazhbGv3OtglX+rMU5KeC+J6PzIaTfjgu1G+YxriRQ",
                             Role = 3,
                             Username = "staff"
                         },
                         new
                         {
-                            Id = new Guid("a4c85ca4-042d-4669-973a-1ebdc94bb4ce"),
+                            Id = new Guid("29faf7d7-6861-4689-aa71-5fcfb8085323"),
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Customer",
-                            Password = "aEa8FIM5crkq0zFxhPhqwg94uCIYXHg8ys9ZECCXTvA7aNRRB8f387UXDt2Z7v21",
+                            Password = "yfxg8SokZE7ssN/89FEwFZe3kxW+ture1kglbnzaW+xgqP70qC//og4GuFGmtZyG",
                             Role = 4,
                             Username = "customer"
                         });
+                });
+
+            modelBuilder.Entity("BookingServices.Entities.Entities.Bookings", b =>
+                {
+                    b.HasOne("BookingServices.Entities.Entities.Users", "User")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BookingServices.Entities.Entities.Tables", "Table")
+                        .WithMany("Bookings")
+                        .HasForeignKey("TableId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Table");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("BookingServices.Entities.Entities.RestaurantFloors", b =>
@@ -518,6 +550,11 @@ namespace BookingServices.Entities.Migrations
                     b.Navigation("RestaurantFloors");
 
                     b.Navigation("RestaurantImages");
+                });
+
+            modelBuilder.Entity("BookingServices.Entities.Entities.Tables", b =>
+                {
+                    b.Navigation("Bookings");
                 });
 #pragma warning restore 612, 618
         }

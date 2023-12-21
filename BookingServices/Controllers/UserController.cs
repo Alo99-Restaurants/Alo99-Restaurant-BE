@@ -81,6 +81,7 @@ public class UserController : MyControllerBase
     [AllowAnonymous]
     public IActionResult GoogleAuth()
     {
+
         //_logger.LogInformation(JsonConvert.SerializeObject(Challenge(new AuthenticationProperties { RedirectUri = Url.Action("GoogleCallback") }, GoogleDefaults.AuthenticationScheme)));
         // Redirect to Google for authentication
         return Challenge(new AuthenticationProperties { RedirectUri = Url.Action("GoogleCallback") }, GoogleDefaults.AuthenticationScheme);

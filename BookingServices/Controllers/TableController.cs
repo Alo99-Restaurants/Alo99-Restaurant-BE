@@ -1,50 +1,63 @@
-﻿using BookingServices.Application.Services.Table;
+﻿using BookingServices.Application.MediaR.Table.Command.Updates;
+using BookingServices.Application.Services.Table;
 using BookingServices.Core;
+using BookingServices.Core.Models.ControllerResponse;
 using BookingServices.Model.TableModels;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingServices.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class TableController : MyControllerBase
 {
-    private readonly ITableServices _tableServices;
 
-    public TableController(ITableServices tableServices)
+    private readonly ITableServices _tableServices;
+    private readonly IMediator _mediator;
+
+    public TableController(ITableServices tableServices, IMediator mediator)
     {
         _tableServices = tableServices;
+        _mediator = mediator;
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetAllTablesAsync()
-    {
-        return Ok(await _tableServices.GetAllTablesAsync());
-    }
+    //getall
+    [HttpGet("")]
+    [ProducesResponseType(typeof(ApiPaged<TableDTO>), 200)]
+    public async Task<IActionResult> GetAllTables([FromQuery] GetAllTableRequest request) => ApiOk(await _tableServices.GetAllTablesAsync(request));
 
+    //get by id
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetTableByIdAsync(int id)
-    {
-        throw new NotImplementedException();
-    }
+    [ProducesResponseType(typeof(ApiResult<TableDTO>), 200)]
+    public async Task<IActionResult> GetTable(Guid id) => ApiOk(await _tableServices.GetTableByIdAsync(id));
 
+    //add
     [HttpPost]
-    public async Task<IActionResult> AddTableAsync(AddTableRequest table)
+    [ProducesResponseType(typeof(ApiResult), 200)]
+    public async Task<IActionResult> AddTable(AddTableRequest table)
     {
-        throw new ClientException("lỗi tào lao");
+        await _tableServices.AddTableAsync(table);
+        return ApiOk();
     }
 
-    [HttpPut]
-    public async Task<IActionResult> UpdateTableAsync(UpdateTableRequest table)
+    //update
+    [HttpPut("{id}")]
+    [ProducesResponseType(typeof(ApiResult), 200)]
+    public async Task<IActionResult> UpdateTable(Guid id, AddTableRequest table)
     {
-        await _tableServices.UpdateTableAsync(table);
-        return Ok();
+        await _tableServices.UpdateTableAsync(new UpdateTableRequest(table, id));
+        return ApiOk();
     }
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteTableAsync(int id)
+    //UpdatesTableCommand implement api
+    [HttpPut("updates")]
+    [ProducesResponseType(typeof(ApiResult<IEnumerable<TableDTO>>), 200)]
+    public async Task<IActionResult> UpdateTables(UpdatesTableCommand command)
     {
-        await _tableServices.DeleteTableAsync(id);
-        return Ok();
+        var rs = await _mediator.Send(command);
+        return ApiOk(rs);
     }
 }

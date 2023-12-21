@@ -1,6 +1,13 @@
-﻿namespace BookingServices.Entities.Enum;
+﻿using System.ComponentModel;
+
+namespace BookingServices.Entities.Enum;
 
 public enum EGender
 {
-    Male = 1, Female = 2, Other = 3
+    [Description("Nam")]
+    Male = 1,
+    [Description("Nữ")]
+    Female = 2,
+    [Description("Khác")]
+    Other = 3
 }

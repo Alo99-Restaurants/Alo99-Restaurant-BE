@@ -52,11 +52,14 @@ public static class ServiceInjection
     {
         services.AddCors(options =>
         {
-            options.AddDefaultPolicy(builder =>
+            options.AddDefaultPolicy(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());   
+            options.AddPolicy("AllowSwagger", builder =>
             {
-                builder.AllowAnyOrigin()
+                builder.WithOrigins("https://localhost:7130")
                        .AllowAnyHeader()
-                       .AllowAnyMethod();
+                       .AllowAnyMethod()
+                       .AllowCredentials();
+
             });
         });
         return services;
@@ -103,16 +106,17 @@ public static class ServiceInjection
     {
         services.AddAuthentication(options =>
         {
-            options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+            //options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            //options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
         })
-        .AddCookie()
+        .AddCookie(opt => opt.LoginPath = "/api/User/google-auth")
         .AddGoogle(options =>
         {
             var google = configuration.GetSection("GoogleConfigurations").Get<GoogleConfigurations>();
             options.ClientId = google?.ClientId ?? throw new ArgumentNullException();
             options.ClientSecret = google?.ClientSecret ?? throw new ArgumentNullException();
-            //options.CallbackPath = "/api/User/google-callback";
+            options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            options.SaveTokens = true;
         });
         return services;
     }

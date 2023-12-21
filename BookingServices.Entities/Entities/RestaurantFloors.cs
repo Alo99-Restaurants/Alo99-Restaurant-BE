@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookingServices.Entities.Entities;
 
-public class RestaurantFloors : EntityAudit<int>
+public class RestaurantFloors : EntityAudit<int>, IHaveDeleted
 {
     public int RestaurantId { get; set; }
     public string Name { get; set; }
@@ -11,10 +11,11 @@ public class RestaurantFloors : EntityAudit<int>
     public int Capacity { get; set; }
     public string? LayoutUrl { get; set; }
     public string? ExtensionData { get; set; }
-
+    public bool IsDeleted { get; set; }
 
     [ForeignKey(nameof(RestaurantId))]
     public virtual Restaurants Restaurant { get; set; }
 
     public virtual ICollection<Tables> Tables { get; set; }
+    
 }
