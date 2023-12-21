@@ -35,7 +35,6 @@ namespace BookingServices.Application.MediaR.Table.Command.Updates
             //get table not in request.tables
             var deleteTable = tables.Where(x => !request.Tables.Select(s => s.Id).ToList().Contains(x.Id));
 
-            var result = new List<TableDTO>();
             //update if exist else add
             foreach (var table in request.Tables)
             {
@@ -44,20 +43,21 @@ namespace BookingServices.Application.MediaR.Table.Command.Updates
                 {
                     _mapper.Map(table, tableEntity);
                     _bookingDbContext.Update(tableEntity);
-                    result.Add(_mapper.Map<TableDTO>(tableEntity));
                 }
                 else
                 {
                     var newTable = _mapper.Map<Tables>(table);
                     _bookingDbContext.Add(newTable);
-                    result.Add(_mapper.Map<TableDTO>(newTable));
                 }
             }
-
+            
+            
             //delete table
             _bookingDbContext.RemoveRange(deleteTable);
             _bookingDbContext.SaveChanges();
-            return result;
+
+            var rs = _bookingDbContext.Tables.Where(x => x.RestaurantFloorId == request.RestaurantFloorId).ToList();
+            return _mapper.Map<IEnumerable<TableDTO>>(rs);
 
 
         }

@@ -121,6 +121,19 @@ public class BookingDbContext : DbContext
 
         if (changeData.Any())
         {
+            if(changeData.ContainsKey("IsDeleted"))
+            {
+                var value = changeData["IsDeleted"];
+                if(value == "False --> True")
+                {
+                    state = EntityState.Deleted;
+                }
+                else if(value == "True --> False")
+                {
+                    state = EntityState.Added;
+                }
+            }
+
             var entityHistory = new EntityHistories
             {
                 RequestId = requestId,
