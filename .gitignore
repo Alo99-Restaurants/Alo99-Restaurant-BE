@@ -2,3 +2,4 @@
 *\obj
 DMSService\.config
 .vs
+/BookingServices/appsettings.Development.json
