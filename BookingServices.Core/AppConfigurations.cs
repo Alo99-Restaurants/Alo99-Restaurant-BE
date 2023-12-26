@@ -21,4 +21,13 @@ public class AppConfigurations
         public string ClientId { get; set; }
         public string ClientSecret { get; set; }
     }
+    public class AWSS3Configurations
+    {
+        public string AwsAccessKey { get; set; }
+        public string AwsSecretAccessKey { get; set; }
+        public string AwsSessionToken { get; set; }
+        public string BucketName { get; set; }
+        public string Region { get; set; }
+        public string Url { get; set; }
+    }
 }

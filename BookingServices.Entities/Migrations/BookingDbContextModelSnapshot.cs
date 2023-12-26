@@ -140,6 +140,37 @@ namespace BookingServices.Entities.Migrations
                     b.ToTable("EntityHistories");
                 });
 
+            modelBuilder.Entity("BookingServices.Entities.Entities.Others.Stogares", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid?>("ModifiedBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Stogares");
+                });
+
             modelBuilder.Entity("BookingServices.Entities.Entities.RestaurantFloors", b =>
                 {
                     b.Property<int>("Id")
@@ -426,45 +457,45 @@ namespace BookingServices.Entities.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("bbd5280d-5fdb-4245-b61e-e726a277d323"),
+                            Id = new Guid("9eff1386-afc9-4150-b679-c8eabeb81def"),
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Admin",
-                            Password = "cjBEsFVz8NqlpeyRJnlDfOJa+hhzEnyPrZHfoPGXUTh8oy9JvWcELaRXwaZ0Icm2",
+                            Password = "aN/suNz6+2B4x6EZokcn5MG60h9Sh5zOD7VlhkZ90qmuvvJnER8g4xrPGaz3Is3E",
                             Role = 1,
                             Username = "admin"
                         },
                         new
                         {
-                            Id = new Guid("9be86f8f-6b85-4652-b818-bc133ce9b906"),
+                            Id = new Guid("9c4e03e4-c52b-41f9-9ef1-baafbcb61a4b"),
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Manager",
-                            Password = "UtGCqsDxGRJkYeiTFMOM1TUGU1EHqiF8AUdX+xce3RkAnisMUEOtPhbUpnd0c7Kj",
+                            Password = "O8UBHwi1s6zqvCAGt7imAk8VX/c9TMPmFEnUJgFlRyjgmSi1b4LE6wQxniVipJsV",
                             Role = 2,
                             Username = "manager"
                         },
                         new
                         {
-                            Id = new Guid("2696c6d6-2c59-475b-ab1a-9381828c9dfa"),
+                            Id = new Guid("3b075370-2c75-43eb-93c0-2002a37040af"),
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Staff",
-                            Password = "ybU1jhVKwO52IUZhDl1yUeyazhbGv3OtglX+rMU5KeC+J6PzIaTfjgu1G+YxriRQ",
+                            Password = "wZEnqrwZVuIB/BfWeLiZcZ9hlU8d6e8ltMl2cTz9HLyuqfqdVl3lK4W5jDyNCAL8",
                             Role = 3,
                             Username = "staff"
                         },
                         new
                         {
-                            Id = new Guid("29faf7d7-6861-4689-aa71-5fcfb8085323"),
+                            Id = new Guid("7177fe87-3697-4c57-8343-cf05ebee7e1c"),
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Customer",
-                            Password = "yfxg8SokZE7ssN/89FEwFZe3kxW+ture1kglbnzaW+xgqP70qC//og4GuFGmtZyG",
+                            Password = "uHU18PMwKJ2iavjFgf93ZRh8hJarhH9vjGemyMahL8lmRstue3NyLuv7jaSz+Nvo",
                             Role = 4,
                             Username = "customer"
                         });

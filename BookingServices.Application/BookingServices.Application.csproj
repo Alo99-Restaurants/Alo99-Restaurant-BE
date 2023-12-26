@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BookingServices.Core\BookingServices.Core.csproj" />
     <ProjectReference Include="..\BookingServices.Entities\BookingServices.Entities.csproj" />
+    <ProjectReference Include="..\BookingServices.External\BookingServices.External.csproj" />
     <ProjectReference Include="..\BookingServices.Model\BookingServices.Model.csproj" />
   </ItemGroup>
 

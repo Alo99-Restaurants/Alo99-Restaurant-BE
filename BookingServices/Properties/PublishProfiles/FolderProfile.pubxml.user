@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>D:\Learn\DACNTT2\BookingServices\BookingServices\bin\Release\net8.0\publish\</_PublishTargetUrl>
+    <History>True|2023-12-26T16:08:40.0475545Z;True|2023-12-26T22:52:55.6757599+07:00;True|2023-12-26T22:40:48.3073820+07:00;True|2023-12-26T22:34:42.2576442+07:00;True|2023-12-26T22:12:05.2659246+07:00;True|2023-12-26T22:01:58.5742294+07:00;True|2023-12-26T21:59:50.5215103+07:00;True|2023-12-26T21:57:46.1757254+07:00;True|2023-12-26T21:51:24.7967616+07:00;True|2023-12-26T21:43:32.2813933+07:00;True|2023-12-26T21:41:20.0973786+07:00;True|2023-12-26T21:39:01.6751593+07:00;True|2023-12-24T21:39:12.6087906+07:00;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+</Project>

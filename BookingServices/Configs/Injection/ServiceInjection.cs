@@ -5,6 +5,8 @@ using BookingServices.Application.Services.Table;
 using BookingServices.Application.Services.User;
 using BookingServices.Core.Redis;
 using BookingServices.Entities.Contexts;
+using BookingServices.External.Interfaces;
+using BookingServices.External.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
@@ -32,6 +34,10 @@ public static class ServiceInjection
         services.AddScoped<IUserServices, UserServices>();
         services.AddScoped<ICustomerServices, CustomerServices>();
 
+
+        //external services
+        //services.AddScoped<IEmailService, EmailService>();
+        services.AddScoped<IAwsS3Services, AwsS3Service>();
         return services;
     }
 
@@ -55,10 +61,10 @@ public static class ServiceInjection
             options.AddDefaultPolicy(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());   
             options.AddPolicy("AllowSwagger", builder =>
             {
-                builder.WithOrigins("https://localhost:7130")
+                builder.AllowAnyOrigin()
                        .AllowAnyHeader()
                        .AllowAnyMethod()
-                       .AllowCredentials();
+                       .WithExposedHeaders("Content-Disposition");
 
             });
         });
@@ -109,8 +115,10 @@ public static class ServiceInjection
             //options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             //options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
         })
-        .AddCookie(opt => opt.LoginPath = "/api/User/google-auth")
-        .AddGoogle(options =>
+        .AddCookie(opt =>
+        {
+            opt.LoginPath = "/api/User/google-auth";
+        }).AddGoogle(options =>
         {
             var google = configuration.GetSection("GoogleConfigurations").Get<GoogleConfigurations>();
             options.ClientId = google?.ClientId ?? throw new ArgumentNullException();

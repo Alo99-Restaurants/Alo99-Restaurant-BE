@@ -18,6 +18,7 @@ public class BookingDbContext : DbContext
     }
 
     public virtual DbSet<EntityHistories> EntityHistories { get; set; }
+    public virtual DbSet<Stogares> Stogares { get; set; }
 
     public virtual DbSet<Entities.Customers> Customers { get; set; }
     public virtual DbSet<Entities.RestaurantInformation> RestaurantInformation { get; set; }

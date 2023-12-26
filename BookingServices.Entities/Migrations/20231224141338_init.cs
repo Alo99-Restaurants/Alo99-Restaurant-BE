@@ -131,6 +131,26 @@ namespace BookingServices.Entities.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Stogares",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Name = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Url = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CreatedBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    ModifiedBy = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Stogares", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -290,10 +310,10 @@ namespace BookingServices.Entities.Migrations
                 columns: new[] { "Id", "CreatedBy", "CreatedDate", "CustomerId", "IsDeleted", "ModifiedBy", "ModifiedDate", "Name", "Password", "Role", "Username" },
                 values: new object[,]
                 {
-                    { new Guid("2696c6d6-2c59-475b-ab1a-9381828c9dfa"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null, null, "Staff", "ybU1jhVKwO52IUZhDl1yUeyazhbGv3OtglX+rMU5KeC+J6PzIaTfjgu1G+YxriRQ", 3, "staff" },
-                    { new Guid("29faf7d7-6861-4689-aa71-5fcfb8085323"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null, null, "Customer", "yfxg8SokZE7ssN/89FEwFZe3kxW+ture1kglbnzaW+xgqP70qC//og4GuFGmtZyG", 4, "customer" },
-                    { new Guid("9be86f8f-6b85-4652-b818-bc133ce9b906"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null, null, "Manager", "UtGCqsDxGRJkYeiTFMOM1TUGU1EHqiF8AUdX+xce3RkAnisMUEOtPhbUpnd0c7Kj", 2, "manager" },
-                    { new Guid("bbd5280d-5fdb-4245-b61e-e726a277d323"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null, null, "Admin", "cjBEsFVz8NqlpeyRJnlDfOJa+hhzEnyPrZHfoPGXUTh8oy9JvWcELaRXwaZ0Icm2", 1, "admin" }
+                    { new Guid("3b075370-2c75-43eb-93c0-2002a37040af"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null, null, "Staff", "wZEnqrwZVuIB/BfWeLiZcZ9hlU8d6e8ltMl2cTz9HLyuqfqdVl3lK4W5jDyNCAL8", 3, "staff" },
+                    { new Guid("7177fe87-3697-4c57-8343-cf05ebee7e1c"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null, null, "Customer", "uHU18PMwKJ2iavjFgf93ZRh8hJarhH9vjGemyMahL8lmRstue3NyLuv7jaSz+Nvo", 4, "customer" },
+                    { new Guid("9c4e03e4-c52b-41f9-9ef1-baafbcb61a4b"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null, null, "Manager", "O8UBHwi1s6zqvCAGt7imAk8VX/c9TMPmFEnUJgFlRyjgmSi1b4LE6wQxniVipJsV", 2, "manager" },
+                    { new Guid("9eff1386-afc9-4150-b679-c8eabeb81def"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null, null, "Admin", "aN/suNz6+2B4x6EZokcn5MG60h9Sh5zOD7VlhkZ90qmuvvJnER8g4xrPGaz3Is3E", 1, "admin" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -349,6 +369,9 @@ namespace BookingServices.Entities.Migrations
 
             migrationBuilder.DropTable(
                 name: "RestaurantInformation");
+
+            migrationBuilder.DropTable(
+                name: "Stogares");
 
             migrationBuilder.DropTable(
                 name: "Tables");

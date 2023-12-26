@@ -10,4 +10,13 @@
     <Folder Include="Model\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.S3" Version="3.7.305" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.1.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BookingServices.Core\BookingServices.Core.csproj" />
+  </ItemGroup>
+
 </Project>

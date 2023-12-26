@@ -3,8 +3,10 @@ using BookingServices.Configs.Injection;
 using BookingServices.Core.MiddleWares.ErrorHandler;
 using BookingServices.Entities.Contexts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
@@ -27,6 +29,7 @@ var assemblies = dllFiles.Select(x => Assembly.LoadFrom(x)).ToArray();
 // Add configuration
 builder.Services.Configure<JwtConfigurations>(configuration.GetSection("JwtConfigurations"));
 builder.Services.Configure<ConnectionStrings>(configuration.GetSection("ConnectionStrings"));
+builder.Services.Configure<AWSS3Configurations>(configuration.GetSection("AWSS3"));
 
 
 // Add services to the container.
@@ -44,6 +47,11 @@ builder.Services.AddJsonConfig();
 builder.Services.AddAuthenticationConfig(configuration);
 builder.Services.AddGoogleAuthenticationConfig(configuration);
 
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders =
+        ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+});
 
 //builder.Services.AddExceptionHandler<ExceptionHandler>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -52,6 +60,7 @@ builder.Services.AddSwaggerConfig();
 
 var app = builder.Build();
 
+app.UseForwardedHeaders();
 //app.UseStaticFiles();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -60,6 +69,14 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
+    //app.Use((context, next) =>
+    //{
+    //    context.Request.Host = new HostString("https://booking-api.vietmap.io/");
+
+    //    //context.Request.PathBase = new PathString("/fragment/identity"); //if you need this
+    //    context.Request.Scheme = "https";
+    //    return next();
+    //});
     app.UseCors();
 }
 

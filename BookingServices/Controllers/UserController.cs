@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using BookingServices.Entities.Enum;
 using BookingServices.Application.MediaR.User.Query.Login.ByGoogle;
+using System.Linq;
 
 namespace BookingServices.Controllers;
 
@@ -81,10 +82,17 @@ public class UserController : MyControllerBase
     [AllowAnonymous]
     public IActionResult GoogleAuth()
     {
-
-        //_logger.LogInformation(JsonConvert.SerializeObject(Challenge(new AuthenticationProperties { RedirectUri = Url.Action("GoogleCallback") }, GoogleDefaults.AuthenticationScheme)));
+        //Console.WriteLine(JsonConvert.SerializeObject(HttpContext.Request.Headers));
+        //// Check if the "Origin" header is present and allowed
+        //if (HttpContext.Request.Headers.ContainsKey("Origin"))
+        //{
+        //    var values = HttpContext.Request.Headers["Origin"];
+        //    Console.WriteLine(values);
+        //    // Do stuff with the values... probably .FirstOrDefault()
+        //}
+        _logger.LogInformation(JsonConvert.SerializeObject(new AuthenticationProperties { RedirectUri =  Url.Action(nameof(GoogleCallback)) }));
         // Redirect to Google for authentication
-        return Challenge(new AuthenticationProperties { RedirectUri = Url.Action("GoogleCallback") }, GoogleDefaults.AuthenticationScheme);
+        return Challenge(new AuthenticationProperties{ RedirectUri = Url.Action(nameof(GoogleCallback)) }, GoogleDefaults.AuthenticationScheme);
     }
 
     //dont show in swagger
@@ -115,7 +123,7 @@ public class UserController : MyControllerBase
         }
 
         // Handle authentication failure, redirect to an error page, etc.
-        return GoogleAuth();
+        throw new AuthenticationFailureException("");
     }
 
 #if DEBUG
