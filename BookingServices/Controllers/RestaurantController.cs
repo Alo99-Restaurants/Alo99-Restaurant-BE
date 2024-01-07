@@ -29,7 +29,7 @@ public class RestaurantController : MyControllerBase
     // GET: api/Restaurant/5
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(ApiResult<RestaurantDTO>), 200)]
-    public async Task<IActionResult> GetRestaurant(int id) => ApiOk(await _restaurantServices.GetRestaurantByIdAsync(id));
+    public async Task<IActionResult> GetRestaurant(Guid id) => ApiOk(await _restaurantServices.GetRestaurantByIdAsync(id));
 
     // POST: api/Restaurant
     [HttpPost]
@@ -43,7 +43,7 @@ public class RestaurantController : MyControllerBase
     // PUT: api/Restaurant/5
     [HttpPut("{id}")]
     [ProducesResponseType(typeof(ApiResult), 200)]
-    public async Task<IActionResult> UpdateRestaurant(int id, AddRestaurantRequest restaurant)
+    public async Task<IActionResult> UpdateRestaurant(Guid id, AddRestaurantRequest restaurant)
     {
         await _restaurantServices.UpdateRestaurantAsync(new UpdateRestaurantRequest(restaurant, id));
         return ApiOk();
@@ -51,7 +51,7 @@ public class RestaurantController : MyControllerBase
 
     // DELETE: api/Restaurant/5
     [HttpDelete("{id}")]
-    public async Task DeleteRestaurant(int id)
+    public async Task DeleteRestaurant(Guid id)
     {
         await _restaurantServices.DeleteRestaurantAsync(id);
     }

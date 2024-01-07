@@ -1,6 +1,5 @@
-﻿namespace BookingServices.Model.BookingModels
+﻿namespace BookingServices.Model.BookingModels;
+
+public class BookingDTO
 {
-    public class BookingDTO
-    {
-    }
 }

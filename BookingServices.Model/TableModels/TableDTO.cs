@@ -6,7 +6,7 @@ namespace BookingServices.Model.TableModels;
 public class TableDTO : IEntityAudit<Guid>
 {
     public Guid Id { get; set; }
-    public int RestaurantFloorId { get; set; }
+    public Guid RestaurantFloorId { get; set; }
     public string TableName { get; set; }
     public int TableType { get; set; }
     public int Capacity { get; set; }

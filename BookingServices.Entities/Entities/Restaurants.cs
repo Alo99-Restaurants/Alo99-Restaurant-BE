@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookingServices.Entities.Entities;
 
-public class Restaurants : EntityAudit<int>
+public class Restaurants : EntityAudit<Guid>, IHaveDeleted
 {
     public string Name { get; set; }
     public string Address { get; set; }
@@ -18,7 +18,9 @@ public class Restaurants : EntityAudit<int>
     public string? PhoneNumber { get; set; }
     public int Capacity { get; set; }
     public int TotalFloors { get; set; }
+    public bool IsDeleted { get; set; }
 
     public virtual ICollection<RestaurantFloors> RestaurantFloors { get; set; }
     public virtual ICollection<RestaurantImages> RestaurantImages { get; set; }
+    
 }

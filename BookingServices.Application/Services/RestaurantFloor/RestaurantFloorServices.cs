@@ -24,13 +24,26 @@ public class RestaurantFloorServices : IRestaurantFloorServices
         _context.Add(_mapper.Map<RestaurantFloors>(restaurantFloor));
         await _context.SaveChangesAsync();
     }
-    public Task DeleteRestaurantFloorAsync(int id)
+    public async Task DeleteRestaurantFloorAsync(Guid id)
     {
-        throw new NotImplementedException();
+        //check exist
+        var restaurantFloor =await _context.RestaurantFloors.FirstOrDefaultAsync(x => x.Id == id);
+        //check null thrwo exception
+        if (restaurantFloor == null) throw new Exception("Restaurant floor not found");
+        //remove
+        _context.Remove(restaurantFloor);
+        await _context.SaveChangesAsync();
     }
 
     public async Task<ApiPaged<RestaurantFloorDTO>> GetAllRestaurantFloorsAsync(GetAllRestaurantFloorRequest request)
     {
+        //check retaurant exist
+        if (request.RestaurantId != null)
+        {
+            var restaurant = await _context.Restaurants.FindAsync(request.RestaurantId);
+            if (restaurant == null) throw new Exception("Restaurant not found");
+        }
+
         return new ApiPaged<RestaurantFloorDTO>
         {
             Items = _mapper.Map<IEnumerable<RestaurantFloorDTO>>(await _context.RestaurantFloors.WhereIf(request.RestaurantId != null, x => x.RestaurantId == request.RestaurantId).Skip(request.SkipRows).Take(request.TotalRows).ToListAsync()),
@@ -38,7 +51,7 @@ public class RestaurantFloorServices : IRestaurantFloorServices
         };
     }
 
-    public async Task<RestaurantFloorDTO> GetRestaurantFloorByIdAsync(int id) => _mapper.Map<RestaurantFloorDTO>(await _context.RestaurantFloors.FindAsync(id));
+    public async Task<RestaurantFloorDTO> GetRestaurantFloorByIdAsync(Guid id) => _mapper.Map<RestaurantFloorDTO>(await _context.RestaurantFloors.FindAsync(id));
     public async Task UpdateRestaurantFloorAsync(UpdateRestaurantFloorRequest restaurantFloor)
     {
         //get byid and check if null

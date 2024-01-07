@@ -6,11 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookingServices.Application.MediaR.Storage.Upload
+namespace BookingServices.Application.MediaR.Storage.Upload;
+
+public class UploadStorageCommand : IRequest<string>
 {
-    public class UploadStorageCommand : IRequest<string>
-    {
-        public IFormFile Files { get; set; }
-        public string? Key { get; set; }
-    }
+    public IFormFile Files { get; set; }
+    public string? Key { get; set; }
 }

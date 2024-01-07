@@ -6,10 +6,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookingServices.Model.RestaurantModels;
 
-public class RestaurantDTO : IEntityAudit<int>
+public class RestaurantDTO : IEntityAudit<Guid>
 {
     //implement interface IentityAudit
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     public string Name { get; set; }
     public string Address { get; set; }

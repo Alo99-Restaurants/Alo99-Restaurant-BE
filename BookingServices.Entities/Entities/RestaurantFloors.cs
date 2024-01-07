@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookingServices.Entities.Entities;
 
-public class RestaurantFloors : EntityAudit<int>, IHaveDeleted
+public class RestaurantFloors : EntityAudit<Guid>, IHaveDeleted
 {
-    public int RestaurantId { get; set; }
+    public Guid RestaurantId { get; set; }
     public string Name { get; set; }
     public int FloorNumber { get; set; }
     public int Capacity { get; set; }

@@ -1,6 +1,7 @@
 ﻿using BookingServices.Application.Services.Customer;
 using BookingServices.Application.Services.Restaurant;
 using BookingServices.Application.Services.RestaurantFloor;
+using BookingServices.Application.Services.RestaurantImage;
 using BookingServices.Application.Services.Table;
 using BookingServices.Application.Services.User;
 using BookingServices.Core.Redis;
@@ -33,7 +34,7 @@ public static class ServiceInjection
         services.AddScoped<ITableServices, TableServices>();
         services.AddScoped<IUserServices, UserServices>();
         services.AddScoped<ICustomerServices, CustomerServices>();
-
+        services.AddScoped<IRestaurantImageServices, RestaurantImageServices>();
 
         //external services
         //services.AddScoped<IEmailService, EmailService>();

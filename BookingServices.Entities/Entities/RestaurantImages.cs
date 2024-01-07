@@ -10,7 +10,7 @@ public class RestaurantImages : EntityAudit<Guid>
     [MaxLength()]
     public string Description { get; set; }
     public string Url { get; set; }
-    public int RestaurantId { get; set; }
+    public Guid RestaurantId { get; set; }
 
     [ForeignKey(nameof(RestaurantId))]
     public virtual Restaurants Restaurants { get; set; }

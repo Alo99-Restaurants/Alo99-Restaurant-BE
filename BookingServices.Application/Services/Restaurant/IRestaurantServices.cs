@@ -6,8 +6,8 @@ namespace BookingServices.Application.Services.Restaurant;
 public interface IRestaurantServices
 {
     Task<ApiPaged<RestaurantDTO>> GetAllRestaurantsAsync(GetAllRestaurantRequest request);
-    Task<RestaurantDTO> GetRestaurantByIdAsync(int id);
+    Task<RestaurantDTO> GetRestaurantByIdAsync(Guid id);
     Task AddRestaurantAsync(AddRestaurantRequest restaurant);
     Task UpdateRestaurantAsync(UpdateRestaurantRequest restaurant);
-    Task DeleteRestaurantAsync(int id);
+    Task DeleteRestaurantAsync(Guid id);
 }

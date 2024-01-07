@@ -29,7 +29,7 @@ public class RestaurantFloorController : MyControllerBase
     //get restaurant floor by id
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(ApiResult<RestaurantFloorDTO>), 200)]
-    public async Task<IActionResult> GetRestaurantFloor(int id) => ApiOk(await _restaurantFloorServices.GetRestaurantFloorByIdAsync(id));
+    public async Task<IActionResult> GetRestaurantFloor(Guid id) => ApiOk(await _restaurantFloorServices.GetRestaurantFloorByIdAsync(id));
 
     //add restaurant floor
     [HttpPost]
@@ -43,9 +43,17 @@ public class RestaurantFloorController : MyControllerBase
     //update restaurant floor
     [HttpPut("{id}")]
     [ProducesResponseType(typeof(ApiResult), 200)]
-    public async Task<IActionResult> UpdateRestaurantFloor(int id, AddRestaurantFloorRequest restaurantFloor)
+    public async Task<IActionResult> UpdateRestaurantFloor(Guid id, AddRestaurantFloorRequest restaurantFloor)
     {
         await _restaurantFloorServices.UpdateRestaurantFloorAsync(new UpdateRestaurantFloorRequest(restaurantFloor, id));
         return ApiOk();
+    }
+
+    //delete restaurant floor
+    [HttpDelete("{id}")]
+    [ProducesResponseType(typeof(ApiResult), 200)]
+    public async Task DeleteRestaurantFloor(Guid id)
+    {
+        await _restaurantFloorServices.DeleteRestaurantFloorAsync(id);
     }
 }

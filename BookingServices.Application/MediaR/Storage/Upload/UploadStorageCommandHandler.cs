@@ -11,35 +11,34 @@ using System.Text;
 using System.Threading.Tasks;
 using static AppConfigurations;
 
-namespace BookingServices.Application.MediaR.Storage.Upload
+namespace BookingServices.Application.MediaR.Storage.Upload;
+
+public class UploadStorageCommandHandler : IRequestHandler<UploadStorageCommand, string>
 {
-    public class UploadStorageCommandHandler : IRequestHandler<UploadStorageCommand, string>
+    private readonly IAwsS3Services _awsS3Services;
+    private readonly BookingDbContext _bookingDbContext;
+    private readonly AWSS3Configurations _s3Config;
+
+    public UploadStorageCommandHandler(IAwsS3Services awsS3Services, BookingDbContext bookingDbContext,IOptions<AWSS3Configurations> options)
     {
-        private readonly IAwsS3Services _awsS3Services;
-        private readonly BookingDbContext _bookingDbContext;
-        private readonly AWSS3Configurations _s3Config;
+        _s3Config = options.Value;
+        _awsS3Services = awsS3Services;
+        _bookingDbContext = bookingDbContext;
+    }
 
-        public UploadStorageCommandHandler(IAwsS3Services awsS3Services, BookingDbContext bookingDbContext,IOptions<AWSS3Configurations> options)
+    public async Task<string> Handle(UploadStorageCommand request, CancellationToken cancellationToken)
+    {
+        var s3Key =await _awsS3Services.UploadFileAsync(request.Files, request.Key ?? "");
+
+        var stogare = new Stogares
         {
-            _s3Config = options.Value;
-            _awsS3Services = awsS3Services;
-            _bookingDbContext = bookingDbContext;
-        }
+            Name = s3Key,
+            Url = _s3Config.Url + '/' + _s3Config.BucketName + '/' + s3Key
+        };
 
-        public async Task<string> Handle(UploadStorageCommand request, CancellationToken cancellationToken)
-        {
-            var s3Key =await _awsS3Services.UploadFileAsync(request.Files, request.Key ?? "");
+        _bookingDbContext.Add(stogare);
+        _bookingDbContext.SaveChanges();
 
-            var stogare = new Stogares
-            {
-                Name = s3Key,
-                Url = _s3Config.Url + '/' + _s3Config.BucketName + '/' + s3Key
-            };
-
-            _bookingDbContext.Add(stogare);
-            _bookingDbContext.SaveChanges();
-
-            return stogare.Url;
-        }
+        return stogare.Url;
     }
 }

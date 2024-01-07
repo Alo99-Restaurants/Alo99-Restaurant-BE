@@ -16,7 +16,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using static AppConfigurations;
 
-
+//Script-Migration
 var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;

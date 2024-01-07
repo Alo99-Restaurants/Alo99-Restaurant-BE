@@ -4,7 +4,7 @@ using BookingServices.Entities.Entities.Interfaces;
 
 namespace BookingServices.Entities.Entities;
 
-public class RestaurantInformation : EntityAudit<int>
+public class RestaurantInformation : EntityAudit<Guid>, IHaveDeleted
 {
     public string RestaurantName { get; set; }
     public string? PhoneNumber { get; set; }
@@ -13,4 +13,5 @@ public class RestaurantInformation : EntityAudit<int>
     public TimeOnly OpenTime { get; set; }
     public TimeOnly CloseTime { get; set; }
     public string? ExtensionData { get; set; }
+    public bool IsDeleted { get; set; }
 }

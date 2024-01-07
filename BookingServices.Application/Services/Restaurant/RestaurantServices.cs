@@ -23,9 +23,16 @@ public class RestaurantServices : IRestaurantServices
         await _context.SaveChangesAsync();
     }
 
-    public Task DeleteRestaurantAsync(int id)
+    public async Task DeleteRestaurantAsync(Guid id)
     {
-        throw new NotImplementedException();
+        //check exist
+        var restaurant = await _context.Restaurants.FirstOrDefaultAsync(x => x.Id == id);
+        //check null thrwo exception
+        if (restaurant == null) throw new Exception("Restaurant not found");
+
+        //remove
+        _context.Remove(restaurant);
+        await _context.SaveChangesAsync();
     }
 
     public async Task<ApiPaged<RestaurantDTO>> GetAllRestaurantsAsync(GetAllRestaurantRequest request)
@@ -37,7 +44,8 @@ public class RestaurantServices : IRestaurantServices
         };
     }
 
-    public async Task<RestaurantDTO> GetRestaurantByIdAsync(int id) => _mapper.Map<RestaurantDTO>(await _context.Restaurants.Include(x => x.RestaurantImages).Include(x => x.RestaurantFloors).FirstOrDefaultAsync(x => x.Id == id));
+    public async Task<RestaurantDTO> GetRestaurantByIdAsync(Guid id) => _mapper.Map<RestaurantDTO>(await _context.Restaurants.Include(x => x.RestaurantImages).Include(x => x.RestaurantFloors).FirstOrDefaultAsync(x => x.Id == id));
+
 
     public async Task UpdateRestaurantAsync(UpdateRestaurantRequest restaurant)
     {

@@ -1,9 +1,8 @@
 ﻿using BookingServices.Core.Models;
 
-namespace BookingServices.Application.Services.Table
+namespace BookingServices.Application.Services.Table;
+
+public class GetAllTableRequest : PagingRequest
 {
-    public class GetAllTableRequest : PagingRequest
-    {
-        public int? RestaurantFloorId { get; set; }
-    }
+    public Guid? RestaurantFloorId { get; set; }
 }
