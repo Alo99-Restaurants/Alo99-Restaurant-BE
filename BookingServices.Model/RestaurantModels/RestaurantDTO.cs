@@ -1,4 +1,5 @@
-﻿using BookingServices.Entities.Entities;
+﻿using BookingServices.Application.Services.RestaurantImage;
+using BookingServices.Entities.Entities;
 using BookingServices.Entities.Entities.Interfaces;
 using BookingServices.Model.RestaurantFloorModels;
 using System.ComponentModel.DataAnnotations;
@@ -30,5 +31,5 @@ public class RestaurantDTO : IEntityAudit<Guid>
     public DateTime? ModifiedDate { get; set; }
 
     public IEnumerable<RestaurantFloorDTO>? RestaurantFloors { get; set; }
-    public IEnumerable<RestaurantImages>? RestaurantImages { get; set; }
+    public IEnumerable<RestaurantImageDTO>? RestaurantImages { get; set; }
 }

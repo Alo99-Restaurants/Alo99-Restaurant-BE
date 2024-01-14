@@ -5,8 +5,8 @@ namespace BookingServices.Entities.Entities;
 
 public class Bookings : EntityAudit<Guid>, IHaveDeleted
 {
-
     public Guid TableId { get; set; }
+    public Guid CustomerId { get; set; }
     public int BookingStatusId { get; set; }
     public DateTime BookingDate { get; set; }
     public int NumberOfPeople { get; set; }
@@ -16,6 +16,6 @@ public class Bookings : EntityAudit<Guid>, IHaveDeleted
     [ForeignKey(nameof(TableId))]
     public virtual Tables? Table { get; set; }
 
-    [ForeignKey(nameof(CreatedBy))]
-    public virtual Users? User { get; set; }
+    [ForeignKey(nameof(CustomerId))]
+    public virtual Customers? Customer { get; set; }
 }

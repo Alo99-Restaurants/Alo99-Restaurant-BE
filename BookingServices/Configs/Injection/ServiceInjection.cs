@@ -1,4 +1,5 @@
-﻿using BookingServices.Application.Services.Customer;
+﻿using BookingServices.Application.Services.Booking;
+using BookingServices.Application.Services.Customer;
 using BookingServices.Application.Services.Restaurant;
 using BookingServices.Application.Services.RestaurantFloor;
 using BookingServices.Application.Services.RestaurantImage;
@@ -8,13 +9,13 @@ using BookingServices.Core.Redis;
 using BookingServices.Entities.Contexts;
 using BookingServices.External.Interfaces;
 using BookingServices.External.Services;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -35,6 +36,7 @@ public static class ServiceInjection
         services.AddScoped<IUserServices, UserServices>();
         services.AddScoped<ICustomerServices, CustomerServices>();
         services.AddScoped<IRestaurantImageServices, RestaurantImageServices>();
+        services.AddScoped<IBookingServices, BookingServices.Application.Services.Booking.BookingServices>();
 
         //external services
         //services.AddScoped<IEmailService, EmailService>();
@@ -79,6 +81,13 @@ public static class ServiceInjection
         {
             options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        }).AddNewtonsoftJson(options =>
+        {
+            // Configure JSON serialization settings here for Newtonsoft.Json
+            options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+
+            // Add the StringEnumConverter to handle enums as strings
+            options.SerializerSettings.Converters.Add(new StringEnumConverter());
         });
         return services;
     }

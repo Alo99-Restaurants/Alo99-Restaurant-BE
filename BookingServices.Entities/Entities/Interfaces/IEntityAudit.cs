@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookingServices.Entities.Entities.Interfaces;
@@ -25,8 +26,10 @@ public class EntityAudit<T> : IEntityAudit<T>
 
 
     [NotMapped]
+    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
     public virtual Users? CreatedByUser { get; set; }
 
     [NotMapped]
+    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
     public virtual Users? ModifiedByUser { get; set; }
 }

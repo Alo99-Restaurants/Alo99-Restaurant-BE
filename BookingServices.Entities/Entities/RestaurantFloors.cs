@@ -10,7 +10,7 @@ public class RestaurantFloors : EntityAudit<Guid>, IHaveDeleted
     public int FloorNumber { get; set; }
     public int Capacity { get; set; }
     public string? LayoutUrl { get; set; }
-    public string? ExtensionData { get; set; }
+    public  string? ExtensionData { get; set; }
     public bool IsDeleted { get; set; }
 
     [ForeignKey(nameof(RestaurantId))]

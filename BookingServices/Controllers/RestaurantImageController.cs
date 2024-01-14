@@ -47,7 +47,15 @@ namespace BookingServices.Controllers
             await _restaurantImageServices.UpdateRestaurantImageAsync(new UpdateRestaurantImageRequest(restaurantImage, id));
             return ApiOk();
         }
-        
 
+        //delete restaurant image
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin,Manager")]
+        [ProducesResponseType(typeof(ApiResult), 200)]
+        public async Task<IActionResult> DeleteRestaurantImage(Guid id)
+        {
+            await _restaurantImageServices.DeleteRestaurantImageAsync(id);
+            return ApiOk();
+        }
     }
 }

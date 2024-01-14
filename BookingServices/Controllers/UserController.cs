@@ -70,7 +70,7 @@ public class UserController : MyControllerBase
 
     //login
     [HttpPost("login")]
-    [ProducesResponseType(typeof(ApiResult<string>), 200)]
+    [ProducesResponseType(typeof(ApiResult<LoginResponseModel>), 200)]
     public async Task<IActionResult> Login([FromBody] LoginUserByAccountQuery request)
     {
         var rs = await _mediator.Send(request);
