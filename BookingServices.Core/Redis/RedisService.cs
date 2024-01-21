@@ -1,5 +1,4 @@
 ﻿using StackExchange.Redis;
-using static AppConfigurations;
 
 namespace BookingServices.Core.Redis;
 public class RedisService

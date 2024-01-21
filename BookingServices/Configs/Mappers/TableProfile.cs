@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using BookingServices.Entities.Entities;
 using BookingServices.Model.TableModels;
-using BookingServices.Model.UserModels;
 
 namespace BookingServices.Configs.Mappers;
 

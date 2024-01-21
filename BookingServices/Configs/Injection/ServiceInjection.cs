@@ -1,5 +1,8 @@
 ﻿using BookingServices.Application.Services.Booking;
+using BookingServices.Application.Services.BookingMenu;
 using BookingServices.Application.Services.Customer;
+using BookingServices.Application.Services.Menu;
+using BookingServices.Application.Services.MenuImage;
 using BookingServices.Application.Services.Restaurant;
 using BookingServices.Application.Services.RestaurantFloor;
 using BookingServices.Application.Services.RestaurantImage;
@@ -37,9 +40,12 @@ public static class ServiceInjection
         services.AddScoped<ICustomerServices, CustomerServices>();
         services.AddScoped<IRestaurantImageServices, RestaurantImageServices>();
         services.AddScoped<IBookingServices, BookingServices.Application.Services.Booking.BookingServices>();
+        services.AddScoped<IRestaurantMenuServices, RestaurantMenuServices>();
+        services.AddScoped<IMenuImageServices, MenuImageServices>();
+        services.AddScoped<IBookingMenuServices, BookingMenuServices>();
 
         //external services
-        //services.AddScoped<IEmailService, EmailService>();
+        services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<IAwsS3Services, AwsS3Service>();
         return services;
     }

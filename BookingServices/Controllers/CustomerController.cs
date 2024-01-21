@@ -4,14 +4,12 @@ using BookingServices.Core.Models.ControllerResponse;
 using BookingServices.Model.CustomerModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingServices.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize(Roles = "Admin")]
 public class CustomerController : MyControllerBase
 {
     private readonly ILogger<CustomerController> _logger;
@@ -27,16 +25,19 @@ public class CustomerController : MyControllerBase
 
     //getall
     [HttpGet("")]
+    [Authorize(Roles = "Admin,Manager")]
     [ProducesResponseType(typeof(ApiPaged<CustomerDTO>), 200)]
     public async Task<IActionResult> GetAllCustomers([FromQuery] GetAllCustomerRequest request) => ApiOk(await _customerServices.GetAllCustomersAsync(request));
 
     //getbyid
     [HttpGet("{id}")]
-    [ProducesResponseType(typeof(ApiResult<CustomerDTO>), 200)] 
+    [ProducesResponseType(typeof(ApiResult<CustomerDTO>), 200)]
+    [Authorize(Roles = "Admin,Customer")]
     public async Task<IActionResult> GetCustomer(Guid id) => ApiOk(await _customerServices.GetCustomerByIdAsync(id));
 
     //add
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(typeof(ApiResult), 200)]
     public async Task<IActionResult> AddCustomer(AddCustomerRequest customer)
     {
@@ -46,6 +47,7 @@ public class CustomerController : MyControllerBase
 
     //update
     [HttpPut("{id}")]
+    [Authorize(Roles = "Admin,Customer")]
     [ProducesResponseType(typeof(ApiResult), 200)]
     public async Task<IActionResult> UpdateCustomer(Guid id, AddCustomerRequest customer)
     {

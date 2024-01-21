@@ -2,9 +2,7 @@
 using BookingServices.Entities.Entities;
 using BookingServices.Entities.Entities.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions.Infrastructure;
 using System.Linq.Expressions;
-using System.Reflection.Emit;
 
 namespace BookingServices.Entities.Contexts;
 
@@ -25,6 +23,21 @@ public static class BaseDbContextModelCreatingExtensions
                 builder.Entity(entityType.ClrType).HasQueryFilter(GetDeletedFilter(entityType.ClrType));
             }
         }
+        //SeedData(builder);
+    }
+
+    private static LambdaExpression? GetDeletedFilter(Type clrType)
+    {
+        // EF.Property<bool>(e, "IsDeleted") == false
+        var entity = Expression.Parameter(clrType, "e");
+        var property = Expression.Property(entity, "IsDeleted");
+        var propertyType = property.Type;
+        var falseValue = Expression.Constant(false, propertyType);
+        var equalExpression = Expression.Equal(property, falseValue);
+        return Expression.Lambda(equalExpression, entity);
+    }
+    private static void SeedData(ModelBuilder builder)
+    {
         #region insert data
         builder.Entity<Users>().HasData(
             new Users
@@ -56,22 +69,10 @@ public static class BaseDbContextModelCreatingExtensions
                 Id = Guid.NewGuid(),
                 Username = "customer",
                 Password = Utils.HashPassword("customer"),
-                Name = "Customer",                
+                Name = "Customer",
                 Role = Enum.ERole.Customer
             }
         );
         #endregion
-
-    }
-
-    private static LambdaExpression? GetDeletedFilter(Type clrType)
-    {
-        // EF.Property<bool>(e, "IsDeleted") == false
-        var entity = Expression.Parameter(clrType, "e");
-        var property = Expression.Property(entity, "IsDeleted");
-        var propertyType = property.Type;
-        var falseValue = Expression.Constant(false, propertyType);
-        var equalExpression = Expression.Equal(property, falseValue);
-        return Expression.Lambda(equalExpression, entity);
     }
 }

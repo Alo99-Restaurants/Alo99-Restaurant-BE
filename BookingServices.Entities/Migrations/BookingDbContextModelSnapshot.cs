@@ -7,593 +7,752 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace BookingServices.Entities.Migrations
+namespace BookingServices.Entities.Migrations;
+
+[DbContext(typeof(BookingDbContext))]
+partial class BookingDbContextModelSnapshot : ModelSnapshot
 {
-    [DbContext(typeof(BookingDbContext))]
-    partial class BookingDbContextModelSnapshot : ModelSnapshot
+    protected override void BuildModel(ModelBuilder modelBuilder)
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
-        {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+        modelBuilder
+            .HasAnnotation("ProductVersion", "8.0.0")
+            .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("BookingServices.Entities.Entities.Bookings", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+        modelBuilder.Entity("BookingServices.Entities.Entities.BookingMenu", b =>
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("char(36)");
 
-                    b.Property<DateTime>("BookingDate")
-                        .HasColumnType("datetime(6)");
+                b.Property<Guid>("BookingId")
+                    .HasColumnType("char(36)");
 
-                    b.Property<int>("BookingStatusId")
-                        .HasColumnType("int");
+                b.Property<Guid>("CreatedBy")
+                    .HasColumnType("char(36)");
 
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("char(36)");
+                b.Property<DateTime>("CreatedDate")
+                    .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                b.Property<bool>("IsDeleted")
+                    .HasColumnType("tinyint(1)");
 
-                    b.Property<Guid>("CustomerId")
-                        .HasColumnType("char(36)");
+                b.Property<Guid>("MenuId")
+                    .HasColumnType("char(36)");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("tinyint(1)");
+                b.Property<Guid?>("ModifiedBy")
+                    .HasColumnType("char(36)");
 
-                    b.Property<Guid?>("ModifiedBy")
-                        .HasColumnType("char(36)");
+                b.Property<DateTime?>("ModifiedDate")
+                    .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime(6)");
+                b.Property<double>("Quantity")
+                    .HasColumnType("double");
 
-                    b.Property<int>("NumberOfPeople")
-                        .HasColumnType("int");
+                b.Property<string>("SpecialRequest")
+                    .HasColumnType("longtext");
 
-                    b.Property<Guid>("TableId")
-                        .HasColumnType("char(36)");
+                b.HasKey("Id");
 
-                    b.HasKey("Id");
+                b.HasIndex("MenuId");
 
-                    b.HasIndex("CustomerId");
+                b.ToTable("BookingMenu");
+            });
 
-                    b.HasIndex("TableId");
+        modelBuilder.Entity("BookingServices.Entities.Entities.Bookings", b =>
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("char(36)");
 
-                    b.ToTable("Bookings");
-                });
+                b.Property<DateTime>("BookingDate")
+                    .HasColumnType("datetime(6)");
 
-            modelBuilder.Entity("BookingServices.Entities.Entities.Customers", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                b.Property<int>("BookingStatusId")
+                    .HasColumnType("int");
 
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("char(36)");
+                b.Property<Guid>("CreatedBy")
+                    .HasColumnType("char(36)");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                b.Property<DateTime>("CreatedDate")
+                    .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime?>("DateOfBirth")
-                        .HasColumnType("datetime(6)");
+                b.Property<Guid>("CustomerId")
+                    .HasColumnType("char(36)");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                b.Property<bool>("IsDeleted")
+                    .HasColumnType("tinyint(1)");
 
-                    b.Property<int>("Gender")
-                        .HasColumnType("int");
+                b.Property<Guid?>("ModifiedBy")
+                    .HasColumnType("char(36)");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("tinyint(1)");
+                b.Property<DateTime?>("ModifiedDate")
+                    .HasColumnType("datetime(6)");
 
-                    b.Property<Guid?>("ModifiedBy")
-                        .HasColumnType("char(36)");
+                b.Property<int>("NumberOfPeople")
+                    .HasColumnType("int");
 
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime(6)");
+                b.Property<Guid>("TableId")
+                    .HasColumnType("char(36)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                b.HasKey("Id");
 
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("longtext");
+                b.HasIndex("CustomerId");
 
-                    b.HasKey("Id");
+                b.HasIndex("TableId");
 
-                    b.ToTable("Customers");
-                });
+                b.ToTable("Bookings");
+            });
 
-            modelBuilder.Entity("BookingServices.Entities.Entities.Others.EntityHistories", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+        modelBuilder.Entity("BookingServices.Entities.Entities.Customers", b =>
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("char(36)");
 
-                    b.Property<string>("Action")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                b.Property<Guid>("CreatedBy")
+                    .HasColumnType("char(36)");
 
-                    b.Property<string>("ActionBy")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                b.Property<DateTime>("CreatedDate")
+                    .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime>("ActionDate")
-                        .HasColumnType("datetime(6)");
+                b.Property<DateTime?>("DateOfBirth")
+                    .HasColumnType("datetime(6)");
 
-                    b.Property<string>("EntityChangeData")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                b.Property<string>("Email")
+                    .IsRequired()
+                    .HasColumnType("longtext");
 
-                    b.Property<string>("EntityId")
-                        .HasColumnType("longtext");
+                b.Property<int>("Gender")
+                    .HasColumnType("int");
 
-                    b.Property<string>("EntityName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                b.Property<bool>("IsDeleted")
+                    .HasColumnType("tinyint(1)");
 
-                    b.Property<string>("RequestId")
-                        .HasColumnType("longtext");
+                b.Property<Guid?>("ModifiedBy")
+                    .HasColumnType("char(36)");
 
-                    b.HasKey("Id");
+                b.Property<DateTime?>("ModifiedDate")
+                    .HasColumnType("datetime(6)");
 
-                    b.ToTable("EntityHistories");
-                });
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasColumnType("longtext");
 
-            modelBuilder.Entity("BookingServices.Entities.Entities.Others.Stogares", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                b.Property<string>("PhoneNumber")
+                    .HasColumnType("longtext");
 
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("char(36)");
+                b.HasKey("Id");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                b.ToTable("Customers");
+            });
 
-                    b.Property<Guid?>("ModifiedBy")
-                        .HasColumnType("char(36)");
+        modelBuilder.Entity("BookingServices.Entities.Entities.MenuImages", b =>
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("char(36)");
 
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime(6)");
+                b.Property<Guid>("CreatedBy")
+                    .HasColumnType("char(36)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                b.Property<DateTime>("CreatedDate")
+                    .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                b.Property<string>("ImageUrl")
+                    .IsRequired()
+                    .HasColumnType("longtext");
 
-                    b.HasKey("Id");
+                b.Property<bool>("IsDeleted")
+                    .HasColumnType("tinyint(1)");
 
-                    b.ToTable("Stogares");
-                });
+                b.Property<Guid>("MenuId")
+                    .HasColumnType("char(36)");
 
-            modelBuilder.Entity("BookingServices.Entities.Entities.RestaurantFloors", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                b.Property<Guid?>("ModifiedBy")
+                    .HasColumnType("char(36)");
 
-                    b.Property<int>("Capacity")
-                        .HasColumnType("int");
+                b.Property<DateTime?>("ModifiedDate")
+                    .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("char(36)");
+                b.HasKey("Id");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                b.HasIndex("MenuId");
 
-                    b.Property<string>("ExtensionData")
-                        .HasColumnType("longtext");
+                b.ToTable("MenuImages");
+            });
 
-                    b.Property<int>("FloorNumber")
-                        .HasColumnType("int");
+        modelBuilder.Entity("BookingServices.Entities.Entities.Others.EntityHistories", b =>
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("char(36)");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("tinyint(1)");
+                b.Property<string>("Action")
+                    .IsRequired()
+                    .HasColumnType("longtext");
 
-                    b.Property<string>("LayoutUrl")
-                        .HasColumnType("longtext");
+                b.Property<string>("ActionBy")
+                    .IsRequired()
+                    .HasColumnType("longtext");
 
-                    b.Property<Guid?>("ModifiedBy")
-                        .HasColumnType("char(36)");
+                b.Property<DateTime>("ActionDate")
+                    .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime(6)");
+                b.Property<string>("EntityChangeData")
+                    .IsRequired()
+                    .HasColumnType("longtext");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                b.Property<string>("EntityId")
+                    .HasColumnType("longtext");
 
-                    b.Property<Guid>("RestaurantId")
-                        .HasColumnType("char(36)");
+                b.Property<string>("EntityName")
+                    .IsRequired()
+                    .HasColumnType("longtext");
 
-                    b.HasKey("Id");
+                b.Property<string>("RequestId")
+                    .HasColumnType("longtext");
 
-                    b.HasIndex("RestaurantId");
+                b.HasKey("Id");
 
-                    b.ToTable("RestaurantFloors");
-                });
+                b.ToTable("EntityHistories");
+            });
 
-            modelBuilder.Entity("BookingServices.Entities.Entities.RestaurantImages", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+        modelBuilder.Entity("BookingServices.Entities.Entities.Others.Stogares", b =>
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("char(36)");
 
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("char(36)");
+                b.Property<Guid>("CreatedBy")
+                    .HasColumnType("char(36)");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                b.Property<DateTime>("CreatedDate")
+                    .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                b.Property<Guid?>("ModifiedBy")
+                    .HasColumnType("char(36)");
 
-                    b.Property<Guid?>("ModifiedBy")
-                        .HasColumnType("char(36)");
+                b.Property<DateTime?>("ModifiedDate")
+                    .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime(6)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasColumnType("longtext");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                b.Property<string>("Url")
+                    .IsRequired()
+                    .HasColumnType("longtext");
 
-                    b.Property<Guid>("RestaurantId")
-                        .HasColumnType("char(36)");
+                b.HasKey("Id");
 
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                b.ToTable("Stogares");
+            });
 
-                    b.HasKey("Id");
+        modelBuilder.Entity("BookingServices.Entities.Entities.RestaurantFloors", b =>
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("char(36)");
 
-                    b.HasIndex("RestaurantId");
+                b.Property<int>("Capacity")
+                    .HasColumnType("int");
 
-                    b.ToTable("RestaurantImages");
-                });
+                b.Property<Guid>("CreatedBy")
+                    .HasColumnType("char(36)");
 
-            modelBuilder.Entity("BookingServices.Entities.Entities.RestaurantInformation", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                b.Property<DateTime>("CreatedDate")
+                    .HasColumnType("datetime(6)");
 
-                    b.Property<TimeOnly>("CloseTime")
-                        .HasColumnType("time(6)");
+                b.Property<string>("ExtensionData")
+                    .HasColumnType("longtext");
 
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("char(36)");
+                b.Property<int>("FloorNumber")
+                    .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                b.Property<bool>("IsDeleted")
+                    .HasColumnType("tinyint(1)");
 
-                    b.Property<string>("Email")
-                        .HasColumnType("longtext");
+                b.Property<string>("LayoutUrl")
+                    .HasColumnType("longtext");
 
-                    b.Property<string>("ExtensionData")
-                        .HasColumnType("longtext");
+                b.Property<Guid?>("ModifiedBy")
+                    .HasColumnType("char(36)");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("tinyint(1)");
+                b.Property<DateTime?>("ModifiedDate")
+                    .HasColumnType("datetime(6)");
 
-                    b.Property<Guid?>("ModifiedBy")
-                        .HasColumnType("char(36)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasColumnType("longtext");
 
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime(6)");
+                b.Property<Guid>("RestaurantId")
+                    .HasColumnType("char(36)");
 
-                    b.Property<TimeOnly>("OpenTime")
-                        .HasColumnType("time(6)");
+                b.HasKey("Id");
 
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("longtext");
+                b.HasIndex("RestaurantId");
 
-                    b.Property<string>("RestaurantName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                b.ToTable("RestaurantFloors");
+            });
 
-                    b.Property<string>("Website")
-                        .HasColumnType("longtext");
+        modelBuilder.Entity("BookingServices.Entities.Entities.RestaurantImages", b =>
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("char(36)");
 
-                    b.HasKey("Id");
+                b.Property<Guid>("CreatedBy")
+                    .HasColumnType("char(36)");
 
-                    b.ToTable("RestaurantInformation");
-                });
+                b.Property<DateTime>("CreatedDate")
+                    .HasColumnType("datetime(6)");
 
-            modelBuilder.Entity("BookingServices.Entities.Entities.Restaurants", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                b.Property<string>("Description")
+                    .IsRequired()
+                    .HasColumnType("longtext");
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                b.Property<Guid?>("ModifiedBy")
+                    .HasColumnType("char(36)");
 
-                    b.Property<int>("Capacity")
-                        .HasColumnType("int");
+                b.Property<DateTime?>("ModifiedDate")
+                    .HasColumnType("datetime(6)");
 
-                    b.Property<string>("CloseHours")
-                        .HasColumnType("longtext");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasColumnType("longtext");
 
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("char(36)");
+                b.Property<Guid>("RestaurantId")
+                    .HasColumnType("char(36)");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                b.Property<string>("Url")
+                    .IsRequired()
+                    .HasColumnType("longtext");
 
-                    b.Property<string>("Greetings")
-                        .HasColumnType("longtext");
+                b.HasKey("Id");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("tinyint(1)");
+                b.HasIndex("RestaurantId");
 
-                    b.Property<string>("Location")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                b.ToTable("RestaurantImages");
+            });
 
-                    b.Property<Guid?>("ModifiedBy")
-                        .HasColumnType("char(36)");
+        modelBuilder.Entity("BookingServices.Entities.Entities.RestaurantInformation", b =>
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("char(36)");
 
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime(6)");
+                b.Property<TimeOnly>("CloseTime")
+                    .HasColumnType("time(6)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                b.Property<Guid>("CreatedBy")
+                    .HasColumnType("char(36)");
 
-                    b.Property<string>("OpenHours")
-                        .HasColumnType("longtext");
+                b.Property<DateTime>("CreatedDate")
+                    .HasColumnType("datetime(6)");
 
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("longtext");
+                b.Property<string>("Email")
+                    .HasColumnType("longtext");
 
-                    b.Property<decimal?>("Rating")
-                        .HasColumnType("decimal(18,2)");
+                b.Property<string>("ExtensionData")
+                    .HasColumnType("longtext");
 
-                    b.Property<int>("TotalFloors")
-                        .HasColumnType("int");
+                b.Property<bool>("IsDeleted")
+                    .HasColumnType("tinyint(1)");
 
-                    b.HasKey("Id");
+                b.Property<Guid?>("ModifiedBy")
+                    .HasColumnType("char(36)");
 
-                    b.ToTable("Restaurants");
-                });
+                b.Property<DateTime?>("ModifiedDate")
+                    .HasColumnType("datetime(6)");
 
-            modelBuilder.Entity("BookingServices.Entities.Entities.Tables", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                b.Property<TimeOnly>("OpenTime")
+                    .HasColumnType("time(6)");
 
-                    b.Property<int>("Capacity")
-                        .HasColumnType("int");
+                b.Property<string>("PhoneNumber")
+                    .HasColumnType("longtext");
 
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("char(36)");
+                b.Property<string>("RestaurantName")
+                    .IsRequired()
+                    .HasColumnType("longtext");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                b.Property<string>("Website")
+                    .HasColumnType("longtext");
 
-                    b.Property<string>("ExtensionData")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                b.HasKey("Id");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("tinyint(1)");
+                b.ToTable("RestaurantInformation");
+            });
 
-                    b.Property<Guid?>("ModifiedBy")
-                        .HasColumnType("char(36)");
+        modelBuilder.Entity("BookingServices.Entities.Entities.RestaurantMenu", b =>
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("char(36)");
 
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime(6)");
+                b.Property<Guid>("CreatedBy")
+                    .HasColumnType("char(36)");
 
-                    b.Property<Guid>("RestaurantFloorId")
-                        .HasColumnType("char(36)");
+                b.Property<DateTime>("CreatedDate")
+                    .HasColumnType("datetime(6)");
 
-                    b.Property<string>("TableName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                b.Property<string>("Description")
+                    .IsRequired()
+                    .HasColumnType("longtext");
 
-                    b.Property<int>("TableType")
-                        .HasColumnType("int");
+                b.Property<bool>("IsDeleted")
+                    .HasColumnType("tinyint(1)");
 
-                    b.HasKey("Id");
+                b.Property<int>("MenuType")
+                    .HasColumnType("int");
 
-                    b.HasIndex("RestaurantFloorId");
+                b.Property<Guid?>("ModifiedBy")
+                    .HasColumnType("char(36)");
 
-                    b.ToTable("Tables");
-                });
+                b.Property<DateTime?>("ModifiedDate")
+                    .HasColumnType("datetime(6)");
 
-            modelBuilder.Entity("BookingServices.Entities.Entities.Users", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasColumnType("longtext");
 
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("char(36)");
+                b.Property<decimal>("Price")
+                    .HasColumnType("decimal(65,30)");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                b.Property<int>("UnitType")
+                    .HasColumnType("int");
 
-                    b.Property<Guid?>("CustomerId")
-                        .HasColumnType("char(36)");
+                b.HasKey("Id");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("tinyint(1)");
+                b.ToTable("RestaurantMenu");
+            });
 
-                    b.Property<Guid?>("ModifiedBy")
-                        .HasColumnType("char(36)");
+        modelBuilder.Entity("BookingServices.Entities.Entities.Restaurants", b =>
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("char(36)");
 
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime(6)");
+                b.Property<string>("Address")
+                    .IsRequired()
+                    .HasColumnType("longtext");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                b.Property<int>("Capacity")
+                    .HasColumnType("int");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                b.Property<string>("CloseHours")
+                    .HasColumnType("longtext");
 
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
+                b.Property<Guid>("CreatedBy")
+                    .HasColumnType("char(36)");
 
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                b.Property<DateTime>("CreatedDate")
+                    .HasColumnType("datetime(6)");
 
-                    b.HasKey("Id");
+                b.Property<string>("Greetings")
+                    .HasColumnType("longtext");
 
-                    b.HasIndex("CustomerId")
-                        .IsUnique()
-                        .HasFilter("[Role] = 4");
+                b.Property<bool>("IsDeleted")
+                    .HasColumnType("tinyint(1)");
 
-                    b.HasIndex("Username")
-                        .IsUnique();
+                b.Property<string>("Location")
+                    .IsRequired()
+                    .HasColumnType("longtext");
 
-                    b.ToTable("Users");
+                b.Property<Guid?>("ModifiedBy")
+                    .HasColumnType("char(36)");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("7d32e708-1489-4530-966b-228fcc7a34dc"),
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            Name = "Admin",
-                            Password = "QbxUjxRczolN1yDhqL5vVwgBO1KP/hU7fIzbXWUjPi9rNpaZ8O/WkZsj92t640yE",
-                            Role = 1,
-                            Username = "admin"
-                        },
-                        new
-                        {
-                            Id = new Guid("71362a6a-ad93-4090-b500-50e03729fed5"),
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            Name = "Manager",
-                            Password = "XJWoctD69RFI+AhPeD+nJifKfcUt53iUemF2oHYC22c3TemXIGSvlronubSdOfjU",
-                            Role = 2,
-                            Username = "manager"
-                        },
-                        new
-                        {
-                            Id = new Guid("47813f84-eb93-4cbb-9a0d-c16f09ac7450"),
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            Name = "Staff",
-                            Password = "rrAgYtacwlxd9AzPPjAdFS8v+HUYd21D+d6L4Q7eRuRTV0ClrNYaFUSER/FfpQ8F",
-                            Role = 3,
-                            Username = "staff"
-                        },
-                        new
-                        {
-                            Id = new Guid("c317cfa8-98ba-4abc-aeb1-a0a155bbf4fe"),
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            Name = "Customer",
-                            Password = "xExlUQhywyfccBSqryM3s8Xyz0wkkHtUQUFC/09HpNlw+JIFuYpPHWjWVqQWufuy",
-                            Role = 4,
-                            Username = "customer"
-                        });
-                });
+                b.Property<DateTime?>("ModifiedDate")
+                    .HasColumnType("datetime(6)");
 
-            modelBuilder.Entity("BookingServices.Entities.Entities.Bookings", b =>
-                {
-                    b.HasOne("BookingServices.Entities.Entities.Customers", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasColumnType("longtext");
 
-                    b.HasOne("BookingServices.Entities.Entities.Tables", "Table")
-                        .WithMany("Bookings")
-                        .HasForeignKey("TableId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.Property<string>("OpenHours")
+                    .HasColumnType("longtext");
 
-                    b.Navigation("Customer");
+                b.Property<string>("PhoneNumber")
+                    .HasColumnType("longtext");
 
-                    b.Navigation("Table");
-                });
+                b.Property<decimal?>("Rating")
+                    .HasColumnType("decimal(18,2)");
 
-            modelBuilder.Entity("BookingServices.Entities.Entities.RestaurantFloors", b =>
-                {
-                    b.HasOne("BookingServices.Entities.Entities.Restaurants", "Restaurant")
-                        .WithMany("RestaurantFloors")
-                        .HasForeignKey("RestaurantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.Property<int>("TotalFloors")
+                    .HasColumnType("int");
 
-                    b.Navigation("Restaurant");
-                });
+                b.HasKey("Id");
 
-            modelBuilder.Entity("BookingServices.Entities.Entities.RestaurantImages", b =>
-                {
-                    b.HasOne("BookingServices.Entities.Entities.Restaurants", "Restaurants")
-                        .WithMany("RestaurantImages")
-                        .HasForeignKey("RestaurantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.ToTable("Restaurants");
+            });
 
-                    b.Navigation("Restaurants");
-                });
+        modelBuilder.Entity("BookingServices.Entities.Entities.Tables", b =>
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("char(36)");
 
-            modelBuilder.Entity("BookingServices.Entities.Entities.Tables", b =>
-                {
-                    b.HasOne("BookingServices.Entities.Entities.RestaurantFloors", "RestaurantFloor")
-                        .WithMany("Tables")
-                        .HasForeignKey("RestaurantFloorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.Property<int>("Capacity")
+                    .HasColumnType("int");
 
-                    b.Navigation("RestaurantFloor");
-                });
+                b.Property<Guid>("CreatedBy")
+                    .HasColumnType("char(36)");
 
-            modelBuilder.Entity("BookingServices.Entities.Entities.Users", b =>
-                {
-                    b.HasOne("BookingServices.Entities.Entities.Customers", "Customer")
-                        .WithOne("User")
-                        .HasForeignKey("BookingServices.Entities.Entities.Users", "CustomerId");
+                b.Property<DateTime>("CreatedDate")
+                    .HasColumnType("datetime(6)");
 
-                    b.Navigation("Customer");
-                });
+                b.Property<string>("ExtensionData")
+                    .IsRequired()
+                    .HasColumnType("longtext");
 
-            modelBuilder.Entity("BookingServices.Entities.Entities.Customers", b =>
-                {
-                    b.Navigation("User")
-                        .IsRequired();
-                });
+                b.Property<bool>("IsDeleted")
+                    .HasColumnType("tinyint(1)");
 
-            modelBuilder.Entity("BookingServices.Entities.Entities.RestaurantFloors", b =>
-                {
-                    b.Navigation("Tables");
-                });
+                b.Property<Guid?>("ModifiedBy")
+                    .HasColumnType("char(36)");
 
-            modelBuilder.Entity("BookingServices.Entities.Entities.Restaurants", b =>
-                {
-                    b.Navigation("RestaurantFloors");
+                b.Property<DateTime?>("ModifiedDate")
+                    .HasColumnType("datetime(6)");
 
-                    b.Navigation("RestaurantImages");
-                });
+                b.Property<Guid>("RestaurantFloorId")
+                    .HasColumnType("char(36)");
 
-            modelBuilder.Entity("BookingServices.Entities.Entities.Tables", b =>
-                {
-                    b.Navigation("Bookings");
-                });
+                b.Property<string>("TableName")
+                    .IsRequired()
+                    .HasColumnType("longtext");
+
+                b.Property<int>("TableType")
+                    .HasColumnType("int");
+
+                b.HasKey("Id");
+
+                b.HasIndex("RestaurantFloorId");
+
+                b.ToTable("Tables");
+            });
+
+        modelBuilder.Entity("BookingServices.Entities.Entities.Users", b =>
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("char(36)");
+
+                b.Property<Guid>("CreatedBy")
+                    .HasColumnType("char(36)");
+
+                b.Property<DateTime>("CreatedDate")
+                    .HasColumnType("datetime(6)");
+
+                b.Property<Guid?>("CustomerId")
+                    .HasColumnType("char(36)");
+
+                b.Property<bool>("IsDeleted")
+                    .HasColumnType("tinyint(1)");
+
+                b.Property<Guid?>("ModifiedBy")
+                    .HasColumnType("char(36)");
+
+                b.Property<DateTime?>("ModifiedDate")
+                    .HasColumnType("datetime(6)");
+
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasColumnType("longtext");
+
+                b.Property<string>("Password")
+                    .IsRequired()
+                    .HasColumnType("longtext");
+
+                b.Property<int>("Role")
+                    .HasColumnType("int");
+
+                b.Property<string>("Username")
+                    .IsRequired()
+                    .HasColumnType("varchar(255)");
+
+                b.HasKey("Id");
+
+                b.HasIndex("CustomerId")
+                    .IsUnique()
+                    .HasFilter("[Role] = 4");
+
+                b.HasIndex("Username")
+                    .IsUnique();
+
+                b.ToTable("Users");
+
+                b.HasData(
+                    new
+                    {
+                        Id = new Guid("d92f7769-9b46-4ca2-ae0a-65db5f252d38"),
+                        CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
+                        CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                        IsDeleted = false,
+                        Name = "Admin",
+                        Password = "ZGfqUOXTHwDeWoWHPpRMMZmQ86Vd3vP9FsMhleKz25o+b6q3L4S1zt3NnG9GHxdZ",
+                        Role = 1,
+                        Username = "admin"
+                    },
+                    new
+                    {
+                        Id = new Guid("8c23b938-5af9-4489-9092-a0c6bfc821cc"),
+                        CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
+                        CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                        IsDeleted = false,
+                        Name = "Manager",
+                        Password = "m2AQlpYuW9oLoqg5mrXQlAXaRBbIqHJEhABqdPUCegWS/7C0G/P7wPnql3P3ZWLT",
+                        Role = 2,
+                        Username = "manager"
+                    },
+                    new
+                    {
+                        Id = new Guid("dc05f216-6ca1-4014-93d2-67bb9e023c8f"),
+                        CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
+                        CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                        IsDeleted = false,
+                        Name = "Staff",
+                        Password = "tH/VjwGkqTKEaqphXEn9HV+f86ICTs91PjDjmtE76KNqpl3f0WI7rVPaOi25VGFo",
+                        Role = 3,
+                        Username = "staff"
+                    },
+                    new
+                    {
+                        Id = new Guid("99e6bb8d-60ba-4cf9-affb-0efb2f64f30b"),
+                        CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
+                        CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                        IsDeleted = false,
+                        Name = "Customer",
+                        Password = "Qfs2EJ+a+g0KHvfwiokptqCwHW6A8JzUR6savS3YX4EQ6MHXf6BD1ynDOIp2BppJ",
+                        Role = 4,
+                        Username = "customer"
+                    });
+            });
+
+        modelBuilder.Entity("BookingServices.Entities.Entities.BookingMenu", b =>
+            {
+                b.HasOne("BookingServices.Entities.Entities.Bookings", "Booking")
+                    .WithMany("BookingMenu")
+                    .HasForeignKey("MenuId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.HasOne("BookingServices.Entities.Entities.RestaurantMenu", "RestaurantMenu")
+                    .WithMany("BookingMenu")
+                    .HasForeignKey("MenuId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.Navigation("Booking");
+
+                b.Navigation("RestaurantMenu");
+            });
+
+        modelBuilder.Entity("BookingServices.Entities.Entities.Bookings", b =>
+            {
+                b.HasOne("BookingServices.Entities.Entities.Customers", "Customer")
+                    .WithMany()
+                    .HasForeignKey("CustomerId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.HasOne("BookingServices.Entities.Entities.Tables", "Table")
+                    .WithMany("Bookings")
+                    .HasForeignKey("TableId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.Navigation("Customer");
+
+                b.Navigation("Table");
+            });
+
+        modelBuilder.Entity("BookingServices.Entities.Entities.MenuImages", b =>
+            {
+                b.HasOne("BookingServices.Entities.Entities.RestaurantMenu", "RestaurantMenu")
+                    .WithMany("MenuImages")
+                    .HasForeignKey("MenuId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.Navigation("RestaurantMenu");
+            });
+
+        modelBuilder.Entity("BookingServices.Entities.Entities.RestaurantFloors", b =>
+            {
+                b.HasOne("BookingServices.Entities.Entities.Restaurants", "Restaurant")
+                    .WithMany("RestaurantFloors")
+                    .HasForeignKey("RestaurantId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.Navigation("Restaurant");
+            });
+
+        modelBuilder.Entity("BookingServices.Entities.Entities.RestaurantImages", b =>
+            {
+                b.HasOne("BookingServices.Entities.Entities.Restaurants", "Restaurants")
+                    .WithMany("RestaurantImages")
+                    .HasForeignKey("RestaurantId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.Navigation("Restaurants");
+            });
+
+        modelBuilder.Entity("BookingServices.Entities.Entities.Tables", b =>
+            {
+                b.HasOne("BookingServices.Entities.Entities.RestaurantFloors", "RestaurantFloor")
+                    .WithMany("Tables")
+                    .HasForeignKey("RestaurantFloorId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.Navigation("RestaurantFloor");
+            });
+
+        modelBuilder.Entity("BookingServices.Entities.Entities.Users", b =>
+            {
+                b.HasOne("BookingServices.Entities.Entities.Customers", "Customer")
+                    .WithOne("User")
+                    .HasForeignKey("BookingServices.Entities.Entities.Users", "CustomerId");
+
+                b.Navigation("Customer");
+            });
+
+        modelBuilder.Entity("BookingServices.Entities.Entities.Bookings", b =>
+            {
+                b.Navigation("BookingMenu");
+            });
+
+        modelBuilder.Entity("BookingServices.Entities.Entities.Customers", b =>
+            {
+                b.Navigation("User")
+                    .IsRequired();
+            });
+
+        modelBuilder.Entity("BookingServices.Entities.Entities.RestaurantFloors", b =>
+            {
+                b.Navigation("Tables");
+            });
+
+        modelBuilder.Entity("BookingServices.Entities.Entities.RestaurantMenu", b =>
+            {
+                b.Navigation("BookingMenu");
+
+                b.Navigation("MenuImages");
+            });
+
+        modelBuilder.Entity("BookingServices.Entities.Entities.Restaurants", b =>
+            {
+                b.Navigation("RestaurantFloors");
+
+                b.Navigation("RestaurantImages");
+            });
+
+        modelBuilder.Entity("BookingServices.Entities.Entities.Tables", b =>
+            {
+                b.Navigation("Bookings");
+            });
 #pragma warning restore 612, 618
-        }
     }
 }

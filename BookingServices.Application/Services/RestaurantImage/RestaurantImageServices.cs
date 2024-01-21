@@ -3,12 +3,8 @@ using BookingServices.Core;
 using BookingServices.Core.Models.ControllerResponse;
 using BookingServices.Entities.Contexts;
 using BookingServices.Entities.Entities;
+using BookingServices.Model.RestaurantImageModels;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BookingServices.Application.Services.RestaurantImage;
 
@@ -33,7 +29,7 @@ public class RestaurantImageServices : IRestaurantImageServices
     {
         //check exist
         var restaurantImage = _context.RestaurantImages.FirstOrDefault(x => x.Id == id);
-        //check null thrwo exception
+        //check null throw exception
         if (restaurantImage == null) throw new Exception("Restaurant image not found");
         //remove
         _context.Remove(restaurantImage);
@@ -63,7 +59,7 @@ public class RestaurantImageServices : IRestaurantImageServices
     {
         //check exist
         var restaurantImage = _context.RestaurantImages.FirstOrDefault(x => x.Id == request.Id);
-        //check null thrwo exception
+        //check null throw exception
         if (restaurantImage == null) throw new Exception("Restaurant image not found");
 
         //update

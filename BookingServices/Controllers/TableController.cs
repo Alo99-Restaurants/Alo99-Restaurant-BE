@@ -4,14 +4,12 @@ using BookingServices.Core;
 using BookingServices.Core.Models.ControllerResponse;
 using BookingServices.Model.TableModels;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingServices.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize]
 public class TableController : MyControllerBase
 {
 

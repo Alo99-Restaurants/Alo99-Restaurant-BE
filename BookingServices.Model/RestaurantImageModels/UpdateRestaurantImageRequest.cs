@@ -1,5 +1,4 @@
-﻿
-namespace BookingServices.Application.Services.RestaurantImage;
+﻿namespace BookingServices.Model.RestaurantImageModels;
 
 public class UpdateRestaurantImageRequest : AddRestaurantImageRequest
 {

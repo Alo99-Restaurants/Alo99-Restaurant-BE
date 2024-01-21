@@ -27,7 +27,7 @@ public class RestaurantServices : IRestaurantServices
     {
         //check exist
         var restaurant = await _context.Restaurants.FirstOrDefaultAsync(x => x.Id == id);
-        //check null thrwo exception
+        //check null throw exception
         if (restaurant == null) throw new Exception("Restaurant not found");
 
         //remove

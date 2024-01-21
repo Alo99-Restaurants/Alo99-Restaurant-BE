@@ -1,4 +1,5 @@
 ﻿using BookingServices.Core.Models.ControllerResponse;
+using BookingServices.Model.RestaurantImageModels;
 
 namespace BookingServices.Application.Services.RestaurantImage;
 

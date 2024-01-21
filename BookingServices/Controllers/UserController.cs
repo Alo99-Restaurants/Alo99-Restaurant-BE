@@ -11,11 +11,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Newtonsoft.Json;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using BookingServices.Entities.Enum;
 using BookingServices.Application.MediaR.User.Query.Login.ByGoogle;
-using System.Linq;
 
 namespace BookingServices.Controllers;
 
@@ -54,7 +51,6 @@ public class UserController : MyControllerBase
 
     //get user by profile
     [HttpGet("profile")]
-    [Authorize]
     [ProducesResponseType(typeof(ApiResult<UserDTO>), 200)]
     public async Task<IActionResult> GetUserByProfile()
     {
@@ -64,12 +60,12 @@ public class UserController : MyControllerBase
 
     //get user by username
     [HttpGet("username/{username}")]
-    [Authorize]
     [ProducesResponseType(typeof(ApiResult<UserDTO>), 200)]
     public async Task<IActionResult> GetUserByUsername(string username) => ApiOk(await _userServices.GetUserByUsername(username));
 
     //login
     [HttpPost("login")]
+    [AllowAnonymous]
     [ProducesResponseType(typeof(ApiResult<LoginResponseModel>), 200)]
     public async Task<IActionResult> Login([FromBody] LoginUserByAccountQuery request)
     {

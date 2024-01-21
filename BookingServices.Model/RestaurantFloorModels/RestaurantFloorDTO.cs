@@ -1,5 +1,4 @@
-﻿using BookingServices.Entities.Entities;
-using BookingServices.Entities.Entities.Interfaces;
+﻿using BookingServices.Entities.Entities.Interfaces;
 using BookingServices.Model.TableModels;
 
 namespace BookingServices.Model.RestaurantFloorModels;

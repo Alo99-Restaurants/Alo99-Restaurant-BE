@@ -1,13 +1,15 @@
 ﻿using BookingServices.Core.Models.ControllerResponse;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingServices.Core;
 
 [Produces("application/json", new string[] { })]
+[Authorize]
 public abstract class MyControllerBase : ControllerBase
 {
 
-    protected IActionResult ApiOk() => Ok(new ApiResult { Data = true });
+    protected IActionResult ApiOk(bool data = true) => Ok(new ApiResult { Data = data });
 
     protected IActionResult ApiOk<T>(ApiPaged<T> data) where T : class
     {

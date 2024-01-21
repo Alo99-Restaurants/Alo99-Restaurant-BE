@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using BookingServices.Application.Services.RestaurantImage;
 using BookingServices.Entities.Entities;
+using BookingServices.Model.RestaurantImageModels;
 
 namespace BookingServices.Configs.Mappers;
 

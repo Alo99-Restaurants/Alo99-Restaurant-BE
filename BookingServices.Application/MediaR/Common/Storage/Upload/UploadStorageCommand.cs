@@ -1,12 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BookingServices.Application.MediaR.Storage.Upload;
+namespace BookingServices.Application.MediaR.Common.Storage.Upload;
 
 public class UploadStorageCommand : IRequest<string>
 {

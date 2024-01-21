@@ -1,7 +1,6 @@
 ﻿using BookingServices.Entities.Entities.Interfaces;
-using System.ComponentModel.DataAnnotations;
 
-namespace BookingServices.Application.Services.RestaurantImage;
+namespace BookingServices.Model.RestaurantImageModels;
 
 public class RestaurantImageDTO : IEntityAudit<Guid>
 {
@@ -12,7 +11,7 @@ public class RestaurantImageDTO : IEntityAudit<Guid>
     public Guid RestaurantId { get; set; }
     public Guid? ModifiedBy { get; set; }
     public DateTime? ModifiedDate { get; set; }
-    public Guid CreatedBy { get ; set ; }
-    public DateTime CreatedDate { get ; set ; }
-    
+    public Guid CreatedBy { get; set; }
+    public DateTime CreatedDate { get; set; }
+
 }

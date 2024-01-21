@@ -1,19 +1,7 @@
-using BookingServices.Configs.Exceptions;
 using BookingServices.Configs.Injection;
 using BookingServices.Core.MiddleWares.ErrorHandler;
-using BookingServices.Entities.Contexts;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Cors.Infrastructure;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using System.Reflection;
-using System.Text;
-using System.Text.Json.Serialization;
 using static AppConfigurations;
 
 //Script-Migration
@@ -30,7 +18,7 @@ var assemblies = dllFiles.Select(x => Assembly.LoadFrom(x)).ToArray();
 builder.Services.Configure<JwtConfigurations>(configuration.GetSection("JwtConfigurations"));
 builder.Services.Configure<ConnectionStrings>(configuration.GetSection("ConnectionStrings"));
 builder.Services.Configure<AWSS3Configurations>(configuration.GetSection("AWSS3"));
-
+builder.Services.Configure<EmailConfigurations>(configuration.GetSection("EmailConfigurations"));
 
 // Add services to the container.
 

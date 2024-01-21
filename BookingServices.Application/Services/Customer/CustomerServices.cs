@@ -4,11 +4,6 @@ using BookingServices.Entities.Contexts;
 using BookingServices.Entities.Entities;
 using BookingServices.Model.CustomerModels;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BookingServices.Application.Services.Customer;
 

@@ -1,5 +1,4 @@
 ﻿using Amazon;
-using Amazon.Runtime.Internal.Endpoints.StandardLibrary;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Transfer;
@@ -7,8 +6,6 @@ using BookingServices.External.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using System.Net;
-using System.Text;
-using System.Text.Encodings.Web;
 using System.Web;
 using static AppConfigurations;
 

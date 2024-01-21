@@ -28,7 +28,7 @@ public class RestaurantFloorServices : IRestaurantFloorServices
     {
         //check exist
         var restaurantFloor =await _context.RestaurantFloors.FirstOrDefaultAsync(x => x.Id == id);
-        //check null thrwo exception
+        //check null throw exception
         if (restaurantFloor == null) throw new Exception("Restaurant floor not found");
         //remove
         _context.Remove(restaurantFloor);

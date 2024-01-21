@@ -15,7 +15,7 @@ public class Bookings : EntityAudit<Guid>, IHaveDeleted
 
     [ForeignKey(nameof(TableId))]
     public virtual Tables? Table { get; set; }
-
     [ForeignKey(nameof(CustomerId))]
     public virtual Customers? Customer { get; set; }
+    public virtual ICollection<BookingMenu> BookingMenu { get; set; }
 }

@@ -2,7 +2,6 @@
 using BookingServices.Core.Models.ControllerResponse;
 using BookingServices.Core;
 using BookingServices.Entities.Contexts;
-using BookingServices.Model.RestaurantFloorModels;
 using BookingServices.Model.TableModels;
 using Microsoft.EntityFrameworkCore;
 using BookingServices.Entities.Entities;

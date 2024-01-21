@@ -1,7 +1,6 @@
-﻿
-using BookingServices.Core.Models;
+﻿using BookingServices.Core.Models;
 
-namespace BookingServices.Application.Services.RestaurantImage;
+namespace BookingServices.Model.RestaurantImageModels;
 
 public class GetallRestaurantImageRequest : PagingRequest
 {

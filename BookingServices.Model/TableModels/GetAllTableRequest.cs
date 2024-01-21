@@ -1,6 +1,6 @@
 ﻿using BookingServices.Core.Models;
 
-namespace BookingServices.Application.Services.Table;
+namespace BookingServices.Model.TableModels;
 
 public class GetAllTableRequest : PagingRequest
 {

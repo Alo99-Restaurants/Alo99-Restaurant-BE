@@ -1,7 +1,6 @@
-﻿using BookingServices.Application.Services.RestaurantImage;
-using BookingServices.Entities.Entities;
-using BookingServices.Entities.Entities.Interfaces;
+﻿using BookingServices.Entities.Entities.Interfaces;
 using BookingServices.Model.RestaurantFloorModels;
+using BookingServices.Model.RestaurantImageModels;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
