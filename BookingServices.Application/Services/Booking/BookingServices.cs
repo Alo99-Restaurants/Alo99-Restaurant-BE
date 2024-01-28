@@ -4,6 +4,7 @@ using BookingServices.Core.Models.ControllerResponse;
 using BookingServices.Entities.Contexts;
 using BookingServices.Entities.Entities;
 using BookingServices.Model.BookingModels;
+using BookingServices.Model.TableModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookingServices.Application.Services.Booking;
@@ -21,6 +22,10 @@ public class BookingServices : IBookingServices
 
     public async Task AddBookingAsync(AddBookingRequest booking)
     {
+        //check table valid
+        var validTable = _mapper.Map<TableDTO>(_bookingDbContext.Tables.Where(x => x.Id == booking.TableId)
+                                            .Include(x => x.Bookings.Where(x => x.BookingDate.Date == booking.BookingDate.Date)).FirstOrDefault()).IsAvailable();
+        if(validTable == false) throw new Exception("Table not available");
         var addBooking = _mapper.Map<Bookings>(booking);
         _bookingDbContext.Add(addBooking);
         await _bookingDbContext.SaveChangesAsync();
@@ -59,6 +64,14 @@ public class BookingServices : IBookingServices
         //check exist
         var bookingEntity = _bookingDbContext.Bookings.Find(booking.Id);
         if (bookingEntity == null) throw new Exception("Booking not found");
+
+        if(bookingEntity.BookingDate.Date != booking.BookingDate.Date)
+        {
+            //check table valid
+            var validTable = _mapper.Map<TableDTO>(_bookingDbContext.Tables.Where(x => x.Id == booking.TableId)
+                                                               .Include(x => x.Bookings.Where(x => x.BookingDate.Date == booking.BookingDate)).FirstOrDefault()).IsAvailable();
+            if (validTable == false) throw new Exception("Table not available");
+        }
 
         //map booking
         _mapper.Map(booking, bookingEntity);

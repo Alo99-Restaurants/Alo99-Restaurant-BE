@@ -19,6 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="MediaR\Booking\Command\" />
+    <Folder Include="MediaR\Booking\Query\" />
     <Folder Include="MediaR\User\Command\" />
   </ItemGroup>
 

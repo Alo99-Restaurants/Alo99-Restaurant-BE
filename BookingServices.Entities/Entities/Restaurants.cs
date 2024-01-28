@@ -16,6 +16,7 @@ public class Restaurants : EntityAudit<Guid>, IHaveDeleted
     [Range(0, 5, ErrorMessage = "Range from 0 to 5")]
     public double? Rating { get; set; }
     public string? PhoneNumber { get; set; }
+    public string? Website { get; set; }
     public int Capacity { get; set; }
     public int TotalFloors { get; set; }
     public bool IsDeleted { get; set; }

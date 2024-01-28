@@ -1,8 +1,10 @@
-﻿namespace BookingServices.Model.BookingModels;
+﻿using BookingServices.Entities.Enum;
+
+namespace BookingServices.Model.BookingModels;
 
 public class AddBookingRequest
 {
-    public AddBookingRequest(Guid tableId, Guid customerId, int bookingStatusId, DateTime bookingDate, int numberOfPeople)
+    public AddBookingRequest(Guid tableId, Guid customerId, DateTime bookingDate, int numberOfPeople, EBookingStatus bookingStatusId = EBookingStatus.New)
     {
         TableId = tableId;
         BookingStatusId = bookingStatusId;
@@ -13,7 +15,7 @@ public class AddBookingRequest
 
     public Guid TableId { get; set; }
     public Guid CustomerId { get; set; }
-    public int BookingStatusId { get; set; }
+    public EBookingStatus BookingStatusId { get; set; }
     public DateTime BookingDate { get; set; }
     public int NumberOfPeople { get; set; }
 }

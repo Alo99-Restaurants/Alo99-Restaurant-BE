@@ -1,4 +1,5 @@
 ﻿using BookingServices.Entities.Entities.Interfaces;
+using BookingServices.Entities.Enum;
 using BookingServices.Model.TableModels;
 using BookingServices.Model.UserModels;
 
@@ -9,7 +10,7 @@ public class BookingDTO : IEntityAudit<Guid>
     public Guid Id { get; set; }
     public Guid TableId { get; set; }
     public Guid CustomerId { get; set; }
-    public int BookingStatusId { get; set; }
+    public EBookingStatus BookingStatusId { get; set; }
     public DateTime BookingDate { get; set; }
     public int NumberOfPeople { get; set; }
     public Guid CreatedBy { get; set; }

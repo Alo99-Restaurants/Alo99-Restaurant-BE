@@ -23,7 +23,7 @@ public static class BaseDbContextModelCreatingExtensions
                 builder.Entity(entityType.ClrType).HasQueryFilter(GetDeletedFilter(entityType.ClrType));
             }
         }
-        //SeedData(builder);
+        SeedData(builder);
     }
 
     private static LambdaExpression? GetDeletedFilter(Type clrType)
@@ -38,41 +38,46 @@ public static class BaseDbContextModelCreatingExtensions
     }
     private static void SeedData(ModelBuilder builder)
     {
-        #region insert data
-        builder.Entity<Users>().HasData(
-            new Users
-            {
-                Id = Guid.NewGuid(),
-                Username = "admin",
-                Password = Utils.HashPassword("admin"),
-                Name = "Admin",
-                Role = Enum.ERole.Admin
-            },
-            new Users
-            {
-                Id = Guid.NewGuid(),
-                Username = "manager",
-                Password = Utils.HashPassword("manager"),
-                Name = "Manager",
-                Role = Enum.ERole.Manager
-            },
-            new Users
-            {
-                Id = Guid.NewGuid(),
-                Username = "staff",
-                Password = Utils.HashPassword("staff"),
-                Name = "Staff",
-                Role = Enum.ERole.Staff,
-            },
-            new Users
-            {
-                Id = Guid.NewGuid(),
-                Username = "customer",
-                Password = Utils.HashPassword("customer"),
-                Name = "Customer",
-                Role = Enum.ERole.Customer
-            }
-        );
-        #endregion
+
+        if (true)
+        {
+            #region insert data
+            builder.Entity<Users>().HasData(
+                new Users
+                {
+                    Id = Guid.Parse("be809c8a-b2d4-4654-b5ef-7bb99f3af3b5"),
+                    Username = "admin",
+                    Password = Utils.HashPassword("admin"),
+                    Name = "Admin",
+                    Role = Enum.ERole.Admin
+                },
+                new Users
+                {
+                    Id = Guid.Parse("397ba1f1-c2ff-4bdf-8d59-4a6c37ca30c6"),
+                    Username = "manager",
+                    Password = Utils.HashPassword("manager"),
+                    Name = "Manager",
+                    Role = Enum.ERole.Manager
+                },
+                new Users
+                {
+                    Id = Guid.Parse("8da5e99c-7eb2-4a48-9b6f-6b9c58837294"),
+                    Username = "staff",
+                    Password = Utils.HashPassword("staff"),
+                    Name = "Staff",
+                    Role = Enum.ERole.Staff,
+                },
+                new Users
+                {
+                    Id = Guid.Parse("2b8f3715-3af2-453d-b235-d60d8e344eac"),
+                    Username = "customer",
+                    Password = Utils.HashPassword("customer"),
+                    Name = "Customer",
+                    Role = Enum.ERole.Customer
+                }
+            );
+            #endregion
+        }
+
     }
 }

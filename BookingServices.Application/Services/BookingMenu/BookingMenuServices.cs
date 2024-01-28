@@ -2,6 +2,7 @@
 using BookingServices.Core;
 using BookingServices.Core.Models.ControllerResponse;
 using BookingServices.Entities.Contexts;
+using BookingServices.Entities.Enum;
 using BookingServices.Model.BookingMenuModels;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,7 +24,7 @@ public class BookingMenuServices : IBookingMenuServices
         var booking = await _context.Bookings.FindAsync(request.BookingId);
         if (booking == null) throw new Exception("Booking not found");
         //check booking status
-        if (booking.BookingStatusId != 1) throw new Exception("Booking status is not valid");
+        if (booking.BookingStatusId <= EBookingStatus.Confirm) throw new Exception("Booking status is not valid");
 
 
         //check menu exist
@@ -54,7 +55,7 @@ public class BookingMenuServices : IBookingMenuServices
         //check bookingstatus
         var booking = await _context.Bookings.FindAsync(checkExist.BookingId);
         if (booking == null) throw new Exception("Booking not found");
-        if (booking.BookingStatusId != 1) throw new Exception("Booking status is not valid");
+        if (booking.BookingStatusId <= EBookingStatus.Confirm) throw new Exception("Booking status is not valid");
 
         //remove
         _context.Remove(checkExist);
@@ -83,7 +84,7 @@ public class BookingMenuServices : IBookingMenuServices
         //check bookingstatus
         var booking = await _context.Bookings.FindAsync(checkExist.BookingId);
         if (booking == null) throw new Exception("Booking not found");
-        if (booking.BookingStatusId != 1) throw new Exception("Booking status is not valid");
+        if (booking.BookingStatusId <= EBookingStatus.Confirm) throw new Exception("Booking status is not valid");
 
         //mapper
         _mapper.Map(request, checkExist);

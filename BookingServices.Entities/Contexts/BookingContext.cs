@@ -80,7 +80,7 @@ public class BookingDbContext : DbContext
             if (entry.State == EntityState.Added)
             {
                 entry.Property("CreatedBy").CurrentValue = userId;
-                entry.Property("CreatedDate").CurrentValue = DateTime.UtcNow;
+                entry.Property("CreatedDate").CurrentValue = DateTime.Now;
             }
             else if (entry.State == EntityState.Modified)
             {
@@ -90,7 +90,7 @@ public class BookingDbContext : DbContext
             }
 
             entry.Property("ModifiedBy").CurrentValue = userId;
-            entry.Property("ModifiedDate").CurrentValue = DateTime.UtcNow;
+            entry.Property("ModifiedDate").CurrentValue = DateTime.Now;
         }
     }
 
@@ -147,7 +147,7 @@ public class BookingDbContext : DbContext
                 EntityChangeData = JsonConvert.SerializeObject(changeData),
                 Action = state.ToString(),
                 ActionBy = userId.ToString(),
-                ActionDate = DateTime.UtcNow
+                ActionDate = DateTime.Now
 
             };
             Set<EntityHistories>().Add(entityHistory);

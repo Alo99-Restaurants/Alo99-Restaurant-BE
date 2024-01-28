@@ -12,6 +12,7 @@ using BookingServices.Core.Redis;
 using BookingServices.Entities.Contexts;
 using BookingServices.External.Interfaces;
 using BookingServices.External.Services;
+using BookingServices.External.Services.VNPay;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -47,6 +48,7 @@ public static class ServiceInjection
         //external services
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<IAwsS3Services, AwsS3Service>();
+        services.AddScoped<IVnPayServices, VnPayServices>();
         return services;
     }
 

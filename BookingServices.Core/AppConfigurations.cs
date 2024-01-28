@@ -39,4 +39,10 @@ public class AppConfigurations
         public string Username { get; set; }
         public string Password { get; set; }
     }
+    public class VnPayConfigs
+    {
+        public string VnpUrl { get; set; }
+        public string VnpTmnCode { get; set; }
+        public string VnpHashSecret { get; set; }
+    }
 }

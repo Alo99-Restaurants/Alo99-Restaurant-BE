@@ -3,6 +3,7 @@ using System;
 using BookingServices.Entities.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingServices.Entities.Migrations
 {
     [DbContext(typeof(BookingDbContext))]
-    partial class BookingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240128153015_addWebsitefieldIntoRestaurant")]
+    partial class addWebsitefieldIntoRestaurant
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,7 +59,7 @@ namespace BookingServices.Entities.Migrations
 
                     b.HasIndex("MenuId");
 
-                    b.ToTable("BookingMenu", (string)null);
+                    b.ToTable("BookingMenu");
                 });
 
             modelBuilder.Entity("BookingServices.Entities.Entities.Bookings", b =>
@@ -101,7 +104,7 @@ namespace BookingServices.Entities.Migrations
 
                     b.HasIndex("TableId");
 
-                    b.ToTable("Bookings", (string)null);
+                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("BookingServices.Entities.Entities.Customers", b =>
@@ -144,7 +147,7 @@ namespace BookingServices.Entities.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers", (string)null);
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("BookingServices.Entities.Entities.MenuImages", b =>
@@ -179,7 +182,7 @@ namespace BookingServices.Entities.Migrations
 
                     b.HasIndex("MenuId");
 
-                    b.ToTable("MenuImages", (string)null);
+                    b.ToTable("MenuImages");
                 });
 
             modelBuilder.Entity("BookingServices.Entities.Entities.Others.EntityHistories", b =>
@@ -215,7 +218,7 @@ namespace BookingServices.Entities.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EntityHistories", (string)null);
+                    b.ToTable("EntityHistories");
                 });
 
             modelBuilder.Entity("BookingServices.Entities.Entities.Others.Stogares", b =>
@@ -246,7 +249,7 @@ namespace BookingServices.Entities.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Stogares", (string)null);
+                    b.ToTable("Stogares");
                 });
 
             modelBuilder.Entity("BookingServices.Entities.Entities.RestaurantFloors", b =>
@@ -293,7 +296,7 @@ namespace BookingServices.Entities.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("RestaurantFloors", (string)null);
+                    b.ToTable("RestaurantFloors");
                 });
 
             modelBuilder.Entity("BookingServices.Entities.Entities.RestaurantImages", b =>
@@ -333,7 +336,7 @@ namespace BookingServices.Entities.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("RestaurantImages", (string)null);
+                    b.ToTable("RestaurantImages");
                 });
 
             modelBuilder.Entity("BookingServices.Entities.Entities.RestaurantInformation", b =>
@@ -381,7 +384,7 @@ namespace BookingServices.Entities.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RestaurantInformation", (string)null);
+                    b.ToTable("RestaurantInformation");
                 });
 
             modelBuilder.Entity("BookingServices.Entities.Entities.RestaurantMenu", b =>
@@ -424,7 +427,7 @@ namespace BookingServices.Entities.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RestaurantMenu", (string)null);
+                    b.ToTable("RestaurantMenu");
                 });
 
             modelBuilder.Entity("BookingServices.Entities.Entities.Restaurants", b =>
@@ -486,7 +489,7 @@ namespace BookingServices.Entities.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Restaurants", (string)null);
+                    b.ToTable("Restaurants");
                 });
 
             modelBuilder.Entity("BookingServices.Entities.Entities.Tables", b =>
@@ -531,7 +534,7 @@ namespace BookingServices.Entities.Migrations
 
                     b.HasIndex("RestaurantFloorId");
 
-                    b.ToTable("Tables", (string)null);
+                    b.ToTable("Tables");
                 });
 
             modelBuilder.Entity("BookingServices.Entities.Entities.Users", b =>
@@ -582,7 +585,7 @@ namespace BookingServices.Entities.Migrations
                     b.HasIndex("Username")
                         .IsUnique();
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
 
                     b.HasData(
                         new

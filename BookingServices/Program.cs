@@ -19,6 +19,7 @@ builder.Services.Configure<JwtConfigurations>(configuration.GetSection("JwtConfi
 builder.Services.Configure<ConnectionStrings>(configuration.GetSection("ConnectionStrings"));
 builder.Services.Configure<AWSS3Configurations>(configuration.GetSection("AWSS3"));
 builder.Services.Configure<EmailConfigurations>(configuration.GetSection("EmailConfigurations"));
+builder.Services.Configure<VnPayConfigs>(configuration.GetSection("VnPayConfigs"));
 
 // Add services to the container.
 

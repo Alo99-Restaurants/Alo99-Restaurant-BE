@@ -1,4 +1,5 @@
 ﻿using BookingServices.Application.MediaR.Table.Command.Updates;
+using BookingServices.Application.MediaR.Table.Query;
 using BookingServices.Application.Services.Table;
 using BookingServices.Core;
 using BookingServices.Core.Models.ControllerResponse;
@@ -56,6 +57,15 @@ public class TableController : MyControllerBase
     public async Task<IActionResult> UpdateTables(UpdatesTableCommand command)
     {
         var rs = await _mediator.Send(command);
+        return ApiOk(rs);
+    }
+
+    //FindTableForBookingQuery implement api
+    [HttpPost("find")]
+    [ProducesResponseType(typeof(ApiResult<IEnumerable<TableDTO>>), 200)]
+    public async Task<IActionResult> FindTableForBooking([FromBody] FindTableForBookingQuery query)
+    {
+        var rs = await _mediator.Send(query);
         return ApiOk(rs);
     }
 }

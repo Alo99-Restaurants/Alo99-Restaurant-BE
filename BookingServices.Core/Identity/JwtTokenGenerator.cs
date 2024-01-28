@@ -20,7 +20,7 @@ public class JwtTokenGenerator
         new Claim("username", userName),
         new Claim(JwtRegisteredClaimNames.Name, fullName),
         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-        new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
+        new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.Now.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
         // Add more custom claims as needed
         };
 
@@ -39,7 +39,7 @@ public class JwtTokenGenerator
             issuer: issuer,
             audience: audience,
             claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(expirationMinutes),
+            expires: DateTime.Now.AddMinutes(expirationMinutes),
             signingCredentials: creds
         );
 
