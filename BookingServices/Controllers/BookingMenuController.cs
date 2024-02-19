@@ -1,4 +1,5 @@
 ﻿using BookingServices.Application.Services.BookingMenu;
+using BookingServices.Core;
 using BookingServices.Core.Models.ControllerResponse;
 using BookingServices.Model.BookingMenuModels;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +8,7 @@ namespace BookingServices.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class BookingMenuController : ControllerBase
+public class BookingMenuController : MyControllerBase
 {
     private readonly ILogger _logger;
     private readonly IBookingMenuServices _bookingMenuServices;
@@ -21,12 +22,12 @@ public class BookingMenuController : ControllerBase
     //get all booking menu
     [HttpGet]
     [ProducesResponseType(typeof(ApiPaged<BookingMenuDTO>), 200)]
-    public async Task<IActionResult> GetAllBookingMenuAsync([FromQuery] GetAllBookingMenuRequest request) => Ok(await _bookingMenuServices.GetAllBookingMenuAsync(request));
+    public async Task<IActionResult> GetAllBookingMenuAsync([FromQuery] GetAllBookingMenuRequest request) => ApiOk(await _bookingMenuServices.GetAllBookingMenuAsync(request));
 
     //get booking menu by id
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(ApiResult<BookingMenuDTO>), 200)]
-    public async Task<IActionResult> GetBookingMenuByIdAsync(Guid id) => Ok(await _bookingMenuServices.GetBookingMenuByIdAsync(id));
+    public async Task<IActionResult> GetBookingMenuByIdAsync(Guid id) => ApiOk(await _bookingMenuServices.GetBookingMenuByIdAsync(id));
 
     //add booking menu
     [HttpPost]
@@ -34,7 +35,7 @@ public class BookingMenuController : ControllerBase
     public async Task<IActionResult> AddBookingMenuAsync([FromBody] AddBookingMenuRequest request)
     {
         await _bookingMenuServices.AddBookingMenuAsync(request);
-        return Ok();
+        return ApiOk();
     }
 
     //update booking menu
@@ -43,7 +44,7 @@ public class BookingMenuController : ControllerBase
     public async Task<IActionResult> UpdateBookingMenuAsync(Guid id, [FromBody] UpdateBookingBody request)
     {
         await _bookingMenuServices.UpdateBookingMenuAsync(new UpdateBookingMenuRequest(request,id));
-        return Ok();
+        return ApiOk();
     }
 
     //delete booking menu
@@ -52,7 +53,7 @@ public class BookingMenuController : ControllerBase
     public async Task<IActionResult> DeleteBookingMenuAsync(Guid id)
     {
         await _bookingMenuServices.DeleteBookingMenuAsync(id);
-        return Ok();
+        return ApiOk();
     }
 
 

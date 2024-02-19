@@ -23,12 +23,12 @@ public class RestaurantMenuController : MyControllerBase
     //get all restaurant menu
     [HttpGet]
     [ProducesResponseType(typeof(ApiPaged<RestaurantMenuDTO>), 200)]
-    public async Task<IActionResult> GetAllRestaurantMenuAsync([FromQuery] GetAllRestaurantMenuRequest request) => Ok(await _restaurantMenuServices.GetAllRestaurantMenuAsync(request));
+    public async Task<IActionResult> GetAllRestaurantMenuAsync([FromQuery] GetAllRestaurantMenuRequest request) => ApiOk(await _restaurantMenuServices.GetAllRestaurantMenuAsync(request));
 
     //get restaurant menu by id
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(ApiResult<RestaurantMenuDTO>), 200)]
-    public async Task<IActionResult> GetRestaurantMenuByIdAsync(Guid id) => Ok(await _restaurantMenuServices.GetRestaurantMenuByIdAsync(id));
+    public async Task<IActionResult> GetRestaurantMenuByIdAsync(Guid id) => ApiOk(await _restaurantMenuServices.GetRestaurantMenuByIdAsync(id));
 
     //add restaurant menu
     [HttpPost]
@@ -37,7 +37,7 @@ public class RestaurantMenuController : MyControllerBase
     public async Task<IActionResult> AddRestaurantMenuAsync([FromBody] AddRestaurantMenuRequest request)
     {
         await _restaurantMenuServices.AddRestaurantMenuAsync(request);
-        return Ok();
+        return ApiOk();
     }
 
     //update restaurant menu
@@ -48,7 +48,7 @@ public class RestaurantMenuController : MyControllerBase
     {
         
         await _restaurantMenuServices.UpdateRestaurantMenuAsync(new UpdateRestaurantMenuRequest(id,request));
-        return Ok();
+        return ApiOk();
     }
 
     //delete restaurant menu
@@ -58,6 +58,6 @@ public class RestaurantMenuController : MyControllerBase
     public async Task<IActionResult> DeleteRestaurantMenuAsync(Guid id)
     {
         await _restaurantMenuServices.DeleteRestaurantMenuAsync(id);
-        return Ok();
+        return ApiOk();
     }
 }

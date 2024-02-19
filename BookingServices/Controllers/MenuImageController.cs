@@ -25,7 +25,7 @@ public class MenuImageController : MyControllerBase
     [ProducesResponseType(typeof(ApiPaged<MenuImageDTO>), 200)]
     public async Task<IActionResult> GetAllMenuImageAsync([FromQuery] GetAllMenuImageRequest request)
     {
-        return Ok(await _menuImageServices.GetAllMenuImageAsync(request));
+        return ApiOk(await _menuImageServices.GetAllMenuImageAsync(request));
     }
 
     //get menu image by id
@@ -33,7 +33,7 @@ public class MenuImageController : MyControllerBase
     [ProducesResponseType(typeof(ApiResult<MenuImageDTO>), 200)]
     public async Task<IActionResult> GetMenuImageByIdAsync(Guid id)
     {
-        return Ok(await _menuImageServices.GetMenuImageByIdAsync(id));
+        return ApiOk(await _menuImageServices.GetMenuImageByIdAsync(id));
     }
 
     //add menu image
@@ -43,7 +43,7 @@ public class MenuImageController : MyControllerBase
     public async Task<IActionResult> AddMenuImageAsync([FromForm] AddMenuImageRequest request)
     {
         await _menuImageServices.AddMenuImageAsync(request);
-        return Ok();
+        return ApiOk();
     }
 
     //update menu image
@@ -53,7 +53,7 @@ public class MenuImageController : MyControllerBase
     public async Task<IActionResult> UpdateMenuImageAsync(Guid id, [FromForm] UpdateMenuImageRequest request)
     {
         await _menuImageServices.UpdateMenuImageAsync(new UpdateMenuImageRequest(request, id));
-        return Ok();
+        return ApiOk();
     }
 
     //delete menu image
@@ -63,7 +63,7 @@ public class MenuImageController : MyControllerBase
     public async Task<IActionResult> DeleteMenuImageAsync(Guid id)
     {
         await _menuImageServices.DeleteMenuImageAsync(id);
-        return Ok();
+        return ApiOk();
     }
 
 }

@@ -43,8 +43,8 @@ public class RestaurantMenuServices : IRestaurantMenuServices
     {
         return new ApiPaged<RestaurantMenuDTO>
         {
-            Items = _mapper.Map<IEnumerable<RestaurantMenuDTO>>(await _context.RestaurantMenu.WhereIf(request.MenuType != null, x => x.MenuType == request.MenuType).Skip(request.SkipRows).Take(request.TotalRows).ToListAsync()),
-            TotalRecords = await _context.RestaurantMenu.WhereIf(request.MenuType != null, x => x.MenuType == request.MenuType).CountAsync()
+            Items = _mapper.Map<IEnumerable<RestaurantMenuDTO>>(await _context.RestaurantMenu.WhereIf(request.MenuCategoryId != null, x => x.MenuCategoryId == request.MenuCategoryId).Skip(request.SkipRows).Take(request.TotalRows).ToListAsync()),
+            TotalRecords = await _context.RestaurantMenu.WhereIf(request.MenuCategoryId != null, x => x.MenuCategoryId == request.MenuCategoryId).CountAsync()
         };
     }
 

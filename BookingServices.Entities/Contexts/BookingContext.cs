@@ -19,7 +19,6 @@ public class BookingDbContext : DbContext
 
     public virtual DbSet<EntityHistories> EntityHistories { get; set; }
     public virtual DbSet<Stogares> Stogares { get; set; }
-
     public virtual DbSet<Entities.Customers> Customers { get; set; }
     public virtual DbSet<Entities.RestaurantInformation> RestaurantInformation { get; set; }
     public virtual DbSet<Entities.RestaurantImages> RestaurantImages { get; set; }
@@ -31,7 +30,7 @@ public class BookingDbContext : DbContext
     public virtual DbSet<Entities.RestaurantMenu> RestaurantMenu { get; set; }
     public virtual DbSet<Entities.BookingMenu> BookingMenu { get; set; }
     public virtual DbSet<Entities.MenuImages> MenuImages { get; set; }
-
+    public virtual DbSet<Entities.MenuCategories> MenuCategories { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

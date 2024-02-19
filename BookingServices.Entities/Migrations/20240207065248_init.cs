@@ -67,6 +67,27 @@ namespace BookingServices.Entities.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "MenuCategories",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Name = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    IconUrl = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    ModifiedBy = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MenuCategories", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "RestaurantInformation",
                 columns: table => new
                 {
@@ -96,30 +117,6 @@ namespace BookingServices.Entities.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "RestaurantMenu",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Name = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Description = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    MenuType = table.Column<int>(type: "int", nullable: false),
-                    UnitType = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    ModifiedBy = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RestaurantMenu", x => x.Id);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "Restaurants",
                 columns: table => new
                 {
@@ -138,6 +135,8 @@ namespace BookingServices.Entities.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Rating = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     PhoneNumber = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Website = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Capacity = table.Column<int>(type: "int", nullable: false),
                     TotalFloors = table.Column<int>(type: "int", nullable: false),
@@ -204,13 +203,17 @@ namespace BookingServices.Entities.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "MenuImages",
+                name: "RestaurantMenu",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    MenuId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    ImageUrl = table.Column<string>(type: "longtext", nullable: false)
+                    Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    Description = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    MenuCategoryId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UnitType = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
                     IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -219,11 +222,11 @@ namespace BookingServices.Entities.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MenuImages", x => x.Id);
+                    table.PrimaryKey("PK_RestaurantMenu", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MenuImages_RestaurantMenu_MenuId",
-                        column: x => x.MenuId,
-                        principalTable: "RestaurantMenu",
+                        name: "FK_RestaurantMenu_MenuCategories_MenuCategoryId",
+                        column: x => x.MenuCategoryId,
+                        principalTable: "MenuCategories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -291,6 +294,32 @@ namespace BookingServices.Entities.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "MenuImages",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    MenuId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    ImageUrl = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    ModifiedBy = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MenuImages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MenuImages_RestaurantMenu_MenuId",
+                        column: x => x.MenuId,
+                        principalTable: "RestaurantMenu",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Tables",
                 columns: table => new
                 {
@@ -326,7 +355,7 @@ namespace BookingServices.Entities.Migrations
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     TableId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    CustomerId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    CustomerId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     BookingStatusId = table.Column<int>(type: "int", nullable: false),
                     BookingDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     NumberOfPeople = table.Column<int>(type: "int", nullable: false),
@@ -343,8 +372,7 @@ namespace BookingServices.Entities.Migrations
                         name: "FK_Bookings_Customers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Bookings_Tables_TableId",
                         column: x => x.TableId,
@@ -393,10 +421,10 @@ namespace BookingServices.Entities.Migrations
                 columns: new[] { "Id", "CreatedBy", "CreatedDate", "CustomerId", "IsDeleted", "ModifiedBy", "ModifiedDate", "Name", "Password", "Role", "Username" },
                 values: new object[,]
                 {
-                    { new Guid("2b8f3715-3af2-453d-b235-d60d8e344eac"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null, null, "Customer", "jw+V3fpbisV4KTfx5ZsxDeYAgmDYI6ru8yD23KuRhtYARnFZX84iKy0eGDTNzkzC", 4, "customer" },
-                    { new Guid("397ba1f1-c2ff-4bdf-8d59-4a6c37ca30c6"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null, null, "Manager", "TsMMMynSJrzQaC4ePvO85fNbFUo1f39gD8yEGqBqKpwZJq9VDzE/3pUEgO0dyh8Z", 2, "manager" },
-                    { new Guid("8da5e99c-7eb2-4a48-9b6f-6b9c58837294"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null, null, "Staff", "gsUebl6Sjm6Plq3yllcPjeO+Q6QeRWuDIanHt2dVSeA8nCE5CxL33Ae/8PP8urZk", 3, "staff" },
-                    { new Guid("be809c8a-b2d4-4654-b5ef-7bb99f3af3b5"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null, null, "Admin", "qgPoFgrCzVRz5tsjd5gQa8oHbph1gQdCKzL/LsDIVZeUfuYniRhM4N3SoS5Aidoo", 1, "admin" }
+                    { new Guid("2b8f3715-3af2-453d-b235-d60d8e344eac"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null, null, "Customer", "FiXs79cHZo16Klm19+Z7qFlH5x7SlPo9jxROKf6rzsYPCDPG1vbNCp2+gm/1sAf8", 4, "customer" },
+                    { new Guid("397ba1f1-c2ff-4bdf-8d59-4a6c37ca30c6"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null, null, "Manager", "OKHHYV7qNBBUDh0YArXHA/bdw5Fa9EL/aLAKDvEDUDhFxar8YoRP8U9OKbHMsE8Q", 2, "manager" },
+                    { new Guid("8da5e99c-7eb2-4a48-9b6f-6b9c58837294"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null, null, "Staff", "2QSjmkoY7F9ezCcRoKDRRp/W/CskfWqTuKnpIG50J3tDSvptQaN7nZAX8xEqBkKR", 3, "staff" },
+                    { new Guid("be809c8a-b2d4-4654-b5ef-7bb99f3af3b5"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null, null, "Admin", "ig9YboXAscbHhaw+446DRx9AYpWr4XouGaCtzHebKOcxMzMhliVSaTsF2rTxZha6", 1, "admin" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -428,6 +456,11 @@ namespace BookingServices.Entities.Migrations
                 name: "IX_RestaurantImages_RestaurantId",
                 table: "RestaurantImages",
                 column: "RestaurantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RestaurantMenu_MenuCategoryId",
+                table: "RestaurantMenu",
+                column: "MenuCategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tables_RestaurantFloorId",
@@ -483,6 +516,9 @@ namespace BookingServices.Entities.Migrations
 
             migrationBuilder.DropTable(
                 name: "Tables");
+
+            migrationBuilder.DropTable(
+                name: "MenuCategories");
 
             migrationBuilder.DropTable(
                 name: "RestaurantFloors");

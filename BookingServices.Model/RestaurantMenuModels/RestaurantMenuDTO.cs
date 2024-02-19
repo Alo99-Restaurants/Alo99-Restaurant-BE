@@ -10,7 +10,8 @@ public class RestaurantMenuDTO : IEntityAudit<Guid>
     public Guid Id { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
-    public EMenuType MenuType { get; set; }
+    public string MenuUrl { get; set; }
+    public Guid MenuCategoryId { get; set; }
     public EUnitType UnitType { get; set; }
     public decimal Price { get; set; }
     public Guid CreatedBy { get; set; }

@@ -49,8 +49,10 @@ public class RestaurantController : MyControllerBase
 
     // DELETE: api/Restaurant/5
     [HttpDelete("{id}")]
-    public async Task DeleteRestaurant(Guid id)
+    [ProducesResponseType(typeof(ApiResult), 200)]
+    public async Task<IActionResult> DeleteRestaurant(Guid id)
     {
         await _restaurantServices.DeleteRestaurantAsync(id);
+        return ApiOk();
     }
 }

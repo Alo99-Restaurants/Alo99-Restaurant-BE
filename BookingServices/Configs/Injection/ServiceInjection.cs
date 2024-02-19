@@ -2,6 +2,7 @@
 using BookingServices.Application.Services.BookingMenu;
 using BookingServices.Application.Services.Customer;
 using BookingServices.Application.Services.Menu;
+using BookingServices.Application.Services.MenuCategory;
 using BookingServices.Application.Services.MenuImage;
 using BookingServices.Application.Services.Restaurant;
 using BookingServices.Application.Services.RestaurantFloor;
@@ -44,6 +45,7 @@ public static class ServiceInjection
         services.AddScoped<IRestaurantMenuServices, RestaurantMenuServices>();
         services.AddScoped<IMenuImageServices, MenuImageServices>();
         services.AddScoped<IBookingMenuServices, BookingMenuServices>();
+        services.AddScoped<IMenuCategoryServices, MenuCategoryServices>();
 
         //external services
         services.AddScoped<IEmailService, EmailService>();
@@ -89,14 +91,14 @@ public static class ServiceInjection
         {
             options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-        }).AddNewtonsoftJson(options =>
-        {
-            // Configure JSON serialization settings here for Newtonsoft.Json
-            options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+        });//.AddNewtonsoftJson(options =>
+        //{
+        //    // Configure JSON serialization settings here for Newtonsoft.Json
+        //    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 
-            // Add the StringEnumConverter to handle enums as strings
-            options.SerializerSettings.Converters.Add(new StringEnumConverter());
-        });
+        //    // Add the StringEnumConverter to handle enums as strings
+        //    options.SerializerSettings.Converters.Add(new StringEnumConverter());
+        //});
         return services;
     }
 
@@ -190,7 +192,7 @@ public static class ServiceInjection
     //add automapper
     public static IServiceCollection AddAutoMapperConfig(this IServiceCollection services, Assembly[] assemblies)
     {
-        services.AddAutoMapper(assemblies);
+        services.AddAutoMapper(assemblies ?? throw new ArgumentNullException());
         return services;
     }
 

@@ -5,5 +5,5 @@ namespace BookingServices.Model.RestaurantMenuModels;
 
 public class GetAllRestaurantMenuRequest : PagingRequest
 {
-    public EMenuType? MenuType { get; set; }
+    public Guid? MenuCategoryId { get; set; }
 }

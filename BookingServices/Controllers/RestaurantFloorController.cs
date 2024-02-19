@@ -50,8 +50,9 @@ public class RestaurantFloorController : MyControllerBase
     //delete restaurant floor
     [HttpDelete("{id}")]
     [ProducesResponseType(typeof(ApiResult), 200)]
-    public async Task DeleteRestaurantFloor(Guid id)
+    public async Task<IActionResult> DeleteRestaurantFloor(Guid id)
     {
         await _restaurantFloorServices.DeleteRestaurantFloorAsync(id);
+        return ApiOk();
     }
 }
