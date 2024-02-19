@@ -11,14 +11,16 @@ public class AddCustomerRequest
     public EGender? Gender { get; set; }
     public string? PhoneNumber { get; set; }
     public DateTime? DateOfBirth { get; set; }
+    public string? Picture { get; set; }
 
-    public AddCustomerRequest(string email, string? name, EGender? gender, string? phoneNumber, DateTime? dateOfBirth)
+    public AddCustomerRequest(string email, string? name, EGender? gender, string? phoneNumber, DateTime? dateOfBirth, string? picture)
     {
         Email = email;
         Name = name;
         Gender = gender;
         PhoneNumber = phoneNumber;
         DateOfBirth = dateOfBirth;
+        Picture = picture;
     }
     public AddCustomerRequest() 
     {

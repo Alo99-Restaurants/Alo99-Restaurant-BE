@@ -41,6 +41,7 @@ public class LoginUserByGoogleQueryHandler : IRequestHandler<LoginUserByGoogleQu
             {
                 Name = request.Name,
                 Email = request.Email,
+                Picture = request.Picture
             });
            
             //add user

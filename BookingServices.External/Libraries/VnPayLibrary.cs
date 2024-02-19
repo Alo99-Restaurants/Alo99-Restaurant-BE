@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 
-namespace BookingServices.External.Services.VNPay
+namespace BookingServices.External.Libraries
 {
     public class VnPayLibrary
     {
@@ -15,7 +15,7 @@ namespace BookingServices.External.Services.VNPay
         private SortedList<string, string> _requestData = new SortedList<string, string>(new VnPayCompare());
         private SortedList<string, string> _responseData = new SortedList<string, string>(new VnPayCompare());
 
-        
+
         public void AddRequestData(string key, string value)
         {
             if (!string.IsNullOrEmpty(value))

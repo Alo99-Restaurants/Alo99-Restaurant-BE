@@ -10,4 +10,6 @@ public class LoginUserByGoogleQuery : IRequest<LoginResponseModel>
     public string Email { get; set; }
     [Required(ErrorMessage = "Name is null")]
     public string Name { get; set; }
+    public string Picture { get; set; }
+    
 }

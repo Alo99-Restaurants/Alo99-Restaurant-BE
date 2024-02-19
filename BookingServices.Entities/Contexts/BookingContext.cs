@@ -27,6 +27,7 @@ public class BookingDbContext : DbContext
     public virtual DbSet<Entities.RestaurantFloors> RestaurantFloors { get; set; }
     public virtual DbSet<Entities.Tables> Tables { get; set; }
     public virtual DbSet<Entities.Bookings> Bookings { get; set; }
+    public virtual DbSet<Entities.BookingTable> BookingTable { get; set; }
     public virtual DbSet<Entities.RestaurantMenu> RestaurantMenu { get; set; }
     public virtual DbSet<Entities.BookingMenu> BookingMenu { get; set; }
     public virtual DbSet<Entities.MenuImages> MenuImages { get; set; }

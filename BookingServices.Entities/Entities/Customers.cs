@@ -18,6 +18,7 @@ public class Customers : EntityAudit<Guid>, IHaveDeleted
 
     public EGender Gender { get; set; } = EGender.Male;
     public string? PhoneNumber { get; set; }
+    public string? Picture { get; set; }
     public DateTime? DateOfBirth { get; set; }
     public bool IsDeleted { get; set; }
 

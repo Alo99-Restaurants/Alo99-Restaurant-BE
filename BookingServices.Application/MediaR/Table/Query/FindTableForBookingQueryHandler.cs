@@ -28,7 +28,7 @@ namespace BookingServices.Application.MediaR.Table.Query
             var tables = _dbContext.RestaurantFloors.WhereIf(request.RestaurantId != null,x => x.RestaurantId == request.RestaurantId)
                 .SelectMany(x => x.Tables)
                 .Where(x => x.Capacity >= request.Capacity)
-                .Include(x=> x.Bookings.Where(x=> x.BookingDate.Date == request.BookingDate.Date).Take(1))
+                .Include(x=> x.BookingTables.Where(x=> x.Booking.BookingDate == request.BookingDate.Date).Take(1))
                 .ToList();
             
             return _mapper.Map<IEnumerable<TableDTO>>(tables);

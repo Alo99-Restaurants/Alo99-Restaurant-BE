@@ -52,9 +52,11 @@ public class CustomerServices : ICustomerServices
 
         //map customer
         _mapper.Map(customer, customerEntity);
-
+        
         //update customer
         _context.Update(customerEntity);
+        //do field email not change
+        _context.Entry(customerEntity).Property(x => x.Email).IsModified = false;
         //save changes
         _context.SaveChanges();
     }

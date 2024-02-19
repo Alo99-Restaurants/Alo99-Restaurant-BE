@@ -5,13 +5,12 @@ namespace BookingServices.Model.BookingModels;
 
 public class AddBookingRequest
 {
-    public AddBookingRequest(Guid tableId, Guid? customerId, DateTime bookingDate, int numberOfPeople, EBookingStatus bookingStatusId = EBookingStatus.New)
+    public AddBookingRequest(Guid tableId, DateTime bookingDate, int numberOfPeople, EBookingStatus bookingStatusId = EBookingStatus.New)
     {
         TableId = tableId;
         BookingStatusId = bookingStatusId;
         BookingDate = bookingDate;
         NumberOfPeople = numberOfPeople;
-        CustomerId = customerId;
     }
 
     public Guid TableId { get; set; }

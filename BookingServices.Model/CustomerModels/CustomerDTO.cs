@@ -7,6 +7,7 @@ namespace BookingServices.Model.CustomerModels;
 
 public class CustomerDTO : IEntityAudit<Guid>
 {
+    public Guid Id { get; set; }
     [EmailAddress]
     public string Email { get; set; }
     private string? _name;
@@ -19,8 +20,8 @@ public class CustomerDTO : IEntityAudit<Guid>
 
     public EGender Gender { get; set; } = EGender.Male;
     public string? PhoneNumber { get; set; }
+    public string? Picture { get; set; }
     public DateTime? DateOfBirth { get; set; }
-    public Guid Id { get; set; }
     public Guid CreatedBy { get; set; }
     public DateTime CreatedDate { get; set; }
     public Guid? ModifiedBy { get; set; }

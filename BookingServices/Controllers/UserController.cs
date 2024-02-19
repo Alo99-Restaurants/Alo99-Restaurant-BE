@@ -13,6 +13,8 @@ using System.Security.Claims;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using BookingServices.Application.MediaR.User.Query.Login.ByGoogle;
+using Newtonsoft.Json.Linq;
+using System.Net.Http.Headers;
 
 namespace BookingServices.Controllers;
 
@@ -120,6 +122,44 @@ public class UserController : MyControllerBase
 
         // Handle authentication failure, redirect to an error page, etc.
         throw new AuthenticationFailureException("");
+    }
+
+    //login with google by access token
+    [HttpGet("google-auth-token")]
+    [AllowAnonymous]
+    [ProducesResponseType(typeof(ApiResult<LoginResponseModel>), 200)]
+    public async Task<IActionResult> GoogleAuthByToken([FromQuery]string accessToken)
+    {
+        using (var client = new HttpClient())
+        {
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            HttpResponseMessage response = await client.GetAsync("https://www.googleapis.com/userinfo/v2/me");
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                var userInfor = JsonConvert.DeserializeObject<GoogleUserInfor>(responseBody);
+                var request = new LoginUserByGoogleQuery
+                {
+                    Email = userInfor?.Email,
+                    Name = userInfor?.Name
+                };
+                var rs = await _mediator.Send(request);
+                return ApiOk(rs);
+            }
+            else
+            {
+                if(response.StatusCode >= System.Net.HttpStatusCode.InternalServerError)
+                {
+                    throw new Exception("Failed to fetch user info. Status code: " + response.StatusCode);
+                }
+                else
+                {
+                    throw new ClientException(accessToken + " is invalid");
+                }
+            }
+        }
     }
 
 #if DEBUG
