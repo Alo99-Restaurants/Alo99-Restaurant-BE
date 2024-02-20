@@ -17,7 +17,7 @@ public class TableDTO : IEntityAudit<Guid>
     public Guid? ModifiedBy { get; set; }
     public DateTime? ModifiedDate { get; set; }
     //colection booking
-    public IEnumerable<BookingDTO>? Bookings { get; set; }
+    public ICollection<BookingDTO> Bookings { get; set; }
 
     public bool IsAvailable()
     {

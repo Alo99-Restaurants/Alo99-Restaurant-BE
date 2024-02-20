@@ -5,16 +5,15 @@ namespace BookingServices.Model.BookingModels;
 
 public class AddBookingRequest
 {
-    public AddBookingRequest(Guid tableId, DateTime bookingDate, int numberOfPeople, EBookingStatus bookingStatusId = EBookingStatus.New)
+    public AddBookingRequest(List<Guid> tableIds, DateTime bookingDate, int numberOfPeople, EBookingStatus bookingStatusId = EBookingStatus.New)
     {
-        TableId = tableId;
+        TableIds = tableIds;
         BookingStatusId = bookingStatusId;
         BookingDate = bookingDate;
         NumberOfPeople = numberOfPeople;
     }
 
-    public Guid TableId { get; set; }
-    public Guid? CustomerId { get; set; }
+    public List<Guid> TableIds { get; set; }
     public EBookingStatus BookingStatusId { get; set; }
     public DateTime BookingDate { get; set; }
     public int NumberOfPeople { get; set; }

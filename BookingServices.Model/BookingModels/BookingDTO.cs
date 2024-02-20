@@ -18,6 +18,6 @@ public class BookingDTO : IEntityAudit<Guid>
     public Guid? ModifiedBy { get; set; }
     public DateTime? ModifiedDate { get; set; }
 
-    public UserDTO? User { get; set; }
-    public TableDTO? Table { get; set; }
+    //public UserDTO? User { get; set; }
+    public ICollection<TableDTO> Tables { get; set; } = [];
 }

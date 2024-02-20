@@ -76,21 +76,23 @@ public class BookingDbContext : DbContext
                 }
                 // Handle other scenarios if needed
             }
-
-            if (entry.State == EntityState.Added)
+            if(entry.Entity is EntityAudit<Guid> entityAudit)
             {
-                entry.Property("CreatedBy").CurrentValue = userId;
-                entry.Property("CreatedDate").CurrentValue = DateTime.Now;
-            }
-            else if (entry.State == EntityState.Modified)
-            {
-                LogChangeEntity(entry, userId, requestId);
-                entry.Property("CreatedBy").IsModified = false;
-                entry.Property("CreatedDate").IsModified = false;
-            }
+                if (entry.State == EntityState.Added)
+                {
+                    entry.Property("CreatedBy").CurrentValue = userId;
+                    entry.Property("CreatedDate").CurrentValue = DateTime.Now;
+                }
+                else if (entry.State == EntityState.Modified)
+                {
+                    LogChangeEntity(entry, userId, requestId);
+                    entry.Property("CreatedBy").IsModified = false;
+                    entry.Property("CreatedDate").IsModified = false;
+                }
 
-            entry.Property("ModifiedBy").CurrentValue = userId;
-            entry.Property("ModifiedDate").CurrentValue = DateTime.Now;
+                entry.Property("ModifiedBy").CurrentValue = userId;
+                entry.Property("ModifiedDate").CurrentValue = DateTime.Now;
+            }
         }
     }
 
