@@ -40,7 +40,7 @@ public class TableServices : ITableServices
         };
     }
 
-    public async Task<TableDTO> GetTableByIdAsync(Guid id) => _mapper.Map<TableDTO>(await _context.Tables.IgnoreQueryFilters().Include(x => x.BookingTables.OrderByDescending(x=> x.Booking.BookingDate).Skip(0).Take(10)).FirstOrDefaultAsync(x => x.Id == id));
+    public async Task<TableDTO> GetTableByIdAsync(Guid id) => _mapper.Map<TableDTO>(await _context.Tables.IgnoreQueryFilters().Include(x => x.Bookings.OrderByDescending(x=> x.BookingDate).Skip(0).Take(10)).FirstOrDefaultAsync(x => x.Id == id));
 
     public async Task UpdateTableAsync(UpdateTableRequest table)
     {

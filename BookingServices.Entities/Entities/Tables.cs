@@ -14,6 +14,5 @@ public class Tables : EntityAudit<Guid>,IHaveDeleted
 
     [ForeignKey(nameof(RestaurantFloorId))]
     public virtual RestaurantFloors RestaurantFloor { get; set; }
-    public virtual ICollection<BookingTable> BookingTables { get; set; }
-    
+    public ICollection<Bookings> Bookings { get; set; } = [];
 }

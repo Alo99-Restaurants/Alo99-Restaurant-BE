@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BookingServices.Entities.Migrations
 {
     /// <inheritdoc />
-    public partial class addBookingTableAndCustomerPicture : Migration
+    public partial class addmanytomanyforbookingandtable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -31,25 +31,24 @@ namespace BookingServices.Entities.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "BookingTable",
+                name: "BookingsTables",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    TableId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    BookingId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    BookingsId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    TablesId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BookingTable", x => x.Id);
+                    table.PrimaryKey("PK_BookingsTables", x => new { x.BookingsId, x.TablesId });
                     table.ForeignKey(
-                        name: "FK_BookingTable_Bookings_BookingId",
-                        column: x => x.BookingId,
+                        name: "FK_BookingsTables_Bookings_BookingsId",
+                        column: x => x.BookingsId,
                         principalTable: "Bookings",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BookingTable_Tables_TableId",
-                        column: x => x.TableId,
+                        name: "FK_BookingsTables_Tables_TablesId",
+                        column: x => x.TablesId,
                         principalTable: "Tables",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -61,45 +60,40 @@ namespace BookingServices.Entities.Migrations
                 keyColumn: "Id",
                 keyValue: new Guid("2b8f3715-3af2-453d-b235-d60d8e344eac"),
                 column: "Password",
-                value: "cnv7O/zt5kv5OIrzLSTYvi3uN9xvvws5RFMKxTzDxa9v2eI9xvykm5dGHzXUScXD");
+                value: "8xMHM73g+d9xjinagVqPaeUGTdX7Cd48qZE+GN8/ZzWO+8KLdtfI4UkIsZnOUElL");
 
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: new Guid("397ba1f1-c2ff-4bdf-8d59-4a6c37ca30c6"),
                 column: "Password",
-                value: "/SUXXFo7T1bHCR6N3WD5o450aNaPDtO588QXbtln5Bd4kzLTelA4NSMGV4WGI9FS");
+                value: "U6FGSLuT2+act3Cn7KRk55uEVmIXIkDMDJzvJSby7+2ZBVpQGMYpE2A7CSaainUB");
 
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: new Guid("8da5e99c-7eb2-4a48-9b6f-6b9c58837294"),
                 column: "Password",
-                value: "mNICYl+DmV+VvDAfTcmn9dsnFRGUmVYJfxsfXx7WQYjRvZNbSXp7juXi3nLrAJ/C");
+                value: "t4coThMJbhmlNoY8F2Kr39sFpgpLQzcCTgw7dRiMYkPU4fKGXC/vd0OsaZFYr/mF");
 
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: new Guid("be809c8a-b2d4-4654-b5ef-7bb99f3af3b5"),
                 column: "Password",
-                value: "jqpguqCU721YqSUnbrVEOcnFMS2wdUTLVI0swwM1v18XiBZtN7OjqKnh412PfdUu");
+                value: "sc8yD6n0ZX7MJMflMjfzdiPBW3Rx1ysMHJ1hpd4zSRsb2ZKv1NDZWAlMqx7dt/BL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BookingTable_BookingId",
-                table: "BookingTable",
-                column: "BookingId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BookingTable_TableId",
-                table: "BookingTable",
-                column: "TableId");
+                name: "IX_BookingsTables_TablesId",
+                table: "BookingsTables",
+                column: "TablesId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "BookingTable");
+                name: "BookingsTables");
 
             migrationBuilder.DropColumn(
                 name: "Picture",
