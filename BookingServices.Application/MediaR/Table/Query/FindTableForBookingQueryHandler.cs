@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace BookingServices.Application.MediaR.Table.Query
 {
-    public class FindTableForBookingQueryHandler : IRequestHandler<FindTableForBookingQuery,IEnumerable<TableDTO>>
+    public class FindTableForBookingQueryHandler : IRequestHandler<FindTableForBookingQuery,List<TableDTO>>
     {
         private readonly BookingDbContext _dbContext;
         private readonly IMapper _mapper;
@@ -23,15 +23,15 @@ namespace BookingServices.Application.MediaR.Table.Query
             _dbContext = dbContext;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<TableDTO>> Handle(FindTableForBookingQuery request, CancellationToken cancellationToken)
+        public async Task<List<TableDTO>> Handle(FindTableForBookingQuery request, CancellationToken cancellationToken)
         {
             var tables = _dbContext.RestaurantFloors.WhereIf(request.RestaurantId != null,x => x.RestaurantId == request.RestaurantId)
                 .SelectMany(x => x.Tables)
-                .Where(x => x.Capacity >= request.Capacity)
-                .Include(x=> x.Bookings.Where(x=> x.BookingDate == request.BookingDate.Date).Take(1))
+                //.Where(x => x.Capacity >= request.Capacity)
+                .Include(x=> x.Bookings.Where(x=> x.BookingDate.Date == request.BookingDate.Date))
                 .ToList();
             
-            return _mapper.Map<IEnumerable<TableDTO>>(tables);
+            return _mapper.Map<List<TableDTO>>(tables);
         }
     }
 }

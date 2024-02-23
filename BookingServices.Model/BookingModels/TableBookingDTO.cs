@@ -1,12 +1,9 @@
-﻿using BookingServices.Entities.Entities;
-using BookingServices.Entities.Entities.Interfaces;
+﻿using BookingServices.Entities.Entities.Interfaces;
 using BookingServices.Entities.Enum;
-using BookingServices.Model.TableModels;
-using BookingServices.Model.UserModels;
 
-namespace BookingServices.Model.BookingModels;
+namespace BookingServices.Model.TableModels;
 
-public class BookingDTO : IEntityAudit<Guid>
+public class TableBookingDTO : IEntityAudit<Guid>
 {
     public Guid Id { get; set; }
     public Guid CustomerId { get; set; }
@@ -17,6 +14,4 @@ public class BookingDTO : IEntityAudit<Guid>
     public DateTime CreatedDate { get; set; }
     public Guid? ModifiedBy { get; set; }
     public DateTime? ModifiedDate { get; set; }
-
-    public ICollection<BookingTableDTO> Tables { get; set; } = [];
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BookingServices.Application.MediaR.Table.Query
 {
-    public class FindTableForBookingQuery : IRequest<IEnumerable<TableDTO>>
+    public class FindTableForBookingQuery : IRequest<List<TableDTO>>
     {
         public Guid? RestaurantId { get; set; }
         public int Capacity { get; set; }

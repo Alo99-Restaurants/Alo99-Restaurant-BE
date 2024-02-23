@@ -62,7 +62,7 @@ public class TableController : MyControllerBase
 
     //FindTableForBookingQuery implement api
     [HttpPost("find")]
-    [ProducesResponseType(typeof(ApiResult<IEnumerable<TableDTO>>), 200)]
+    [ProducesResponseType(typeof(ApiResult<List<TableDTO>>), 200)]
     public async Task<IActionResult> FindTableForBooking([FromBody] FindTableForBookingQuery query)
     {
         var rs = await _mediator.Send(query);

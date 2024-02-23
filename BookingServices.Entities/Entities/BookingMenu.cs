@@ -11,7 +11,7 @@ public class BookingMenu : EntityAudit<Guid>, IHaveDeleted
     public string? SpecialRequest { get; set; }
     public bool IsDeleted { get; set; }
 
-    [ForeignKey(nameof(MenuId))]
+    [ForeignKey(nameof(BookingId))]
     public virtual Bookings Booking { get; set; }
     [ForeignKey(nameof(MenuId))]
     public virtual RestaurantMenu RestaurantMenu { get; set; }

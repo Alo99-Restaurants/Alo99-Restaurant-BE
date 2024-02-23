@@ -91,14 +91,14 @@ public static class ServiceInjection
         {
             options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-        });//.AddNewtonsoftJson(options =>
-        //{
-        //    // Configure JSON serialization settings here for Newtonsoft.Json
-        //    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+        }).AddNewtonsoftJson(options =>
+        {
+            // Configure JSON serialization settings here for Newtonsoft.Json
+            options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 
-        //    // Add the StringEnumConverter to handle enums as strings
-        //    options.SerializerSettings.Converters.Add(new StringEnumConverter());
-        //});
+            // Add the StringEnumConverter to handle enums as strings
+            options.SerializerSettings.Converters.Add(new StringEnumConverter());
+        });
         return services;
     }
 

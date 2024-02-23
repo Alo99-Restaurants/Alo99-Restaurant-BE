@@ -21,6 +21,7 @@ public static class CustomLinqExtensions
 
         return source;
     }
+
     public static IQueryable<T> ActiveEntities<T>(this IQueryable<T> entities)
     {
         try

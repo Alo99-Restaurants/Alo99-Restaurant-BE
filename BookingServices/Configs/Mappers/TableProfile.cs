@@ -9,6 +9,7 @@ public class TableProfile : Profile
     public TableProfile()
     {
         CreateMap<TableDTO, Tables>().ReverseMap();
+        CreateMap<BookingTableDTO, Tables>().ReverseMap();
         CreateMap<AddTableRequest, Tables>().ReverseMap();
         CreateMap<UpdateTableRequest, Tables>().ReverseMap();
     }
