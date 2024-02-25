@@ -5,7 +5,6 @@ using BookingServices.Entities.Contexts;
 using BookingServices.Entities.Enum;
 using BookingServices.Model.CustomerModels;
 using BookingServices.Model.UserModels;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using static AppConfigurations;

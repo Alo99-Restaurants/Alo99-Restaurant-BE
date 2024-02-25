@@ -1,5 +1,4 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 
 namespace BookingServices.Application.MediaR.Common.Storage.Upload;
 

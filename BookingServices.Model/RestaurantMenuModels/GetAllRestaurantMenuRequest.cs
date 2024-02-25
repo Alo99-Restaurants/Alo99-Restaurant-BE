@@ -1,5 +1,4 @@
 ﻿using BookingServices.Core.Models;
-using BookingServices.Entities.Enum;
 
 namespace BookingServices.Model.RestaurantMenuModels;
 

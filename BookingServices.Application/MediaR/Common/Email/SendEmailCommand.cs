@@ -1,5 +1,4 @@
-﻿using MediatR;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace BookingServices.Application.MediaR.Common.Email;
 

@@ -1,5 +1,4 @@
-﻿using BookingServices.Entities.Entities;
-using BookingServices.Entities.Enum;
+﻿using BookingServices.Entities.Enum;
 using System.ComponentModel.DataAnnotations;
 
 namespace BookingServices.Model.BookingModels;

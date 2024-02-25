@@ -1,6 +1,5 @@
 ﻿using BookingServices.Entities.Entities.Interfaces;
 using BookingServices.Entities.Enum;
-using BookingServices.Model.BookingModels;
 
 namespace BookingServices.Model.TableModels;
 

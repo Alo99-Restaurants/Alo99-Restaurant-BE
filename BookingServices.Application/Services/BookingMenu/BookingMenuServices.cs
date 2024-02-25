@@ -66,14 +66,14 @@ public class BookingMenuServices : IBookingMenuServices
     {
         return new ApiPaged<BookingMenuDTO>
         {
-            Items = _mapper.Map<IEnumerable<BookingMenuDTO>>(await _context.BookingMenu
+            Items = _mapper.Map<IEnumerable<BookingMenuDTO>>(await _context.BookingMenu.Include(x=> x.RestaurantMenu)
                                 .WhereIf(request.BookingId != null,x => x.BookingId == request.BookingId)
                                 .WhereIf(request.RestaurantMenuId != null, x=> x.MenuId == request.RestaurantMenuId).Skip(request.SkipRows).Take(request.TotalRows).ToListAsync()),
             TotalRecords = await _context.BookingMenu.Where(x => x.BookingId == request.BookingId).CountAsync()
         };
     }
 
-    public async Task<BookingMenuDTO> GetBookingMenuByIdAsync(Guid id) => _mapper.Map<BookingMenuDTO>(await _context.BookingMenu.FirstOrDefaultAsync(x => x.Id == id));
+    public async Task<BookingMenuDTO> GetBookingMenuByIdAsync(Guid id) => _mapper.Map<BookingMenuDTO>(await _context.BookingMenu.Include(x=> x.RestaurantMenu).FirstOrDefaultAsync(x => x.Id == id));
 
     public async Task UpdateBookingMenuAsync(UpdateBookingMenuRequest request)
     {

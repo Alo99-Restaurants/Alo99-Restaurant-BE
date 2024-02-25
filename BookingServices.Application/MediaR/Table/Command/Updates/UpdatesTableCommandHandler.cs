@@ -3,7 +3,6 @@ using BookingServices.Application.Services.Table;
 using BookingServices.Entities.Contexts;
 using BookingServices.Entities.Entities;
 using BookingServices.Model.TableModels;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookingServices.Application.MediaR.Table.Command.Updates;

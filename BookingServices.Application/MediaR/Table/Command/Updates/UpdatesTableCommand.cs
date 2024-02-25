@@ -1,5 +1,4 @@
 ﻿using BookingServices.Model.TableModels;
-using MediatR;
 
 namespace BookingServices.Application.MediaR.Table.Command.Updates;
 

@@ -5,10 +5,8 @@ using BookingServices.Core.Models.ControllerResponse;
 using BookingServices.Entities.Contexts;
 using BookingServices.Entities.Entities;
 using BookingServices.Model.BookingModels;
-using BookingServices.Model.TableModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using System.Net.Http;
 
 namespace BookingServices.Application.Services.Booking;
 
@@ -34,7 +32,8 @@ public class BookingServices : IBookingServices
         if (user == null) throw new ClientException("User not found");
         
         //get table by table id and check exist
-        var tables = _bookingDbContext.Tables.Where(x => booking.TableIds.Contains(x.Id)).Include(x=> x.RestaurantFloor).Include(x=> x.Bookings.Where(x=> x.BookingDate.Date == booking.BookingDate)).ToList();
+        var tables = _bookingDbContext.Tables.Where(x => booking.TableIds.Contains(x.Id)).Include(x=> x.RestaurantFloor)
+                                        .Include(x=> x.Bookings.Where(x=> x.BookingDate.Date == booking.BookingDate)).ToList();
         if (tables == null) throw new ClientException("Tables not found");
         //check count table
         if (tables.Count != booking.TableIds.Count) throw new ClientException("One of tables not exist");

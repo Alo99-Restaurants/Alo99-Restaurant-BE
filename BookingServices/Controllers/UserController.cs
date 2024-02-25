@@ -13,7 +13,6 @@ using System.Security.Claims;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using BookingServices.Application.MediaR.User.Query.Login.ByGoogle;
-using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
 
 namespace BookingServices.Controllers;

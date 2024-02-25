@@ -9,6 +9,7 @@ public class AddBookingMenuRequest
     }
 
     public double Quantity { get; set; }
+    public double Price { get; set; }   
     public string? SpecialRequest { get; set; }
     public Guid BookingId { get; set; }
     public Guid MenuId { get; set; }

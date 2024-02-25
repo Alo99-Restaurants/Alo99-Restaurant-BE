@@ -1,7 +1,6 @@
 ﻿using BookingServices.Entities.Contexts;
 using BookingServices.Entities.Entities.Others;
 using BookingServices.External.Interfaces;
-using MediatR;
 using Microsoft.Extensions.Options;
 using static AppConfigurations;
 

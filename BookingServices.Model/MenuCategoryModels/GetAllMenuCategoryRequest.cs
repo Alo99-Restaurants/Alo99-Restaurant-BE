@@ -1,8 +1,7 @@
 ﻿using BookingServices.Core.Models;
 
-namespace BookingServices.Model.MenuCategoryModels
+namespace BookingServices.Model.MenuCategoryModels;
+
+public class GetAllMenuCategoryRequest : PagingRequest
 {
-    public class GetAllMenuCategoryRequest : PagingRequest
-    {
-    }
 }

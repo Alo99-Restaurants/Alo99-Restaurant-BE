@@ -13,7 +13,6 @@ using BookingServices.Core.Redis;
 using BookingServices.Entities.Contexts;
 using BookingServices.External.Interfaces;
 using BookingServices.External.Services;
-using BookingServices.External.Services.VNPay;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;

@@ -8,6 +8,7 @@ public class BookingMenu : EntityAudit<Guid>, IHaveDeleted
     public Guid BookingId { get; set; }
     public Guid MenuId { get; set; }
     public double Quantity { get; set; }
+    public double Price { get; set; }
     public string? SpecialRequest { get; set; }
     public bool IsDeleted { get; set; }
 

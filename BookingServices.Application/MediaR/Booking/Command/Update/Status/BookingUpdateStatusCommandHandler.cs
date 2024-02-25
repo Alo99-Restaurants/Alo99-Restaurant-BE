@@ -1,41 +1,34 @@
 ﻿using AutoMapper;
 using BookingServices.Entities.Contexts;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BookingServices.Application.MediaR.Booking.Command.Update.Status
+namespace BookingServices.Application.MediaR.Booking.Command.Update.Status;
+
+public class BookingUpdateStatusCommandHandler : IRequestHandler<BookingUpdateStatusCommand, bool>
 {
-    public class BookingUpdateStatusCommandHandler : IRequestHandler<BookingUpdateStatusCommand, bool>
+    private readonly BookingDbContext _dbContext;
+    private readonly IMapper _mapper;
+
+    public BookingUpdateStatusCommandHandler(BookingDbContext dbContext, IMapper mapper)
     {
-        private readonly BookingDbContext _dbContext;
-        private readonly IMapper _mapper;
+        _dbContext = dbContext;
+        _mapper = mapper;
+    }
 
-        public BookingUpdateStatusCommandHandler(BookingDbContext dbContext, IMapper mapper)
+    public Task<bool> Handle(BookingUpdateStatusCommand request, CancellationToken cancellationToken)
+    {
+        //get all booking in list request
+        var bookings = _dbContext.Bookings.Where(x => request.BookingIds.Contains(x.Id)).ToList();
+        if (bookings.Count != request.BookingIds.Count) throw new ClientException("One of booking not exist");
+
+        //update status
+        foreach (var booking in bookings)
         {
-            _dbContext = dbContext;
-            _mapper = mapper;
+            booking.BookingStatusId = request.BookingStatus;
+            _dbContext.Update(booking);
         }
 
-        public Task<bool> Handle(BookingUpdateStatusCommand request, CancellationToken cancellationToken)
-        {
-            //get all booking in list request
-            var bookings = _dbContext.Bookings.Where(x => request.BookingIds.Contains(x.Id)).ToList();
-            if (bookings.Count != request.BookingIds.Count) throw new ClientException("One of booking not exist");
-
-            //update status
-            foreach (var booking in bookings)
-            {
-                booking.BookingStatusId = request.BookingStatus;
-                _dbContext.Update(booking);
-            }
-
-            //save change
-            _dbContext.SaveChanges();
-            return Task.FromResult(true);
-        }
+        //save change
+        _dbContext.SaveChanges();
+        return Task.FromResult(true);
     }
 }

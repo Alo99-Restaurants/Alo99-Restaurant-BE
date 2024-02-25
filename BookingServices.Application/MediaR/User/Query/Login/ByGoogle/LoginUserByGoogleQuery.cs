@@ -1,5 +1,4 @@
 ﻿using BookingServices.Model.UserModels;
-using MediatR;
 using System.ComponentModel.DataAnnotations;
 
 namespace BookingServices.Application.MediaR.User.Query.Login.ByGoogle;

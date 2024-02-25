@@ -1,15 +1,13 @@
 ﻿using BookingServices.External.Model.VNPay;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BookingServices.External.Model.VNPay.Response;
 
-namespace BookingServices.External.Interfaces
+namespace BookingServices.External.Interfaces;
+
+public interface IVnPayServices
 {
-    public interface IVnPayServices
-    {
-        //get url thanh toán
-        string GetPaymentUrl(OrderInfo order,string returnUrl);
-    }
+    //get url thanh toán
+    string GetPaymentUrl(OrderInfo order,string returnUrl);
+
+    //xác thực chữ ký
+    bool ValidateSignature(IPNResponse request);
 }
