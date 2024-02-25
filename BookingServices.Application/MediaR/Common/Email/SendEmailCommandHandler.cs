@@ -1,5 +1,4 @@
 ﻿using BookingServices.External.Interfaces;
-using MediatR;
 
 namespace BookingServices.Application.MediaR.Common.Email;
 

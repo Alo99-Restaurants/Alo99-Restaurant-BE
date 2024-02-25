@@ -10,5 +10,5 @@ public class GetAllBookingRequest : PagingRequest
     public Guid? CustomerId { get; set; }
     public Guid? RestaurantId { get; set; }
     public DateTime? BookingDate { get; set; }
-    public EBookingStatus? BookingStatus { get; set; }
+    public List<EBookingStatus>? BookingStatus { get; set; }
 }

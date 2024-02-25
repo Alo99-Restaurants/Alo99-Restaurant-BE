@@ -1,7 +1,9 @@
-﻿using BookingServices.Application.Services.BookingMenu;
+﻿using BookingServices.Application.MediaR.BookingMenus.Command;
+using BookingServices.Application.Services.BookingMenu;
 using BookingServices.Core;
 using BookingServices.Core.Models.ControllerResponse;
 using BookingServices.Model.BookingMenuModels;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingServices.Controllers;
@@ -12,11 +14,13 @@ public class BookingMenuController : MyControllerBase
 {
     private readonly ILogger _logger;
     private readonly IBookingMenuServices _bookingMenuServices;
+    private readonly IMediator _mediator;
 
-    public BookingMenuController(ILogger<BookingMenuController> logger, IBookingMenuServices bookingMenuServices)
+    public BookingMenuController(ILogger<BookingMenuController> logger, IBookingMenuServices bookingMenuServices, IMediator mediator)
     {
         _logger = logger;
         _bookingMenuServices = bookingMenuServices;
+        _mediator = mediator;
     }
 
     //get all booking menu
@@ -56,5 +60,12 @@ public class BookingMenuController : MyControllerBase
         return ApiOk();
     }
 
-
+    //implement CreatesOrUpdatesBookingMenuCommandHandler api
+    [HttpPost("CreatesOrUpdatesBookingMenu")]
+    [ProducesResponseType(typeof(ApiResult), 200)]
+    public async Task<IActionResult> CreatesOrUpdatesBookingMenu([FromBody] CreatesOrUpdatesBookingMenuCommand request)
+    {
+        await _mediator.Send(request);
+        return ApiOk();
+    }
 }

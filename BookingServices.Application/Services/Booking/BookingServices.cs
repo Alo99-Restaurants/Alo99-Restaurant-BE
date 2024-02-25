@@ -34,20 +34,13 @@ public class BookingServices : IBookingServices
         if (user == null) throw new ClientException("User not found");
         
         //get table by table id and check exist
-        var tables = _bookingDbContext.Tables.Include(x=> x.Bookings.Where(x=> x.BookingDate.Date == booking.BookingDate)).Where(x => booking.TableIds.Contains(x.Id)).ToList();
+        var tables = _bookingDbContext.Tables.Where(x => booking.TableIds.Contains(x.Id)).Include(x=> x.RestaurantFloor).Include(x=> x.Bookings.Where(x=> x.BookingDate.Date == booking.BookingDate)).ToList();
         if (tables == null) throw new ClientException("Tables not found");
         //check count table
         if (tables.Count != booking.TableIds.Count) throw new ClientException("One of tables not exist");
-
-        //check table valid
-        //var validTables = _mapper.Map<List<TableDTO>>(tables);
-        //foreach (var item in validTables)
-        //{
-            //if (item.IsAvailable() == false) throw new ClientException("Table not available");
-            //number of people must > item.Capacity
-            //if (item.Capacity >= booking.NumberOfPeople && booking.TableIds.Count > 1) throw new ClientException("Please book one table for this booking");
-        //}
-        ////if (validTables.Sum(x=> x.Capacity) <= booking.NumberOfPeople) throw new ClientException("Booking capacity is greater than table capacity");
+        
+        var restaurantIds = tables.GroupBy(x=> x.RestaurantFloor.RestaurantId).ToList();
+        if(restaurantIds.Exists(x=> x.Key != booking.RestaurantId)) throw new ClientException("Table not belong to restaurant");
 
         var addBooking = _mapper.Map<Bookings>(booking)??throw new Exception("Internal Error");
         addBooking.CustomerId = user.CustomerId;
@@ -70,32 +63,31 @@ public class BookingServices : IBookingServices
 
     public async Task<ApiPaged<BookingDTO>> GetAllBookingAsync(GetAllBookingRequest request)
     {
-        var data = await _bookingDbContext.Bookings.Include(x=> x.Tables).ThenInclude(x=> x.RestaurantFloor)
-                    .WhereIf(request.RestaurantId != null, x => x.Tables.Where(x=> x.RestaurantFloor.RestaurantId == request.RestaurantId).Any())
+        var data = await _bookingDbContext.Bookings.Include(x=> x.Tables)
+                    .WhereIf(request.RestaurantId != null, x => x.RestaurantId == request.RestaurantId)
                     .WhereIf(request.UserId != null, x => x.CreatedBy == request.UserId)
                     .WhereIf(request.CustomerId != null, x => x.CustomerId == request.CustomerId)
                     .WhereIf(request.TableId != null, x => x.Tables.Where(x=> x.Id == request.TableId).Any())
                     .WhereIf(request.BookingDate != null, x => x.BookingDate.Date == (request.BookingDate??DateTime.MinValue))
-                    .WhereIf(request.BookingStatus != null, x => x.BookingStatusId == request.BookingStatus)
+                    .WhereIf(request.BookingStatus != null, x => request.BookingStatus.Contains(x.BookingStatusId))
                     .Skip(request.SkipRows).Take(request.TotalRows).ToListAsync();
-        //if (data == null) throw new ClientException("Booking not found");
         return new ApiPaged<BookingDTO>
         {
             Items =_mapper.Map<IEnumerable<BookingDTO>>(data),
-            TotalRecords = await _bookingDbContext.Bookings.Include(x => x.Tables).ThenInclude(x=> x.RestaurantFloor)
-                    .WhereIf(request.RestaurantId != null, x => x.Tables.Where(x => x.RestaurantFloor.RestaurantId == request.RestaurantId).Any())
+            TotalRecords = await _bookingDbContext.Bookings.Include(x=> x.Restaurant).Include(x => x.Tables)
+                    .WhereIf(request.RestaurantId != null, x => x.RestaurantId == request.RestaurantId)
                     .WhereIf(request.UserId != null, x => x.CreatedBy == request.UserId)
                     .WhereIf(request.CustomerId != null, x => x.CustomerId == request.CustomerId)
                     .WhereIf(request.TableId != null, x => x.Tables.Where(x => x.Id == request.TableId).Any())
                     .WhereIf(request.BookingDate != null, x => x.BookingDate.Date == (request.BookingDate ?? DateTime.MinValue))
-                    .WhereIf(request.BookingStatus != null, x => x.BookingStatusId == request.BookingStatus)
+                    .WhereIf(request.BookingStatus != null, x => request.BookingStatus.Contains(x.BookingStatusId))
                     .CountAsync()
         };
     }
 
     public async Task<BookingDTO?> GetBookingByIdAsync(Guid id)
     {
-        return _mapper.Map<BookingDTO>(await _bookingDbContext.Bookings.Include(x => x.Tables).Include(x => x.Customer).FirstOrDefaultAsync(x=> x.Id == id));
+        return _mapper.Map<BookingDTO>(await _bookingDbContext.Bookings.Include(x => x.Tables).Include(x => x.Customer).Include(x=> x.Restaurant).FirstOrDefaultAsync(x=> x.Id == id));
     }
 
     public Task UpdateBookingAsync(UpdateBookingRequest booking)
@@ -105,21 +97,14 @@ public class BookingServices : IBookingServices
         if (bookingEntity == null) throw new ClientException("Booking not found");
 
         //check table
-        var tables = _bookingDbContext.Tables.Where(x => booking.TableIds.Contains(x.Id))
+        var tables = _bookingDbContext.Tables.Where(x => booking.TableIds.Contains(x.Id)).Include(x => x.RestaurantFloor)
                                                                .Include(x => x.Bookings.Where(x => x.BookingDate.Date == booking.BookingDate)).ToList();
         if (tables == null) throw new ClientException("Table not found");
         //check count table
         if (tables.Count != booking.TableIds.Count) throw new ClientException("One of tables not exist");
 
-        //foreach (var item in tables)
-        //{
-        //    //if (item.Capacity >= booking.NumberOfPeople && booking.TableIds.Count > 1) throw new ClientException("Please book one table for this booking");
-        //    if (bookingEntity.Tables.Contains(item)) continue;
-        //    var dto = _mapper.Map<TableDTO>(item);
-        //    if (dto?.IsAvailable() == false) throw new ClientException("Table not available");
-        //}
-
-        //if (tables.Sum(x => x.Capacity) <= booking.NumberOfPeople) throw new ClientException("Booking capacity is greater than table capacity");
+        var restaurantIds = tables.GroupBy(x => x.RestaurantFloor.RestaurantId).ToList();
+        if (restaurantIds.Exists(x => x.Key != booking.RestaurantId)) throw new ClientException("Table not belong to restaurant");
         
         //map booking
         _mapper.Map(booking, bookingEntity);

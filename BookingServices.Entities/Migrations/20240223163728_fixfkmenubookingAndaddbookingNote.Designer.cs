@@ -3,6 +3,7 @@ using System;
 using BookingServices.Entities.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingServices.Entities.Migrations
 {
     [DbContext(typeof(BookingDbContext))]
-    partial class BookingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240223163728_fixfkmenubookingAndaddbookingNote")]
+    partial class fixfkmenubookingAndaddbookingNote
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -97,14 +100,9 @@ namespace BookingServices.Entities.Migrations
                     b.Property<int>("NumberOfPeople")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("RestaurantId")
-                        .HasColumnType("char(36)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
-
-                    b.HasIndex("RestaurantId");
 
                     b.ToTable("Bookings");
                 });
@@ -640,7 +638,7 @@ namespace BookingServices.Entities.Migrations
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Admin",
-                            Password = "t2j2t1IVr9IKC1vQsgndbKHGP5E13z3u65iMQowwS/ni7HPGQP332CXjf+FFY/TQ",
+                            Password = "jhfREuJ1Cm/cc/IiOeS8VnNbHli/tmrIMBV5SORtEOaE2j+QbonyhTBILpCzTxys",
                             Role = 1,
                             Username = "admin"
                         },
@@ -651,7 +649,7 @@ namespace BookingServices.Entities.Migrations
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Manager",
-                            Password = "WIt4fYVwkkzAbO8wN6P+6w+1Oy/R4coVTmrktSOMGmIeqpQtsNpE7a0supM5zBmx",
+                            Password = "eq9wNhJMBQmBF9sWPbgTGuiKWEZF5H/8ZVP/9QkaZI3OtPpsyMksI3qW1Wblcf50",
                             Role = 2,
                             Username = "manager"
                         },
@@ -662,7 +660,7 @@ namespace BookingServices.Entities.Migrations
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Staff",
-                            Password = "EaBT0YPQtfV0JxlnIFSzQpvXtwOSDIoHmgDBLlpMqidfSdtnDNcDHmLQNt+IBoKU",
+                            Password = "/P8KRQJeUwPjmD6WpnxRKH1GWqdGkWisnzuoRofmHIqrYl5XEtnCHwctr1mqN53I",
                             Role = 3,
                             Username = "staff"
                         },
@@ -673,7 +671,7 @@ namespace BookingServices.Entities.Migrations
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Customer",
-                            Password = "dXVxGWOipuMHL7aLth39mbWvFtL5fAwtk3Vrbucyfw6tiQptxDukJI46Fii7Vs9Y",
+                            Password = "k91V/Hc4yzWbtZcjR4z0rIJROS6HkB6mD/NyJFdKGakn9dVPWBRDN2M1VY2XaxII",
                             Role = 4,
                             Username = "customer"
                         });
@@ -719,15 +717,7 @@ namespace BookingServices.Entities.Migrations
                         .WithMany()
                         .HasForeignKey("CustomerId");
 
-                    b.HasOne("BookingServices.Entities.Entities.Restaurants", "Restaurant")
-                        .WithMany()
-                        .HasForeignKey("RestaurantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Customer");
-
-                    b.Navigation("Restaurant");
                 });
 
             modelBuilder.Entity("BookingServices.Entities.Entities.MenuImages", b =>

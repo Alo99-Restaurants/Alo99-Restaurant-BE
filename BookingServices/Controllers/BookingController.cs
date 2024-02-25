@@ -1,7 +1,10 @@
-﻿using BookingServices.Application.Services.Booking;
+﻿using BookingServices.Application.MediaR.Booking.Command.Remove.All;
+using BookingServices.Application.MediaR.Booking.Command.Update.Status;
+using BookingServices.Application.Services.Booking;
 using BookingServices.Core;
 using BookingServices.Core.Models.ControllerResponse;
 using BookingServices.Model.BookingModels;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingServices.Controllers;
@@ -10,13 +13,15 @@ namespace BookingServices.Controllers;
 [ApiController]
 public class BookingController : MyControllerBase
 {
+    private readonly IMediator _mediator;
     private readonly IBookingServices _bookingServices;
     private readonly ILogger<BookingController> _logger;
 
-    public BookingController(IBookingServices bookingServices, ILogger<BookingController> logger)
+    public BookingController(IBookingServices bookingServices, ILogger<BookingController> logger, IMediator mediator)
     {
         _bookingServices = bookingServices;
         _logger = logger;
+        _mediator = mediator;
     }
 
     //get all booking
@@ -54,6 +59,22 @@ public class BookingController : MyControllerBase
     {
         await _bookingServices.DeleteBookingAsync(id);
         return ApiOk();
+    }
+
+    //implement api of BookingUpdateStatusCommand
+    [HttpPost("update-status")]
+    [ProducesResponseType(typeof(ApiResult), 200)]
+    public async Task<IActionResult> UpdateStatus(BookingUpdateStatusCommand command)
+    {
+        return ApiOk(await _mediator.Send(command));
+    }
+
+    //implement api of BookingRemoveAllCommand
+    [HttpPost("remove-all")]
+    [ProducesResponseType(typeof(ApiResult), 200)]
+    public async Task<IActionResult> RemoveAll()
+    {
+        return ApiOk(await _mediator.Send(new BookingRemoveAllCommand()));
     }
 
 }

@@ -7,11 +7,15 @@ namespace BookingServices.Entities.Entities;
 public class Bookings : EntityAudit<Guid>, IHaveDeleted
 {
     public Guid? CustomerId { get; set; }
+    public Guid RestaurantId { get; set; }
     public EBookingStatus BookingStatusId { get; set; }
     public DateTime BookingDate { get; set; }
     public int NumberOfPeople { get; set; }
+    public string? Note { get; set; }
     public bool IsDeleted { get; set; }
-    
+
+    [ForeignKey(nameof(RestaurantId))]
+    public Restaurants? Restaurant { get; set; }
     [ForeignKey(nameof(CustomerId))]
     public Customers? Customer { get; set; }
     public ICollection<BookingMenu> BookingMenu { get; set; }
