@@ -48,7 +48,7 @@ public class RestaurantMenuServices : IRestaurantMenuServices
         };
     }
 
-    public async Task<RestaurantMenuDTO> GetRestaurantMenuByIdAsync(Guid id) => _mapper.Map<RestaurantMenuDTO>(await _context.RestaurantMenu.FirstOrDefaultAsync(x => x.Id == id));
+    public async Task<RestaurantMenuDTO> GetRestaurantMenuByIdAsync(Guid id) => _mapper.Map<RestaurantMenuDTO>(await _context.RestaurantMenu.Include(x=> x.MenuCategory).FirstOrDefaultAsync(x => x.Id == id));
 
     public async Task UpdateRestaurantMenuAsync(UpdateRestaurantMenuRequest request)
     {

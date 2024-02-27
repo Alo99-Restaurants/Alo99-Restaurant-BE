@@ -20,6 +20,6 @@ public class RestaurantMenuDTO : IEntityAudit<Guid>
     public DateTime? ModifiedDate { get; set; }
 
     public IEnumerable<MenuImageDTO>? MenuImages { get; set; }
-    public IEnumerable<BookingMenuDTO>? BookingMenu { get; set; }
+    //public IEnumerable<BookingMenuDTO>? BookingMenu { get; set; }
 
 }
