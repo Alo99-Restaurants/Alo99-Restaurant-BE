@@ -142,7 +142,8 @@ public class UserController : MyControllerBase
                 var request = new LoginUserByGoogleQuery
                 {
                     Email = userInfor?.Email,
-                    Name = userInfor?.Name
+                    Name = userInfor?.Name,
+                    Picture = userInfor?.Picture
                 };
                 var rs = await _mediator.Send(request);
                 return ApiOk(rs);

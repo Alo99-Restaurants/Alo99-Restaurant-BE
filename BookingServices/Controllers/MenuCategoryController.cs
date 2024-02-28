@@ -47,7 +47,7 @@ public class MenuCategoryController : MyControllerBase
     // update menu category
     [HttpPut("{id}")]
     [ProducesResponseType(typeof(ApiResult), 200)]
-    public async Task<IActionResult> UpdateMenuCategory([FromBody] AddMenuCategoryRequest request, [FromQuery] Guid id)
+    public async Task<IActionResult> UpdateMenuCategory([FromBody] AddMenuCategoryRequest request, Guid id)
     {
         await _menuCategoryServices.UpdateMenuCategory(new UpdateMenuCategoryRequest (request,id));
         return ApiOk();

@@ -15,8 +15,8 @@ public class BookingRemoveAllCommandHandler : IRequestHandler<BookingRemoveAllCo
 
     public Task<bool> Handle(BookingRemoveAllCommand request, CancellationToken cancellationToken)
     {
-        var getAllBooking = _bookingDbContext.Bookings.ToList();
-        _bookingDbContext.RemoveRange(getAllBooking, cancellationToken);
+        var getAllBooking = _bookingDbContext.Bookings.ToArray();
+        _bookingDbContext.Bookings.RemoveRange(getAllBooking);
         _bookingDbContext.SaveChanges();
         return Task.FromResult(true);
     }
