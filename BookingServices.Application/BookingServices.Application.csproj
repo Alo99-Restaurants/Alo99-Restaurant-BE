@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <Folder Include="MediaR\Booking\Query\" />
-    <Folder Include="MediaR\User\Command\" />
   </ItemGroup>
 
 </Project>

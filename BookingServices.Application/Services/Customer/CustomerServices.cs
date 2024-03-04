@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BookingServices.Core;
 using BookingServices.Core.Models.ControllerResponse;
 using BookingServices.Entities.Contexts;
 using BookingServices.Entities.Entities;
@@ -33,8 +34,12 @@ public class CustomerServices : ICustomerServices
         //get all customers
         return new ApiPaged<CustomerDTO>
         {
-            Items = _mapper.Map<IEnumerable<CustomerDTO>>(await _context.Customers.Skip(request.SkipRows).Take(request.TotalRows).ToListAsync()),
-            TotalRecords = await _context.Customers.CountAsync()
+            Items = _mapper.Map<IEnumerable<CustomerDTO>>(await _context.Customers.WhereIf(!string.IsNullOrWhiteSpace(request.SearchText),x=> x.Email.Contains(request.SearchText,StringComparison.CurrentCultureIgnoreCase)
+                                                                                || x.Name.Contains(request.SearchText,StringComparison.CurrentCultureIgnoreCase)
+                                                                                || x.PhoneNumber.Contains(request.SearchText,StringComparison.CurrentCultureIgnoreCase)).Skip(request.SkipRows).Take(request.TotalRows).ToListAsync()),
+            TotalRecords = await _context.Customers.WhereIf(!string.IsNullOrWhiteSpace(request.SearchText),x => x.Email.Contains(request.SearchText, StringComparison.CurrentCultureIgnoreCase)
+                                                                                || x.Name.Contains(request.SearchText, StringComparison.CurrentCultureIgnoreCase)
+                                                                                || x.PhoneNumber.Contains(request.SearchText, StringComparison.CurrentCultureIgnoreCase)).CountAsync()
         };
     }
 

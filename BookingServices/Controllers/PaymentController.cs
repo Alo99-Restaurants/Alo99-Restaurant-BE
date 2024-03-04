@@ -5,6 +5,7 @@ using BookingServices.External.Model.VNPay.Response;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace BookingServices.Controllers;
 
@@ -23,21 +24,22 @@ public class PaymentController : MyControllerBase
 
     //api tạo thanh toán
     [HttpPost("create-payment")]
-    public IActionResult CreatePayment(GetPaymentUrlByBookingCommand command)
+    public async Task<IActionResult> CreatePayment(GetPaymentUrlByBookingCommand command)
     {
-        var rs = _mediator.Send(command);
+        var rs =await _mediator.Send(command);
         return ApiOk(rs);
     }
-
-    [AllowAnonymous]                
+                
     [HttpGet("ipn")]
-    public IActionResult IPN([FromQuery] IPNResponse response)
+    [AllowAnonymous]
+    public async Task<IActionResult> IPN([FromQuery] IPNResponse response)
     {
+        _logger.LogInformation("IPN: {@response}", JsonConvert.SerializeObject(response));
         var command = new IPNPaymentCommand
         {
             IPNResponse = response
         };
-        var rs = _mediator.Send(command);
+        var rs =await _mediator.Send(command);
         return ApiOk(rs);
     }
 }

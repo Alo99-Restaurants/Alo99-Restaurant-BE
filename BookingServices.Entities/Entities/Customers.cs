@@ -8,6 +8,7 @@ public class Customers : EntityAudit<Guid>, IHaveDeleted
 {
     [EmailAddress]
     public string Email { get; set; }
+    public bool EmailConfirmed { get; set; } = true;
     private string? _name;
 
     public string Name

@@ -8,7 +8,7 @@ public class Utils
 {
     private const int SaltSize = 16; // You can adjust the salt size as needed
     private const int Iterations = 10000; // You can adjust the number of iterations as needed
-
+    
     public static string HashPassword(string password)
     {
         // Generate a random salt
@@ -64,5 +64,6 @@ public class Utils
             new JsonSerializer().Serialize(writer, data);
         }
         return sb.ToString();
-    }
+    }    
 }
+

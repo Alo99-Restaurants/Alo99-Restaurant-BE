@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BookingServices.Core;
 using BookingServices.Core.Models.ControllerResponse;
 using BookingServices.Entities.Contexts;
 using BookingServices.Entities.Entities;
@@ -35,8 +36,8 @@ public class UserServices : IUserServices
     {
         return new ApiPaged<UserDTO>
         {
-            Items = _mapper.Map<IEnumerable<UserDTO>>(await _context.Users.Skip(request.SkipRows).Take(request.TotalRows).ToListAsync()),
-            TotalRecords = await _context.Users.CountAsync()
+            Items = _mapper.Map<IEnumerable<UserDTO>>(await _context.Users.WhereIf(!string.IsNullOrWhiteSpace(request.SearchText),x=> x.Name.Contains(request.SearchText,StringComparison.CurrentCultureIgnoreCase)).Skip(request.SkipRows).Take(request.TotalRows).ToListAsync()),
+            TotalRecords = await _context.Users.WhereIf(!string.IsNullOrWhiteSpace(request.SearchText), x => x.Name.Contains(request.SearchText, StringComparison.CurrentCultureIgnoreCase)).CountAsync()
         };
     }
 

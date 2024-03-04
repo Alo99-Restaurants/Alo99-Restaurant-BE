@@ -43,7 +43,7 @@ public class IPNPaymentCommandHandler : IRequestHandler<IPNPaymentCommand, bool>
 
             if (request.IPNResponse.vnp_ResponseCode == "00" && request.IPNResponse.vnp_TransactionStatus == "00")
             {
-                var bookingId = Guid.Parse(request.IPNResponse.vnp_TxnRef);
+                var bookingId = Guid.Parse(request.IPNResponse.vnp_TxnRef.Substring(0,36));
                 //get bookingById and update status
                 var booking = _context.Bookings.FirstOrDefault(x => x.Id == bookingId);
                 if (booking != null)

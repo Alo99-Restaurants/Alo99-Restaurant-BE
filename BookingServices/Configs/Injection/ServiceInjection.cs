@@ -57,7 +57,8 @@ public static class ServiceInjection
     public static IServiceCollection AddDbContextConfig(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<BookingDbContext>(options =>
-            options.UseMySql(configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(configuration.GetConnectionString("DefaultConnection")))
+            options.UseMySql(configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(configuration.GetConnectionString("DefaultConnection")),
+                opt => opt.EnableStringComparisonTranslations())
 #if DEBUG
             .EnableSensitiveDataLogging().EnableDetailedErrors()
 #endif

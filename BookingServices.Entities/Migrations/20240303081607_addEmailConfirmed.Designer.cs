@@ -3,6 +3,7 @@ using System;
 using BookingServices.Entities.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingServices.Entities.Migrations
 {
     [DbContext(typeof(BookingDbContext))]
-    partial class BookingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240303081607_addEmailConfirmed")]
+    partial class addEmailConfirmed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -641,9 +644,11 @@ namespace BookingServices.Entities.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("BankTranNo")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("CardType")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<Guid>("CreatedBy")
@@ -666,6 +671,7 @@ namespace BookingServices.Entities.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("PayDate")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("ResponseCode")
@@ -677,6 +683,7 @@ namespace BookingServices.Entities.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("SecureHashType")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<long>("TransactionNo")
@@ -753,7 +760,7 @@ namespace BookingServices.Entities.Migrations
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Admin",
-                            Password = "GJo6rq8rzcxhOb/XofbXyyB7aTsWPZiAR5CViyBc2sk9YOMjwFuTCKqFkHxtgBIn",
+                            Password = "VutLU2yP2zs4rkLriTHIAJGfMGDmZrsS1Ze45df0d8+gDDjCCga/+l2w0Q1HxP0y",
                             Role = 1,
                             Username = "admin"
                         },
@@ -764,7 +771,7 @@ namespace BookingServices.Entities.Migrations
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Manager",
-                            Password = "QK/eyYyzwlxUwN2MkpEWpznTW7b4AFISFG4/MUSjG0dgoS7YbB7ChyuGXl9hRvCi",
+                            Password = "IYq2prSsu9hyL4nPvRR0DX7ud/QrYXrDij1Tfq9IHU7bdXf30Vx/d6S1SqSY35uI",
                             Role = 2,
                             Username = "manager"
                         },
@@ -775,7 +782,7 @@ namespace BookingServices.Entities.Migrations
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Staff",
-                            Password = "pPuh1k63zloxRHqindRmctUjxBytxLR89qMQhzaJpJzLnCI60sZmQPjePzjcWw4p",
+                            Password = "oY+PfglnK2K10Ng0/xdgomy2pAGG5uL7tf4IoJh5BaDMPiNE7p8gJSdNG4lG8Wda",
                             Role = 3,
                             Username = "staff"
                         },
@@ -786,7 +793,7 @@ namespace BookingServices.Entities.Migrations
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Customer",
-                            Password = "JYvU1To0JmaESemD65aClP8cntdldbNFasyRuCFHu7ubqCBvFZK+6QXwVCqUuuS9",
+                            Password = "O1VebAN82VF3kZwxYz2HGTe1dNEvH6DROpWml4MI6elClJlkJbyy2XIvxgqUuIr8",
                             Role = 4,
                             Username = "customer"
                         });

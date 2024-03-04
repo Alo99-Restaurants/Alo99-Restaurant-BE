@@ -10,6 +10,7 @@ public class CustomerDTO : IEntityAudit<Guid>
     public Guid Id { get; set; }
     [EmailAddress]
     public string Email { get; set; }
+    public bool EmailConfirmed { get; set; } 
     private string? _name;
 
     public string Name

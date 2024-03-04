@@ -36,7 +36,7 @@ public class VnPayServices : IVnPayServices
         vnpay.AddRequestData("vnp_OrderType", "other");
         vnpay.AddRequestData("vnp_ReturnUrl", returnUrl);
 
-        vnpay.AddRequestData("vnp_TxnRef", order.OrderId.ToString());
+        vnpay.AddRequestData("vnp_TxnRef", order.OrderId.ToString() + Utils.RandomString(4));
 
         string paymentUrl = vnpay.CreateRequestUrl(_vnPayConfigs.VnpUrl, _vnPayConfigs.VnpHashSecret);
 

@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using BookingServices.Application.MediaR.User.Query.Login.ByGoogle;
 using System.Net.Http.Headers;
+using BookingServices.Application.MediaR.User.Command;
 
 namespace BookingServices.Controllers;
 
@@ -162,6 +163,16 @@ public class UserController : MyControllerBase
         }
     }
 
+    //register
+    [HttpPost("register")]
+    [AllowAnonymous]
+    [ProducesResponseType(typeof(ApiResult), 200)]
+    public async Task<IActionResult> Register(RegisterUserCommand request)
+    {
+        var rs = await _mediator.Send(request);
+        return ApiOk(rs);
+    }
+    
 #if DEBUG
     //add user
     [HttpPost]
