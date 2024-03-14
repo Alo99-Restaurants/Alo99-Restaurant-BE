@@ -15,4 +15,7 @@ public interface IBookingServices
     Task UpdateBookingAsync(UpdateBookingRequest request);
     //delete
     Task DeleteBookingAsync(Guid id);
+
+    //build email
+    void BuildEmailAsync(Guid bookingId);
 }

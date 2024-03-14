@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.8.11" />
+    <PackageReference Include="Hangfire.Core" Version="1.8.11" />
+    <PackageReference Include="Hangfire.Dashboard.Basic.Authentication" Version="7.0.1" />
+    <PackageReference Include="Hangfire.MySqlStorage" Version="2.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.3.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />

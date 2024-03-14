@@ -1,7 +1,7 @@
 ﻿using BookingServices.External.Interfaces;
 using BookingServices.External.Libraries;
 using BookingServices.External.Model.VNPay;
-using BookingServices.External.Model.VNPay.Response;
+using BookingServices.External.Model.VNPay.Request;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using static AppConfigurations;
@@ -43,7 +43,7 @@ public class VnPayServices : IVnPayServices
         return paymentUrl;
     }
 
-    public bool ValidateSignature(IPNResponse response)
+    public bool ValidateSignature(IPNRequest response)
     {
         VnPayLibrary vnpay = new VnPayLibrary();
         vnpay.AddResponseData("vnp_TmnCode", response.vnp_TmnCode);

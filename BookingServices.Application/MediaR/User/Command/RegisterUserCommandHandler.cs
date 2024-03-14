@@ -4,30 +4,40 @@ using BookingServices.Entities.Contexts;
 using BookingServices.Entities.Entities;
 using BookingServices.Entities.Enum;
 using BookingServices.External.Interfaces;
+using Hangfire;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.WebRequestMethods;
 
 namespace BookingServices.Application.MediaR.User.Command
 {
-    public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, string>
+    public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, bool>
     {
         private readonly BookingDbContext _context;
         private readonly IMapper _mapper;
-        private readonly IEmailService _emailService;
+        //private readonly IEmailService _emailService;
 
-        public RegisterUserCommandHandler(BookingDbContext context, IMapper mapper, IEmailService emailService)
+        public RegisterUserCommandHandler(BookingDbContext context, IMapper mapper) //IEmailService emailService)
         {
             _context = context;
             _mapper = mapper;
-            _emailService = emailService;
+            //_emailService = emailService;
         }
 
-        public Task<string> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+        public Task<bool> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
             Customers newCustomer = null;
+            //check username exist
+            var userNameExist =  _context.Users.FirstOrDefault(x => x.Username.Equals(request.Username, StringComparison.CurrentCultureIgnoreCase));
+            if (userNameExist != null)
+            {
+                throw new ClientException("Username is exist");
+            }
+
             if (request.Role == ERole.Customer)
             {
                 //check role is customer then must have phonenumber and email
@@ -54,16 +64,15 @@ namespace BookingServices.Application.MediaR.User.Command
             _context.Users.Add(user);
             _context.SaveChanges();
             //check role is customer then have mail
-            if (request.Role == ERole.Customer && !string.IsNullOrEmpty(request.Email))
+            if (request.Role == ERole.Customer && !string.IsNullOrEmpty(request.Email) && !string.IsNullOrWhiteSpace(request.ClientUrl))
             {
+                var httpFormat  = request.ClientUrl.StartsWith("http") ? '?' : '/';
                 var hashData = Utils.HashPassword($"{request.Email}{user.Id}");
-                //var body = $@"<a href=""{request.ClientUrl}?email={request.Email}&id={user.Id}&checksum={Utils.HashPassword(request.Email+user.Id)}"">Click here to confirm your email</a>";
+                var body = $@"<a href=""{request.ClientUrl}{httpFormat}email={request.Email}&id={user.Id}&checksum={Utils.HashPassword(request.Email+user.Id)}"">Click here to confirm your email</a>";
                 //_emailService.SendEmailAsync(request.Email, "Welcome to Alo99-Restaurant", body);
-
-                return Task.FromResult($"{request.ClientUrl}?email={request.Email}&id={user.Id}&checksum={hashData}");
+                BackgroundJob.Enqueue<IEmailService>(x => x.SendEmailAsync(request.Email, "Welcome to Alo99-Restaurant", body));
             }
-            
-            return Task.FromResult("true");
+            return Task.FromResult(true);
         }
     }
 }

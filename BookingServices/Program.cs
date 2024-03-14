@@ -1,5 +1,7 @@
 using BookingServices.Configs.Injection;
 using BookingServices.Core.MiddleWares.ErrorHandler;
+using Hangfire;
+using HangfireBasicAuthenticationFilter;
 using Microsoft.AspNetCore.HttpOverrides;
 using System.Reflection;
 using static AppConfigurations;
@@ -35,6 +37,7 @@ builder.Services.AddCorsConfig();
 builder.Services.AddJsonConfig();
 builder.Services.AddAuthenticationConfig(configuration);
 builder.Services.AddGoogleAuthenticationConfig(configuration);
+builder.Services.AddHangfireConfig(configuration);
 
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
@@ -50,43 +53,37 @@ builder.Services.AddSwaggerConfig();
 var app = builder.Build();
 
 app.UseForwardedHeaders();
-//app.UseStaticFiles();
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseCors("AllowSwagger");
-}
-else
-{
-    //app.Use((context, next) =>
-    //{
-    //    context.Request.Host = new HostString("https://booking-api.vietmap.io/");
 
-    //    //context.Request.PathBase = new PathString("/fragment/identity"); //if you need this
-    //    context.Request.Scheme = "https";
-    //    return next();
-    //});
-    app.UseCors();
-}
+app.UseCors(builder =>
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+);
 
 app.UseSwagger();
 app.UseSwaggerUI(opt =>
 {
     opt.SwaggerEndpoint("/swagger/v1/swagger.json", "Booking Services");
     opt.DisplayRequestDuration();
-    //opt.InjectJavascript("/swagger/customAuthorize.js");
 });
 
 app.UseHttpsRedirection();
 app.UseErrorHandlingMiddleware();
-//app.UseExceptionHandler(_ => { });
 app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.UseHangfireDashboard("/hangfire", new DashboardOptions()
+{
+    DashboardTitle = "Booking Services Hangfire Dashboard",
+    Authorization = new[] { new HangfireCustomBasicAuthenticationFilter { 
+        User = "admin",
+        Pass = "admin"
+    } }
+    
+});
 app.Run();
 
 

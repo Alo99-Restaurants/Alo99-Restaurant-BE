@@ -1,7 +1,7 @@
 ﻿using BookingServices.Application.MediaR.Payment.Command;
 using BookingServices.Application.MediaR.Payment.Query.Url;
 using BookingServices.Core;
-using BookingServices.External.Model.VNPay.Response;
+using BookingServices.External.Model.VNPay.Request;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -32,14 +32,14 @@ public class PaymentController : MyControllerBase
                 
     [HttpGet("ipn")]
     [AllowAnonymous]
-    public async Task<IActionResult> IPN([FromQuery] IPNResponse response)
+    public async Task<IActionResult> IPN([FromQuery] IPNRequest request)
     {
-        _logger.LogInformation("IPN: {@response}", JsonConvert.SerializeObject(response));
+        _logger.LogInformation("IPN: {@response}", JsonConvert.SerializeObject(request));
         var command = new IPNPaymentCommand
         {
-            IPNResponse = response
+            IPNRequest = request
         };
         var rs =await _mediator.Send(command);
-        return ApiOk(rs);
+        return Ok(rs);
     }
 }

@@ -13,6 +13,8 @@ using BookingServices.Core.Redis;
 using BookingServices.Entities.Contexts;
 using BookingServices.External.Interfaces;
 using BookingServices.External.Services;
+using Hangfire;
+using Hangfire.MySql;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -205,6 +207,30 @@ public static class ServiceInjection
             var redis = configuration.GetSection("Redis").Get<RedisConfigurations>();
             return new RedisService(redis?.ConnectionString ?? throw new ArgumentNullException(), options => { });
         });
+        return services;
+    }
+
+    //add hangfire
+    public static IServiceCollection AddHangfireConfig(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddHangfire(config => config
+                    .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+                    .UseSimpleAssemblyNameTypeSerializer()
+                    .UseRecommendedSerializerSettings()
+                    .UseStorage(new MySqlStorage(
+                        configuration.GetConnectionString("HangfireConnection"),
+                        new MySqlStorageOptions
+                        {
+                            QueuePollInterval = TimeSpan.FromSeconds(10), // Default interval is 15 seconds
+                            JobExpirationCheckInterval = TimeSpan.FromHours(24),//check job expired every 24 hours
+                            CountersAggregateInterval = TimeSpan.FromMinutes(5),//aggregate counter every 5 minutes
+                            PrepareSchemaIfNecessary = true,//prepare schema if necessary
+                            DashboardJobListLimit = 25000,//limit job list in dashboard
+                            TransactionTimeout = TimeSpan.FromMinutes(1),//transaction timeout
+                            TablesPrefix = "Hangfire"//table prefix
+                        })));
+        services.AddHangfireServer(options => options.WorkerCount = 1);
+
         return services;
     }
 

@@ -11,9 +11,11 @@ public class UserProfile : Profile
     public UserProfile()
     {
         CreateMap<UserDTO, Users>().ReverseMap();
-        CreateMap<AddUserRequest, Users>().ReverseMap();
+        CreateMap<AddUserRequest, Users>()
+             .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.Username.ToLower())).ReverseMap();
         CreateMap<UpdateUserRequest, Users>().ReverseMap();
         CreateMap<RegisterUserCommand, Users>()
-            .ForMember(dest => dest.Password, opt => opt.MapFrom(src => Utils.HashPassword(src.Password)));
+            .ForMember(dest => dest.Password, opt => opt.MapFrom(src => Utils.HashPassword(src.Password)))
+            .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.Username.ToLower()));
     }
 }

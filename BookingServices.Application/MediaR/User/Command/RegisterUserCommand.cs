@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BookingServices.Application.MediaR.User.Command
 {
-    public class RegisterUserCommand : IRequest <string>
+    public class RegisterUserCommand : IRequest <bool>
     {
         public string Username { get; set; }
         public string Password { get; set; }

@@ -21,6 +21,8 @@ public class GetPaymentUrlByBookingCommandHandler : IRequestHandler<GetPaymentUr
         //get booking by id check null
         var booking =await _context.Bookings.FirstOrDefaultAsync(x => x.Id == request.BookingId);
         if (booking == null) throw new ClientException("Booking not found");
+        var paymentExist = _context.Payments.Where(x => x.BookingId == request.BookingId).Any();
+        if (paymentExist) throw new ClientException("Payment already exist");
 
         //get total price
         var totalPrice = _context.BookingMenu.Where(x => x.BookingId == request.BookingId).Sum(x => x.Price * x.Quantity);

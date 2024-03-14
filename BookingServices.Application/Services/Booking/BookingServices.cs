@@ -4,9 +4,12 @@ using BookingServices.Core.Identity;
 using BookingServices.Core.Models.ControllerResponse;
 using BookingServices.Entities.Contexts;
 using BookingServices.Entities.Entities;
+using BookingServices.External.Interfaces;
 using BookingServices.Model.BookingModels;
+using Hangfire;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System.Net.WebSockets;
 
 namespace BookingServices.Application.Services.Booking;
 
@@ -47,8 +50,8 @@ public class BookingServices : IBookingServices
 
         _bookingDbContext.Add(addBooking);
         await _bookingDbContext.SaveChangesAsync();
+        BackgroundJob.Enqueue<IBookingServices>(x => x.BuildEmailAsync(addBooking.Id));
     }
-
     public async Task DeleteBookingAsync(Guid id)
     {
         //check exist booking
@@ -112,6 +115,71 @@ public class BookingServices : IBookingServices
         _bookingDbContext.Update(bookingEntity);
         //save changes
         _bookingDbContext.SaveChanges();
+        BackgroundJob.Enqueue<IBookingServices>(x => x.BuildEmailAsync(bookingEntity.Id));
         return Task.CompletedTask;
+    }
+
+    public void BuildEmailAsync(Guid bookingId)
+    {
+        //check booking exist
+        var booking = _bookingDbContext.Bookings.Include(x=> x.Tables).Include(x=> x.Customer).Include(x=> x.Restaurant).FirstOrDefault(x=> x.Id == bookingId);
+        if (booking == null) throw new ClientException("Booking not found");
+
+        //build email if email exist and valid
+        if (!(booking.Customer?.EmailConfirmed ?? false)) throw new ClientException("Email not confirmed");
+
+        //build email
+        var subject = $"Alo99-Restaurant Booking Information ({booking.Id})";
+        var body = GetBodyBookingEmail(booking);
+        BackgroundJob.Enqueue<IEmailService>(x => x.SendEmailAsync(booking.Customer.Email, subject, body));   
+    }
+
+    private string GetBodyBookingEmail(Bookings booking)
+    {
+        //var body = $@"<h1>Booking Information</h1>
+        //            <p>Booking Id: {booking.Id}</p>
+        //            <p>Booking Date: {booking.BookingDate}</p>
+        //            <p>Booking Status: {booking.BookingStatusId.ToString()}</p>
+        //            <p>Customer: {booking.Customer?.Email ?? "Alo99-Customer"}</p>
+        //            <p>Number: {booking.NumberOfPeople}</p>
+        //            <p>Tables: {string.Join(",", booking.Tables.Select(x => x.TableName))}</p>
+        //            <p>Restaurant: {booking.Restaurant?.Name ?? "Alo99-Restaurant"}</p>
+        //            <a href=""Alo99Restaurant://reserved/{booking.Id}"">Click here to open booking</a>";
+
+        var body = $@"<h1>Booking Information</h1>
+                    <table>
+                    <tr>
+                        <td>Booking:</td>
+                        <td>{booking.Id}</td>
+                    </tr>
+                    <tr>
+                        <td>Booking Date:</td>
+                        <td>{booking.BookingDate}</td>
+                    </tr>
+                    <tr>
+                        <td>Booking Status:</td>
+                        <td>{booking.BookingStatusId.ToString()}</td>
+                    </tr>
+                    <tr>
+                        <td>Customer:</td>
+                        <td>{booking.Customer?.Email ?? "Alo99-Customer"}</td>
+                    </tr>
+                    <tr>
+                        <td>Number:</td>
+                        <td>{booking.NumberOfPeople}</td>
+                    </tr>
+                    <tr>
+                        <td>Tables:</td>
+                        <td>{string.Join(",", booking.Tables.Select(x => x.TableName))}</td>
+                    </tr>
+                    <tr>
+                        <td>Restaurant:</td>
+                        <td >{ booking.Restaurant?.Name ?? "Alo99 - Restaurant"}</td >
+                    </tr>
+                </table> 
+                <a href=""https://alo99-restaurant-admin.vercel.app/checkbooking/{booking.Id}"">Click here to open booking</a>";
+
+        //<a href=""Alo99Restaurant://reserved/{booking.Id}"">Click here to open booking</a>"";
+        return body;
     }
 }

@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using BookingServices.Application.Services.Booking;
 using BookingServices.Entities.Contexts;
+using Hangfire;
 
 namespace BookingServices.Application.MediaR.Booking.Command.Update.Status;
 
@@ -29,6 +31,11 @@ public class BookingUpdateStatusCommandHandler : IRequestHandler<BookingUpdateSt
 
         //save change
         _dbContext.SaveChanges();
+        foreach(var booking in bookings)
+        {
+            BackgroundJob.Enqueue<IBookingServices>(x => x.BuildEmailAsync(booking.Id));
+        }
+
         return Task.FromResult(true);
     }
 }

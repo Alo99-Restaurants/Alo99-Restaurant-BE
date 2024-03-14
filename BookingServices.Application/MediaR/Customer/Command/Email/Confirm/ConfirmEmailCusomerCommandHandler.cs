@@ -39,7 +39,7 @@ namespace BookingServices.Application.MediaR.Customer.Command.Email.Confirm
             {
                 throw new ClientException("Customer is not exist");
             }
-            if (string.IsNullOrEmpty(customer.Email))
+            if (string.IsNullOrEmpty(customer.Email) || !customer.EmailConfirmed)
             {
                 customer.Email = request.Email;
                 customer.EmailConfirmed = true;

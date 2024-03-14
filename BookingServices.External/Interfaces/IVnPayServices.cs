@@ -1,5 +1,5 @@
 ﻿using BookingServices.External.Model.VNPay;
-using BookingServices.External.Model.VNPay.Response;
+using BookingServices.External.Model.VNPay.Request;
 
 namespace BookingServices.External.Interfaces;
 
@@ -9,5 +9,5 @@ public interface IVnPayServices
     string GetPaymentUrl(OrderInfo order,string returnUrl);
 
     //xác thực chữ ký
-    bool ValidateSignature(IPNResponse request);
+    bool ValidateSignature(IPNRequest request);
 }
