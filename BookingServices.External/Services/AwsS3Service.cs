@@ -2,6 +2,7 @@
 using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Transfer;
+using BookingServices.Core;
 using BookingServices.External.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
@@ -60,7 +61,7 @@ public class AwsS3Service : IAwsS3Services
                 BucketName = _s3Config.BucketName,
                 ContentType = file.ContentType,
             };
-
+            uploadRequest.Key = DateTimeOffset.Now.ToUnixTimeSeconds() + uploadRequest.Key;
             var fileTransferUtility = new TransferUtility(_awsS3Client);
 
             await fileTransferUtility.UploadAsync(uploadRequest);

@@ -23,7 +23,7 @@ public class UploadStorageCommandHandler : IRequestHandler<UploadStorageCommand,
     {
         var s3Key = await _awsS3Services.UploadFileAsync(request.Files, request.Key ?? "");
 
-        var stogare = new Stogares
+        var stogare = new Storages
         {
             Name = s3Key,
             Url = _s3Config.Url + '/' + _s3Config.BucketName + '/' + s3Key

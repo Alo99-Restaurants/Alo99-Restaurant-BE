@@ -61,7 +61,7 @@ public class UserController : MyControllerBase
     }
 
     //get user by username
-    [HttpGet("username/{username}")]
+    [HttpGet("{username}")]
     [ProducesResponseType(typeof(ApiResult<UserDTO>), 200)]
     public async Task<IActionResult> GetUserByUsername(string username) => ApiOk(await _userServices.GetUserByUsername(username));
 
