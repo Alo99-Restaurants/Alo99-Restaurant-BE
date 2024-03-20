@@ -53,7 +53,7 @@ public class CustomerServices : ICustomerServices
     {
         //get customer by id and check if null
         var customerEntity =await _context.Customers.FindAsync(customer.Id);
-        if (customerEntity == null) throw new Exception("Customer not found");
+        if (customerEntity == null) throw new ClientException("Customer not found");
 
         //map customer
         _mapper.Map(customer, customerEntity);

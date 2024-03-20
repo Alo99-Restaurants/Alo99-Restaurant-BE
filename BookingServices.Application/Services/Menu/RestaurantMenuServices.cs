@@ -32,7 +32,7 @@ public class RestaurantMenuServices : IRestaurantMenuServices
         //if not exist throw exception
         if (restaurantMenu == null)
         {
-            throw new Exception("Restaurant Menu not found");
+            throw new ClientException("Restaurant Menu not found");
         }
         //if exist delete
         _context.Remove(restaurantMenu);
@@ -55,7 +55,7 @@ public class RestaurantMenuServices : IRestaurantMenuServices
         //check exist
         var restaurantMenu =await _context.RestaurantMenu.FirstOrDefaultAsync(x => x.Id == request.Id);
         //check null throw exception
-        if (restaurantMenu == null) throw new Exception("Restaurant menu not found");
+        if (restaurantMenu == null) throw new ClientException("Restaurant menu not found");
         //update
         _mapper.Map(request, restaurantMenu);
         _context.Update(restaurantMenu);

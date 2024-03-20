@@ -30,7 +30,7 @@ public class RestaurantImageServices : IRestaurantImageServices
         //check exist
         var restaurantImage = _context.RestaurantImages.FirstOrDefault(x => x.Id == id);
         //check null throw exception
-        if (restaurantImage == null) throw new Exception("Restaurant image not found");
+        if (restaurantImage == null) throw new ClientException("Restaurant image not found");
         //remove
         _context.Remove(restaurantImage);
         await _context.SaveChangesAsync();
@@ -43,7 +43,7 @@ public class RestaurantImageServices : IRestaurantImageServices
         if (request.RestaurantId != null)
         {
             var restaurant = await _context.Restaurants.FindAsync(request.RestaurantId);
-            if (restaurant == null) throw new Exception("Restaurant not found");
+            if (restaurant == null) throw new ClientException("Restaurant not found");
         }
 
         return new ApiPaged<RestaurantImageDTO>
@@ -60,7 +60,7 @@ public class RestaurantImageServices : IRestaurantImageServices
         //check exist
         var restaurantImage = _context.RestaurantImages.FirstOrDefault(x => x.Id == request.Id);
         //check null throw exception
-        if (restaurantImage == null) throw new Exception("Restaurant image not found");
+        if (restaurantImage == null) throw new ClientException("Restaurant image not found");
 
         //update
         _mapper.Map(request, restaurantImage);

@@ -46,7 +46,7 @@ public class TableServices : ITableServices
     {
         //check exist
         var tableEntity = _context.Tables.Find(table.Id);
-        if (tableEntity == null) throw new Exception("Table not found");
+        if (tableEntity == null) throw new ClientException("Table not found");
 
         _mapper.Map(table, tableEntity);
         _context.Update(tableEntity);

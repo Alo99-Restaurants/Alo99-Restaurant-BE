@@ -124,9 +124,10 @@ public class BookingServices : IBookingServices
         //check booking exist
         var booking = _bookingDbContext.Bookings.Include(x=> x.Tables).Include(x=> x.Customer).Include(x=> x.Restaurant).FirstOrDefault(x=> x.Id == bookingId);
         if (booking == null) throw new ClientException("Booking not found");
+        if (booking.Customer == null) throw new ClientException("Customer not found");
 
         //build email if email exist and valid
-        if (!(booking.Customer?.EmailConfirmed ?? false)) throw new ClientException("Email not confirmed");
+        //if (!(booking.Customer?.EmailConfirmed ?? false)) throw new ClientException("Email not confirmed");
 
         //build email
         var subject = $"Alo99-Restaurant Booking Information ({booking.Id})";
@@ -136,16 +137,6 @@ public class BookingServices : IBookingServices
 
     private string GetBodyBookingEmail(Bookings booking)
     {
-        //var body = $@"<h1>Booking Information</h1>
-        //            <p>Booking Id: {booking.Id}</p>
-        //            <p>Booking Date: {booking.BookingDate}</p>
-        //            <p>Booking Status: {booking.BookingStatusId.ToString()}</p>
-        //            <p>Customer: {booking.Customer?.Email ?? "Alo99-Customer"}</p>
-        //            <p>Number: {booking.NumberOfPeople}</p>
-        //            <p>Tables: {string.Join(",", booking.Tables.Select(x => x.TableName))}</p>
-        //            <p>Restaurant: {booking.Restaurant?.Name ?? "Alo99-Restaurant"}</p>
-        //            <a href=""Alo99Restaurant://reserved/{booking.Id}"">Click here to open booking</a>";
-
         var body = $@"<h1>Booking Information</h1>
                     <table>
                     <tr>

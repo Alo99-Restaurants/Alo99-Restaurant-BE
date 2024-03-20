@@ -22,14 +22,14 @@ public class BookingMenuServices : IBookingMenuServices
     public async Task AddBookingMenuAsync(AddBookingMenuRequest request)
     {
         var booking = await _context.Bookings.FindAsync(request.BookingId);
-        if (booking == null) throw new Exception("Booking not found");
+        if (booking == null) throw new ClientException("Booking not found");
         //check booking status
-        if (booking.BookingStatusId <= EBookingStatus.Confirm) throw new Exception("Booking status is not valid");
+        if (booking.BookingStatusId <= EBookingStatus.Confirm) throw new ClientException("Booking status is not valid");
 
 
         //check menu exist
         var menu = await _context.RestaurantMenu.FindAsync(request.MenuId);
-        if (menu == null) throw new Exception("Menu not found");
+        if (menu == null) throw new ClientException("Menu not found");
 
         //check booking menu exist
         var checkExist = _context.BookingMenu.FirstOrDefault(x => x.BookingId == request.BookingId && x.MenuId == request.MenuId);
@@ -50,12 +50,12 @@ public class BookingMenuServices : IBookingMenuServices
     {
         //check exist if null throw exception
         var checkExist = _context.BookingMenu.FirstOrDefault(x => x.Id == id);
-        if (checkExist == null) throw new Exception("Booking menu not found");
+        if (checkExist == null) throw new ClientException("Booking menu not found");
 
         //check bookingstatus
         var booking = await _context.Bookings.FindAsync(checkExist.BookingId);
-        if (booking == null) throw new Exception("Booking not found");
-        if (booking.BookingStatusId <= EBookingStatus.Confirm) throw new Exception("Booking status is not valid");
+        if (booking == null) throw new ClientException("Booking not found");
+        if (booking.BookingStatusId <= EBookingStatus.Confirm) throw new ClientException("Booking status is not valid");
 
         //remove
         _context.Remove(checkExist);
@@ -79,12 +79,12 @@ public class BookingMenuServices : IBookingMenuServices
     {
         //check exist if null throw exception
         var checkExist = _context.BookingMenu.FirstOrDefault(x => x.Id == request.Id);
-        if (checkExist == null) throw new Exception("Booking menu not found");
+        if (checkExist == null) throw new ClientException("Booking menu not found");
 
         //check bookingstatus
         var booking = await _context.Bookings.FindAsync(checkExist.BookingId);
-        if (booking == null) throw new Exception("Booking not found");
-        if (booking.BookingStatusId <= EBookingStatus.Confirm) throw new Exception("Booking status is not valid");
+        if (booking == null) throw new ClientException("Booking not found");
+        if (booking.BookingStatusId <= EBookingStatus.Confirm) throw new ClientException("Booking status is not valid");
 
         //mapper
         _mapper.Map(request, checkExist);

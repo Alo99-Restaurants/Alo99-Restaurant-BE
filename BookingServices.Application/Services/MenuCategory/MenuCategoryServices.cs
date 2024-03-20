@@ -30,7 +30,7 @@ public class MenuCategoryServices : IMenuCategoryServices
         //if not exist throw exception
         if (menuCategory == null)
         {
-            throw new Exception("Menu Category not found");
+            throw new ClientException("Menu Category not found");
         }
         //if exist delete
         _bookingDbContext.Remove(menuCategory);
@@ -54,7 +54,7 @@ public class MenuCategoryServices : IMenuCategoryServices
         //check exist
         var menuCategory = _bookingDbContext.MenuCategories.FirstOrDefault(x => x.Id == request.Id);
         //check null throw exception
-        if (menuCategory == null) throw new Exception("Menu category not found");
+        if (menuCategory == null) throw new ClientException("Menu category not found");
         //update
         _mapper.Map(request, menuCategory);
         _bookingDbContext.Update(menuCategory);

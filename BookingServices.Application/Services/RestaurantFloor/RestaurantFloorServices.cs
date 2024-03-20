@@ -29,7 +29,7 @@ public class RestaurantFloorServices : IRestaurantFloorServices
         //check exist
         var restaurantFloor =await _context.RestaurantFloors.FirstOrDefaultAsync(x => x.Id == id);
         //check null throw exception
-        if (restaurantFloor == null) throw new Exception("Restaurant floor not found");
+        if (restaurantFloor == null) throw new ClientException("Restaurant floor not found");
         //remove
         _context.Remove(restaurantFloor);
         await _context.SaveChangesAsync();
@@ -41,7 +41,7 @@ public class RestaurantFloorServices : IRestaurantFloorServices
         if (request.RestaurantId != null)
         {
             var restaurant = await _context.Restaurants.FindAsync(request.RestaurantId);
-            if (restaurant == null) throw new Exception("Restaurant not found");
+            if (restaurant == null) throw new ClientException("Restaurant not found");
         }
 
         return new ApiPaged<RestaurantFloorDTO>
@@ -56,7 +56,7 @@ public class RestaurantFloorServices : IRestaurantFloorServices
     {
         //get byid and check if null
         var restaurantFloorEntity = await _context.RestaurantFloors.FindAsync(restaurantFloor.Id);
-        if (restaurantFloorEntity == null) throw new Exception("Restaurant floor not found");
+        if (restaurantFloorEntity == null) throw new ClientException("Restaurant floor not found");
 
         _mapper.Map(restaurantFloor, restaurantFloorEntity);
 

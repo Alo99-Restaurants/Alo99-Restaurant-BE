@@ -25,7 +25,7 @@ public class LoginUserByAccountQueryHandler : IRequestHandler<LoginUserByAccount
         var user = await _bookingDbContext.Users.FirstOrDefaultAsync(x => x.Username == request.Username);
         if (user == null)
         {
-            throw new Exception("User not found");
+            throw new ClientException("User not found");
         }
         if (!Core.Utils.VerifyPassword(request.Password, user.Password)) throw new ClientException("Password is incorrect");
 

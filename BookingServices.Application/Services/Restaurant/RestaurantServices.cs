@@ -28,7 +28,7 @@ public class RestaurantServices : IRestaurantServices
         //check exist
         var restaurant = await _context.Restaurants.FirstOrDefaultAsync(x => x.Id == id);
         //check null throw exception
-        if (restaurant == null) throw new Exception("Restaurant not found");
+        if (restaurant == null) throw new ClientException("Restaurant not found");
 
         //remove
         _context.Remove(restaurant);
@@ -52,7 +52,7 @@ public class RestaurantServices : IRestaurantServices
         //get res by id
         var restaunrant = await _context.Restaurants.FindAsync(restaurant.Id);
         //if null throw exception
-        if (restaunrant == null) throw new Exception("Restaurant not found");
+        if (restaunrant == null) throw new ClientException("Restaurant not found");
 
         _mapper.Map(restaurant, restaunrant);
 

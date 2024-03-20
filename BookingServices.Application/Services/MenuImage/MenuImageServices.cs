@@ -30,7 +30,7 @@ public class MenuImageServices : IMenuImageServices
     {
         //check exist if null throw exception
         var checkExist = _context.MenuImages.FirstOrDefault(x => x.Id == id);
-        if (checkExist == null) throw new Exception("Menu image not found");
+        if (checkExist == null) throw new ClientException("Menu image not found");
 
         //remove
         _context.Remove(checkExist);
@@ -52,7 +52,7 @@ public class MenuImageServices : IMenuImageServices
     {
         //check exist if null throw exception
         var checkExist = _context.MenuImages.FirstOrDefault(x => x.Id == request.Id);
-        if (checkExist == null) throw new Exception("Menu image not found");
+        if (checkExist == null) throw new ClientException("Menu image not found");
 
         //mapper
         _mapper.Map(request, checkExist);

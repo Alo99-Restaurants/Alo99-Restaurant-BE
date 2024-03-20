@@ -52,7 +52,7 @@ public class UserServices : IUserServices
     {
         //get user by id and check if null
         var userEntity = await _context.Users.FindAsync(user.Id);
-        if (userEntity == null) throw new Exception("User not found");
+        if (userEntity == null) throw new ClientException("User not found");
 
         _mapper.Map(user, userEntity);
 
