@@ -14,7 +14,9 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using BookingServices.Application.MediaR.User.Query.Login.ByGoogle;
 using System.Net.Http.Headers;
-using BookingServices.Application.MediaR.User.Command;
+using BookingServices.Application.MediaR.User.Command.NewFolder;
+using BookingServices.Application.MediaR.User.Query.ResetPassword;
+using BookingServices.Application.MediaR.User.Command.ResetPassword;
 
 namespace BookingServices.Controllers;
 
@@ -172,7 +174,34 @@ public class UserController : MyControllerBase
         var rs = await _mediator.Send(request);
         return ApiOk(rs);
     }
-    
+
+    //reset password request ResetPasswordQuery
+    [HttpPost("reset-password-request")]
+    [AllowAnonymous]
+    [ProducesResponseType(typeof(ApiResult), 200)]
+    public async Task<IActionResult> ResetPassword(ResetPasswordQuery request)
+    {
+        var rs = await _mediator.Send(request);
+        return ApiOk(rs);
+    }
+    //reset password
+    [HttpPost("reset-password")]
+    [AllowAnonymous]
+    [ProducesResponseType(typeof(ApiResult), 200)]
+    public async Task<IActionResult> ResetPassword(ResetPasswordCommand request)
+    {
+        var rs = await _mediator.Send(request);
+        return ApiOk(rs);
+    }
+    [HttpGet("reset-password")]
+    [AllowAnonymous]
+    [ProducesResponseType(typeof(ApiResult), 200)]
+    public async Task<IActionResult> ResetPasswordMethodGet([FromQuery]ResetPasswordCommand request)
+    {
+        var rs = await _mediator.Send(request);
+        return ApiOk(rs);
+    }
+
 #if DEBUG
     //add user
     [HttpPost]

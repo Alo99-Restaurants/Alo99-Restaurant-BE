@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BookingServices.Application.MediaR.User.Command;
+using BookingServices.Application.MediaR.User.Command.NewFolder;
 using BookingServices.Core;
 using BookingServices.Entities.Entities;
 using BookingServices.Model.UserModels;

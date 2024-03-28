@@ -18,4 +18,6 @@ public interface IBookingServices
 
     //build email
     void BuildEmailAsync(Guid bookingId);
+
+    void CheckBookingStatus();
 }

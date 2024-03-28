@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Net.WebRequestMethods;
 
-namespace BookingServices.Application.MediaR.User.Command
+namespace BookingServices.Application.MediaR.User.Command.NewFolder
 {
     public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, bool>
     {
@@ -32,7 +32,7 @@ namespace BookingServices.Application.MediaR.User.Command
         {
             Customers newCustomer = null;
             //check username exist
-            var userNameExist =  _context.Users.FirstOrDefault(x => x.Username.Equals(request.Username, StringComparison.CurrentCultureIgnoreCase));
+            var userNameExist = _context.Users.FirstOrDefault(x => x.Username.Equals(request.Username, StringComparison.CurrentCultureIgnoreCase));
             if (userNameExist != null)
             {
                 throw new ClientException("Username is exist");
@@ -45,7 +45,7 @@ namespace BookingServices.Application.MediaR.User.Command
                 {
                     throw new ClientException("Phone number and Email is required for customer role");
                 }
-                if(_context.Customers.Any(x => x.PhoneNumber == request.PhoneNumber || (x.Email != null && x.Email == request.Email)))
+                if (_context.Customers.Any(x => x.PhoneNumber == request.PhoneNumber || x.Email != null && x.Email == request.Email))
                 {
                     throw new ClientException("Phone number is exist");
                 }
@@ -53,7 +53,7 @@ namespace BookingServices.Application.MediaR.User.Command
                 {
                     PhoneNumber = request.PhoneNumber,
                     Name = request.Name,
-                    Email = request.Email??"",
+                    Email = request.Email ?? "",
                     EmailConfirmed = false
                 };
                 _context.Customers.Add(newCustomer);
@@ -66,9 +66,9 @@ namespace BookingServices.Application.MediaR.User.Command
             //check role is customer then have mail
             if (request.Role == ERole.Customer && !string.IsNullOrEmpty(request.Email) && !string.IsNullOrWhiteSpace(request.ClientUrl))
             {
-                var httpFormat  = request.ClientUrl.StartsWith("http") ? '?' : '/';
+                var httpFormat = request.ClientUrl.StartsWith("http") ? '?' : '/';
                 var hashData = Utils.HashPassword($"{request.Email}{user.Id}");
-                var body = $@"<a href=""{request.ClientUrl}{httpFormat}email={request.Email}&id={user.Id}&checksum={Utils.HashPassword(request.Email+user.Id)}"">Click here to confirm your email</a>";
+                var body = $@"<a href=""{request.ClientUrl}{httpFormat}email={request.Email}&id={user.Id}&checksum={hashData}"">Click here to confirm your email</a>";
                 //_emailService.SendEmailAsync(request.Email, "Welcome to Alo99-Restaurant", body);
                 BackgroundJob.Enqueue<IEmailService>(x => x.SendEmailAsync(request.Email, "Welcome to Alo99-Restaurant", body));
             }

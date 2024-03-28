@@ -56,7 +56,7 @@ public class BookingDbContext : DbContext
         Guid userId = Guid.Empty;
         string? requestId = null;
         var httpContext = _httpContextAccessor.HttpContext;
-        if (httpContext.User.Identity?.IsAuthenticated ?? false)
+        if (httpContext?.User.Identity?.IsAuthenticated ?? false)
         {
             userId = ClaimsPrincipalExtension.GetUserId(httpContext?.User);
             requestId = httpContext?.TraceIdentifier;

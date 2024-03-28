@@ -1,3 +1,5 @@
+using BookingServices.Application;
+using BookingServices.Application.Services.Booking;
 using BookingServices.Configs.Injection;
 using BookingServices.Core.MiddleWares.ErrorHandler;
 using Hangfire;
@@ -82,8 +84,12 @@ app.UseHangfireDashboard("/hangfire", new DashboardOptions()
         User = "admin",
         Pass = "admin"
     } }
-    
 });
+
+var jobScheduler = new BackgroundJobConfig();
+jobScheduler.ConfigureJobs();
+
 app.Run();
+
 
 

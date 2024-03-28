@@ -1,4 +1,5 @@
 ﻿using BookingServices.Application.MediaR.Customer.Command.Email.Confirm;
+using BookingServices.Application.MediaR.Customer.Query.Email.Confirm;
 using BookingServices.Application.Services.Customer;
 using BookingServices.Core;
 using BookingServices.Core.Models.ControllerResponse;
@@ -53,6 +54,15 @@ public class CustomerController : MyControllerBase
     public async Task<IActionResult> UpdateCustomer(Guid id, AddCustomerRequest customer)
     {
         await _customerServices.UpdateCustomerAsync(new UpdateCustomerRequest(customer, id));
+        return ApiOk();
+    }
+    //confirm email request ConfirmEmailQuery
+    [HttpPost("confirm-email-request")]
+    [Authorize(Roles = "Customer")]
+    [ProducesResponseType(typeof(ApiResult), 200)]
+    public async Task<IActionResult> ConfirmEmail([FromBody] ConfirmEmailQuery command)
+    {
+        await _mediator.Send(command);
         return ApiOk();
     }
 

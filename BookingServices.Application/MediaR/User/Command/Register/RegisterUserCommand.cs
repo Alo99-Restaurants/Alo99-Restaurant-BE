@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookingServices.Application.MediaR.User.Command
+namespace BookingServices.Application.MediaR.User.Command.NewFolder
 {
-    public class RegisterUserCommand : IRequest <bool>
+    public class RegisterUserCommand : IRequest<bool>
     {
         public string Username { get; set; }
         public string Password { get; set; }

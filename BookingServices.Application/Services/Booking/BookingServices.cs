@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BookingServices.Application.MediaR.Booking.Command.Update.Status;
 using BookingServices.Core;
 using BookingServices.Core.Identity;
 using BookingServices.Core.Models.ControllerResponse;
@@ -51,6 +52,7 @@ public class BookingServices : IBookingServices
         _bookingDbContext.Add(addBooking);
         await _bookingDbContext.SaveChangesAsync();
         BackgroundJob.Enqueue<IBookingServices>(x => x.BuildEmailAsync(addBooking.Id));
+        
     }
     public async Task DeleteBookingAsync(Guid id)
     {
@@ -172,5 +174,20 @@ public class BookingServices : IBookingServices
 
         //<a href=""Alo99Restaurant://reserved/{booking.Id}"">Click here to open booking</a>"";
         return body;
+    }
+
+    public void CheckBookingStatus()
+    {
+        //get all current booking status < using and BookingDate-10 minutes < now
+        var bookings = _bookingDbContext.Bookings.Include(x=> x.Tables).Where(x => x.BookingStatusId < Entities.Enum.EBookingStatus.Using && x.BookingDate.AddMinutes(10) < DateTime.Now).ToList();
+        if (bookings.Count == 0) return;
+        //update status
+        foreach (var booking in bookings)
+        {
+            booking.BookingStatusId = Entities.Enum.EBookingStatus.Cancelled;
+            _bookingDbContext.Update(booking);
+        }
+        //save changes
+        _bookingDbContext.SaveChanges();
     }
 }

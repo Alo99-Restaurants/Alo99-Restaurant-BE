@@ -20,7 +20,7 @@ namespace BookingServices.Application.MediaR.Customer.Command.Email.Confirm
 
         public bool CheckSumValue()
         {
-            return Utils.VerifyPassword(GetHashData(), Checksum);
+            return Utils.VerifyPassword(GetHashData(), Checksum.Replace(" ", "+"));
         }
     }
 }

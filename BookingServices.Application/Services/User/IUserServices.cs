@@ -17,4 +17,5 @@ public interface IUserServices
     Task DeleteUser(int id);
     //byusername
     Task<UserDTO> GetUserByUsername(string username);
+
 }

@@ -1,10 +1,12 @@
 ﻿using BookingServices.Application.MediaR.Booking.Command.Remove.All;
 using BookingServices.Application.MediaR.Booking.Command.Update.Status;
+using BookingServices.Application.MediaR.Booking.Query;
 using BookingServices.Application.Services.Booking;
 using BookingServices.Core;
 using BookingServices.Core.Models.ControllerResponse;
 using BookingServices.Model.BookingModels;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingServices.Controllers;
@@ -77,4 +79,14 @@ public class BookingController : MyControllerBase
         return ApiOk(await _mediator.Send(new BookingRemoveAllCommand()));
     }
 
+    // số lượng đặt bàn theo ngày, tuần, tháng
+    //StatisticsBookingQueryResponse implement api statistics booking
+    [HttpGet("statistics")]
+    [ProducesResponseType(typeof(ApiResult<StatisticsBookingQueryResponse>), 200)]
+    public async Task<IActionResult> StatisticsBooking([FromQuery] StatisticsBookingQuery request)
+    {
+        return ApiOk(await _mediator.Send(request));
+    }
+    // tổng user của hệ thống
+    /// tỉ lệ booking theo buổi (sáng , trưa, tối) theo timeline
 }
